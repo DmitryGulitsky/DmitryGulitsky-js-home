@@ -161,7 +161,6 @@ describe('Comparsion operations', () => {
     const operationResult = (firstNumber < secondNumber);
     expect(operationResult).toBe(true);
   });
-
   it('Operation less Positive', () => {
     const firstNumber = 10;
     const secondNumber = 11;
@@ -174,7 +173,6 @@ describe('Comparsion operations', () => {
     const operationResult = (firstNumber < secondNumber);
     expect(operationResult).toBe(true);
   });
-
   it('Operation more or equally Positive', () => {
     const firstNumber = 11;
     const secondNumber = 11;
@@ -187,7 +185,6 @@ describe('Comparsion operations', () => {
     const operationResult = (firstNumber > secondNumber);
     expect(operationResult).toBe(true);
   });
-
   it('Operation less or equally Positive', () => {
     const firstNumber = 10;
     const secondNumber = 11;
@@ -200,10 +197,59 @@ describe('Comparsion operations', () => {
     const operationResult = (firstNumber <= secondNumber);
     expect(operationResult).toBe(true);
   });
+  it('Operation equally Positive', () => {
+    const firstNumber = 11;
+    const secondNumber = 11;
+    const operationResult = (firstNumber === secondNumber);
+    expect(operationResult).toBe(true);
+  });
+  it('Operation equally Negative', () => {
+    const firstNumber = 11;
+    const secondNumber = 10;
+    const operationResult = (firstNumber === secondNumber);
+    expect(operationResult).toBe(true);
+  });
+  it('Operation equally Positive', () => {
+    const firstNumber = 11;
+    const secondNumber = 10;
+    const operationResult = (firstNumber !== secondNumber);
+    expect(operationResult).toBe(true);
+  });
+  it('Operation equally Negative', () => {
+    const firstNumber = 11;
+    const secondNumber = 11;
+    const operationResult = (firstNumber !== secondNumber);
+    expect(operationResult).toBe(true);
+  });
+  it('Logical AND Positive', () => {
+    const firstNumber = 11;
+    const secondNumber = 10;
+    const operationResult = ((firstNumber !== secondNumber) && (firstNumber === 11));
+    expect(operationResult).toBe(true);
+  });
+  it('Logical AND Negative', () => {
+    const firstNumber = 11;
+    const secondNumber = 10;
+    const operationResult = ((firstNumber !== secondNumber) && (firstNumber === 10));
+    expect(operationResult).toBe(true);
+  });
+  it('Logical OR Positive', () => {
+    const firstNumber = 11;
+    const secondNumber = 10;
+    const operationResult = ((firstNumber !== secondNumber) || (firstNumber === 10));
+    expect(operationResult).toBe(true);
+  });
+  it('Logical OR Negative', () => {
+    const firstNumber = 11;
+    const secondNumber = 10;
+    const operationResult = ((firstNumber === secondNumber) || (firstNumber === 10));
+    expect(operationResult).toBe(true);
+  });
+});
 
 
 
-})
+
 describe('String methods', () => {
   it('StringUpperCasePositive', () => {
     const somethingUnknown = 'abc';
