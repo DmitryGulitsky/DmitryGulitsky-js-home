@@ -247,16 +247,53 @@ describe('Comparsion operations', () => {
   });
 });
 
-
-
-
-describe('String methods', () => {
-  it('StringUpperCasePositive', () => {
-    const somethingUnknown = 'abc';
-    expect(somethingUnknown.toLocaleUpperCase()).toBe('ABC');
+describe('Transformation operations', () => {
+  it('Integer number Positive', () => {
+    const price = '100 dollars';
+    expect(parseInt(price)).toBe(100);
   });
-  it('StringUpperCaseNegative', () => {
-    const somethingUnknown = 'abc';
-    expect(somethingUnknown.toLocaleUpperCase()).toBe('abc');
+  it('Integer number Negative', () => {
+    const price = '100 dollars';
+    expect(parseInt(price)).toBe('100');
   });
-})
+  it('Float number Positive', () => {
+    const price = '100.5 dollars';
+    expect(parseFloat(price)).toBe(100.5);
+  });
+  it('Float number Negative', () => {
+    const price = '100.5 dollars';
+    expect(parseFloat(price)).toBe('100,5');
+  });
+  it('isNaN function Positive', () => {
+    const price = '100.5 dollars';
+    expect(isNaN(price)).toBe(true);
+  });
+  it('isNaN function Negative', () => {
+    const price = 'more than 100.5 dollars';
+    expect(isNaN(price)).toBe(false);
+  });
+  it('isFinite function Positive', () => {
+    const price = '100.5 dollars';
+    expect(isFinite(price)).toBe(false);
+  });
+  it('isFinite function Negative', () => {
+    const price = '100.5 dollars';
+    expect(isFinite(price)).toBe(true);
+  });
+  it('String function Positive', () => {
+    const price = 100.5;
+    expect(String(price)).toBe('100.5');
+  });
+  it('String function Negative', () => {
+    const price = 100.5;
+    expect(String(price)).toBe(NaN);
+  });
+  it('Boolean method Positive', () => {
+    const price = 100.5;
+    expect(Boolean(price)).toBe(true);
+  });
+  it('Boolean method Negative', () => {
+    const price = 0;
+    expect(Boolean(price)).toBe(true);
+  });
+});
