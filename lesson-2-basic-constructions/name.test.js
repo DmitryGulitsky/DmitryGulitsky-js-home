@@ -297,3 +297,202 @@ describe('Transformation operations', () => {
     expect(Boolean(price)).toBe(true);
   });
 });
+
+describe('Typeof methods', () => {
+  it('Typeof string Positive', () => {
+    const somethingUnknown = 'abc';
+    expect(typeof(somethingUnknown)).toBe('string');
+  });
+  it('Typeof string Negative', () => {
+    const somethingUnknown = 'abc';
+    expect(typeof(somethingUnknown)).toBe('number');
+  });
+})
+
+describe('Math objects methods', () => {
+  it('PI number Positive', () => {
+    const somethingUnknown = Math.PI;
+    expect(somethingUnknown).toBe(3.141592653589793);
+  });
+  it('PI number Negative', () => {
+    const somethingUnknown = Math.PI;
+    expect(somethingUnknown).toBe(3.14);
+  });
+  it('Abs method Positive', () => {
+    const somethingUnknown = (Math.PI) * (-1);
+    expect(Math.abs(somethingUnknown)).toBe(3.141592653589793);
+  });
+  it('Abs method Negative', () => {
+    const somethingUnknown = (Math.PI) * (-1);
+    expect(Math.abs(somethingUnknown)).toBe(-3.141592653589793);
+  });
+  it('Max method Positive', () => {
+    const somethingUnknownFirst = Math.PI;
+    const somethingUnknownSecond = (Math.PI) * (-1);
+    expect(Math.max(somethingUnknownFirst,somethingUnknownSecond)).toBe(somethingUnknownFirst);
+  });
+  it('Max method Negative', () => {
+    const somethingUnknownFirst = Math.PI;
+    const somethingUnknownSecond = (Math.PI) * (-1);
+    expect(Math.max(somethingUnknownFirst,somethingUnknownSecond)).toBe(somethingUnknownSecond);
+  });
+  it('Min method Positive', () => {
+    const somethingUnknownFirst = Math.PI;
+    const somethingUnknownSecond = (Math.PI) * (-1);
+    expect(Math.min(somethingUnknownFirst,somethingUnknownSecond)).toBe(somethingUnknownSecond);
+  });
+  it('Min method Negative', () => {
+    const somethingUnknownFirst = Math.PI;
+    const somethingUnknownSecond = (Math.PI) * (-1);
+    expect(Math.min(somethingUnknownFirst,somethingUnknownSecond)).toBe(somethingUnknownFirst);
+  });
+  it('Round method Positive', () => {
+    const somethingUnknown = Math.PI;
+    expect(Math.round(somethingUnknown)).toBe(3);
+  });
+  it('Round method Negative', () => {
+    const somethingUnknown = Math.PI;
+    expect(Math.round(somethingUnknown)).toBe(4);
+  });
+  it('Ceil method Positive', () => {
+    const somethingUnknown = Math.PI;
+    expect(Math.ceil(somethingUnknown)).toBe(4);
+  });
+  it('Ceil method Negative', () => {
+    const somethingUnknown = Math.PI;
+    expect(Math.ceil(somethingUnknown)).toBe(3);
+  });
+  it('Floor method Positive', () => {
+    const somethingUnknown = Math.PI;
+    expect(Math.floor(somethingUnknown)).toBe(3);
+  });
+  it('Floor method Negative', () => {
+    const somethingUnknown = Math.PI;
+    expect(Math.floor(somethingUnknown)).toBe(4);
+  });
+  it('Sqrt method Positive', () => {
+    const somethingUnknown = 100;
+    expect(Math.sqrt(somethingUnknown)).toBe(10);
+  });
+  it('Sqrt method Negative', () => {
+    const somethingUnknown = Math.PI;
+    expect(Math.sqrt(somethingUnknown)).toBe(1);
+  });
+  it('Random method Positive', () => {
+    const somethingUnknown = (0 < Math.random < 1);
+    expect(somethingUnknown).toBe(true);
+  });
+  it('Random method Negative', () => {
+    const somethingUnknown = (Math.random > 1);
+    expect(somethingUnknown).toBe(true);
+  });
+  it('Sin method Positive', () => {
+    const somethingUnknown = (Math.sin(Math.PI / 2) === 1);
+    expect(somethingUnknown).toBe(true);
+  });
+  it('Sin method Negative', () => {
+    const somethingUnknown = (Math.sin(Math.PI / 2) === 0);
+    expect(somethingUnknown).toBe(true);
+  });
+  it('Cos method Positive', () => {
+    const somethingUnknown = (Math.cos(Math.PI / 2) === 0);
+    expect(somethingUnknown).toBe(false);
+  });
+  it('Cos method Negative', () => {
+    const somethingUnknown = (Math.cos(Math.PI / 2) === 1);
+    expect(somethingUnknown).toBe(true);
+  });
+  it('Tan method Positive', () => {
+    const somethingUnknown = (Math.tan(Math.PI / 2) === 0);
+    expect(somethingUnknown).toBe(false);
+  });
+  it('Tan method Negative', () => {
+    const somethingUnknown = (Math.tan(Math.PI / 2) === 1);
+    expect(somethingUnknown).toBe(true);
+  });
+})
+
+describe('String methods', () => {
+  it('Length Positive', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.length).toBe(12);
+  });
+  it('Length Negative', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.length).toBe(10);
+  });
+
+  it('CharAt Positive', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.charAt(1)).toBe('e');
+  });
+  it('CharAt Negative', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.charAt(1)).toBe('H');
+  });
+
+  it('Index Positive', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown[1]).toBe('e');
+  });
+  it('Index Negative', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown[1]).toBe('H');
+  });
+
+  it('Substr Positive', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.substr(1,4)).toBe('ello');
+  });
+  it('Substr Negative', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.substr(1,4)).toBe('Hell');
+  });
+
+  it('Slice Positive', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.slice(1,4)).toBe('ell');
+  });
+  it('Slice Negative', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.slice(1,4)).toBe('Hell');
+  });
+
+  it('Split Positive', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.split(', ')).toEqual(['Hello','World']);
+  });
+  it('Split Negative', () => {
+    const somethingUnknown = 'Hello, World';
+    expect(somethingUnknown.split(', ')).toBe(['Hello','World']);
+  });
+
+  it('ToLowerCase Positive', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.toLowerCase()).toEqual('hello');
+  });
+  it('ToLowerCase Negative', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.toLowerCase()).toBe('HELLO');
+  });
+
+
+  it('ToUpperCase Positive', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.toUpperCase()).toEqual('HELLO');
+  });
+  it('ToUpperCase Negative', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.toUpperCase()).toBe('hello');
+  });
+
+
+  it('ToUpperCase Positive', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.toUpperCase()).toEqual('HELLO');
+  });
+  it('ToUpperCase Negative', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.toUpperCase()).toBe('hello');
+  });
+});
