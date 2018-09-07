@@ -1,43 +1,43 @@
 describe('Typeof methods', () => {
   it('Typeof string Positive', () => {
     const somethingUnknown = 'abc';
-    expect(typeof(somethingUnknown)).toBe('string');
+    expect(typeof (somethingUnknown)).toBe('string');
   });
   it('Typeof string Negative', () => {
     const somethingUnknown = 'abc';
-    expect(typeof(somethingUnknown)).toBe('number');
+    expect(typeof (somethingUnknown)).toBe('number');
   });
   it('Typeof number Positive', () => {
     const somethingUnknown = 10;
-    expect(typeof(somethingUnknown)).toBe('number');
+    expect(typeof (somethingUnknown)).toBe('number');
   });
   it('Typeof number Negative', () => {
     const somethingUnknown = 10;
-    expect(typeof(somethingUnknown)).toBe('boolean');
+    expect(typeof (somethingUnknown)).toBe('boolean');
   });
   it('Typeof boolean Positive', () => {
     const somethingUnknown = true;
-    expect(typeof(somethingUnknown)).toBe('boolean');
+    expect(typeof (somethingUnknown)).toBe('boolean');
   });
   it('Typeof boolean Negative', () => {
     const somethingUnknown = 'abc';
-    expect(typeof(somethingUnknown)).toBe('number');
+    expect(typeof (somethingUnknown)).toBe('number');
   });
   it('Typeof undefined Positive', () => {
     const somethingUnknown = undefined;
-    expect(typeof(somethingUnknown)).toBe('undefined');
+    expect(typeof (somethingUnknown)).toBe('undefined');
   });
   it('Typeof undefined Negative', () => {
     const somethingUnknown = 'abc';
-    expect(typeof(somethingUnknown)).toBe('number');
+    expect(typeof (somethingUnknown)).toBe('number');
   });
   it('Typeof object Positive', () => {
     const somethingUnknown = {};
-    expect(typeof(somethingUnknown)).toBe('object');
+    expect(typeof (somethingUnknown)).toBe('object');
   });
   it('Typeof object Negative', () => {
     const somethingUnknown = 'abc';
-    expect(typeof(somethingUnknown)).toBe('object');
+    expect(typeof (somethingUnknown)).toBe('object');
   });
 });
 
