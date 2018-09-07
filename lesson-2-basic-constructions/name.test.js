@@ -421,7 +421,6 @@ describe('String methods', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown.length).toBe(10);
   });
-
   it('CharAt Positive', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown.charAt(1)).toBe('e');
@@ -430,7 +429,6 @@ describe('String methods', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown.charAt(1)).toBe('H');
   });
-
   it('Index Positive', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown[1]).toBe('e');
@@ -439,7 +437,6 @@ describe('String methods', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown[1]).toBe('H');
   });
-
   it('Substr Positive', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown.substr(1,4)).toBe('ello');
@@ -448,7 +445,6 @@ describe('String methods', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown.substr(1,4)).toBe('Hell');
   });
-
   it('Slice Positive', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown.slice(1,4)).toBe('ell');
@@ -457,7 +453,6 @@ describe('String methods', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown.slice(1,4)).toBe('Hell');
   });
-
   it('Split Positive', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown.split(', ')).toEqual(['Hello','World']);
@@ -466,7 +461,6 @@ describe('String methods', () => {
     const somethingUnknown = 'Hello, World';
     expect(somethingUnknown.split(', ')).toBe(['Hello','World']);
   });
-
   it('ToLowerCase Positive', () => {
     const somethingUnknown = 'Hello';
     expect(somethingUnknown.toLowerCase()).toEqual('hello');
@@ -475,8 +469,6 @@ describe('String methods', () => {
     const somethingUnknown = 'Hello';
     expect(somethingUnknown.toLowerCase()).toBe('HELLO');
   });
-
-
   it('ToUpperCase Positive', () => {
     const somethingUnknown = 'Hello';
     expect(somethingUnknown.toUpperCase()).toEqual('HELLO');
@@ -485,14 +477,146 @@ describe('String methods', () => {
     const somethingUnknown = 'Hello';
     expect(somethingUnknown.toUpperCase()).toBe('hello');
   });
-
-
-  it('ToUpperCase Positive', () => {
+  it('IndexOf Positive', () => {
     const somethingUnknown = 'Hello';
-    expect(somethingUnknown.toUpperCase()).toEqual('HELLO');
+    expect(somethingUnknown.indexOf('l', 5)).toBe(-1);
   });
-  it('ToUpperCase Negative', () => {
+  it('IndexOf Negative', () => {
     const somethingUnknown = 'Hello';
-    expect(somethingUnknown.toUpperCase()).toBe('hello');
+    expect(somethingUnknown.indexOf('l', 5)).toBe('l');
+  });
+  it('lastIndexOf Positive', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.lastIndexOf('l', 2)).toBe(2);
+  });
+  it('lastIndexOf Negative', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.lastIndexOf('l', 5)).toBe('l');
+  });
+  it('Replace Positive', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.replace('l', 'L')).toBe('HeLlo');
+  });
+  it('Replace Negative', () => {
+    const somethingUnknown = 'Hello';
+    expect(somethingUnknown.replace('l', 'L')).toBe('HeLLo');
+  });
+  it('Trim Positive', () => {
+    const somethingUnknown = '\n\r\t\v Hello, World \n\r\t\v';
+    expect(somethingUnknown.trim()).toBe('Hello, World');
+  });
+  it('Trim Negative', () => {
+    const somethingUnknown = '\n\n\t Hello, World \n\n\t';
+    expect(somethingUnknown.trim()).toBe('Hello,World');
+  });
+});
+
+describe('Array methods', () => {
+  it('Length array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.length).toBe(3);
+  });
+  it('Length array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.length).toBe(2);
+  });
+  it('Concat array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    const animalArray = ['cat', 'dog', 'chicken'];
+    expect(countArray.concat(animalArray)).toEqual(['first', 'second', 'third', 'cat', 'dog', 'chicken']);
+  });
+  it('Concat array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    const animalArray = ['cat', 'dog', 'chicken'];
+    expect(countArray.concat(animalArray)).toBe(['first', 'second', 'third', 'cat', 'dog', 'chicken']);
+  });
+  it('Join array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.join('/')).toEqual('first/second/third');
+  });
+  it('Join array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.join('/')).toEqual('first / second / third');
+  });
+
+  it('Push array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.push('fourth')).toBe(4);
+  });
+  it('Push array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.push('fourth')).toBe(['first', 'second', 'third', 'fourth']);
+  });
+  it('Pop array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.pop()).toBe('third');
+  });
+  it('Pop array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.pop()).toBe(['first', 'second', 'third', 'fourth']);
+  })
+  it('Pop array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.pop()).toBe('third');
+  });
+  it('Pop array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.pop()).toBe(['first', 'second', 'third', 'fourth']);
+  })
+  it('Unshift array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.unshift('zero')).toBe(4);
+  });
+  it('Unshift array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.unshift('fourth')).toBe(['first', 'second', 'third', 'fourth']);
+  });
+  it('Shift array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.shift()).toBe('first');
+  });
+  it('Shift array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.shift()).toBe(['first', 'second', 'third']);
+  });
+  it('Slice array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.slice(1, 2)).toEqual(['second']);
+  });
+  it('Slice array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.slice(2, 2)).toBe(['first', 'second', 'third']);
+  });
+  it('Splice array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.splice(1, 1)).toEqual(['second']);
+  });
+  it('Splice array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.splice(2, 2)).toBe(['first','second','third']);
+  });
+  it('Reverse array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.reverse()).toEqual(['third','second','first']);
+  });
+  it('Reverse array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.reverse()).toBe(['third','second','first']);
+  });
+  it('Reverse array Positive', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.reverse()).toEqual(['third','second','first']);
+  });
+  it('Reverse array Negative', () => {
+    const countArray = ['first', 'second', 'third'];
+    expect(countArray.reverse()).toBe(['third','second','first']);
+  });
+  it('Sort array Positive', () => {
+    const countArray = ['first', 'third', 'second'];
+    expect(countArray.sort()).toEqually(['first','second','third']);
+  });
+  it('Sort array Negative', () => {
+    const countArray = ['first', 'third', 'second'];
+    expect(countArray.sort()).toBe(['first','second','third']);
   });
 });
