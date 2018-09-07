@@ -124,23 +124,23 @@ describe('Arithmetic operations', () => {
 })
 
 describe('Bonding operations', () => {
-  it('Pre minus one Positive', () => {
+  it('Plus2 Positive', () => {
     const firstWord = 'Milky';
     const secondWord = 'way';
     expect(firstWord + secondWord).toBe('Milkyway');
   });
-  it('Pre minus one Positive', () => {
+  it('Plus2 one Negative', () => {
     const firstWord = 'Milky';
     const secondWord = 'way';
     expect(firstWord + secondWord).toBe('Nuts');
   });
-  it('Pre minus one Positive', () => {
+  it('Plus3 Positive', () => {
     let firstWord = 'Milky';
     const secondWord = 'way';
     firstWord += secondWord;
     expect(firstWord).toBe('Milkyway');
   });
-  it('Pre minus one Positive', () => {
+  it('Plus3 Negative', () => {
     let firstWord = 'Milky';
     const secondWord = 'way';
     firstWord += secondWord;
@@ -209,13 +209,13 @@ describe('Comparsion operations', () => {
     const operationResult = (firstNumber === secondNumber);
     expect(operationResult).toBe(true);
   });
-  it('Operation equally Positive', () => {
+  it('Operation not equally Positive', () => {
     const firstNumber = 11;
     const secondNumber = 10;
     const operationResult = (firstNumber !== secondNumber);
     expect(operationResult).toBe(true);
   });
-  it('Operation equally Negative', () => {
+  it('Operation not equally Negative', () => {
     const firstNumber = 11;
     const secondNumber = 11;
     const operationResult = (firstNumber !== secondNumber);
