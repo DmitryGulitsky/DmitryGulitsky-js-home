@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
-
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+    <script>
+      function countLetters(countLine){
+        var lowerCaseCountLine = countLine.toLowerCase();
+        var exampleLetters[ 'а', 'е', 'ё', 'и', 'о', 'у', 'э', 'ю', 'я'];
+        lowerCaseCountLine.split('');
+        var count = 0;
+        for(var i = 0; i < countLine.length; i++){
+          for(var j = 0; j < 9; j++){
+            if (lowerCaseCountLine[i] === exampleLetters[j]) {
+              count += 1;
+            }
+          }
+        }
+        alert('Ваша строка: ' + countLine + '\n' + 'Количество гласных букв: ' + count);
+        return count;
+      }
+      var countLine = prompt('Введите вашу строку для подсчета гласных букв:', '');
+      while (countLine === '') {
+        countLine = prompt('Вы не ввели строку. Введите вашу строку:', '');
+      }
+      countLetters(countLine);
+    </script>
+  </body>
 </html>
