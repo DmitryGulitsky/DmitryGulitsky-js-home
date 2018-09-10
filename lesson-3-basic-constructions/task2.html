@@ -8,11 +8,11 @@
     <script>
       function countLetters(countLine){
         var lowerCaseCountLine = countLine.toLowerCase();
-        var exampleLetters[ 'а', 'е', 'ё', 'и', 'о', 'у', 'э', 'ю', 'я'];
+        var exampleLetters = [ 'а', 'е', 'ё', 'и', 'о', 'у', 'э', 'ю', 'я', 'ы'];
         lowerCaseCountLine.split('');
         var count = 0;
         for(var i = 0; i < countLine.length; i++){
-          for(var j = 0; j < 9; j++){
+          for(var j = 0; j < exampleLetters.length; j++){
             if (lowerCaseCountLine[i] === exampleLetters[j]) {
               count += 1;
             }
