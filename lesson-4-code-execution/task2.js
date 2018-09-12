@@ -1,3 +1,4 @@
+'use strict';
 function multiplyNumeric(obj) {
   for (var key in obj) {
     if (typeof obj[key] === 'number') {
