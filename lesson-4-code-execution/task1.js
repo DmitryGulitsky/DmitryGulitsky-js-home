@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 var tasksCompleted = {
   'Anna': 29,
   'Serg': 35,
@@ -8,7 +8,7 @@ var tasksCompleted = {
 var maxTasksCompleted = 0;
 var maxTasksCompletedName = '';
 for (var key in tasksCompleted) {
-  if (tasksCompleted[key] > maxTasksCompleted){
+  if (tasksCompleted[key] > maxTasksCompleted) {
     maxTasksCompleted = tasksCompleted[key];
     maxTasksCompletedName = key;
   }
