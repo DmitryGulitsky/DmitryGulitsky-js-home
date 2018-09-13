@@ -14,3 +14,5 @@ for (var key in tasksCompleted) {
   }
 }
 console.log(maxTasksCompletedName + ' has maximum result with ' + maxTasksCompleted + ' tasks.');
+module.exports = maxTasksCompletedName;
+module.exports = maxTasksCompleted;

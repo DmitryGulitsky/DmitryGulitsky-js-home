@@ -9,3 +9,4 @@ function multiplyNumeric(obj) {
 }
 var image = {width: 100, height: 400, title: 'Cool image'};
 console.log(multiplyNumeric(image));
+module.exports = image;
