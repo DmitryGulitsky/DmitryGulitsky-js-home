@@ -1,5 +1,5 @@
 'use strict';
-function multiplyNumeric(obj) {
+var multiplyNumericFunction = function multiplyNumeric(obj) {
   for (var key in obj) {
     if (typeof obj[key] === 'number') {
       obj[key] *= 2;
@@ -7,6 +7,4 @@ function multiplyNumeric(obj) {
   }
   return obj;
 }
-var image = {width: 100, height: 400, title: 'Cool image'};
-console.log(multiplyNumeric(image));
-module.exports = image;
+module.exports = multiplyNumericFunction;
