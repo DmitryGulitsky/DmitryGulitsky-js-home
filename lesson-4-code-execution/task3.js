@@ -10,4 +10,4 @@ var sum = 0;
 for (var i = 0; i < inputArray.length; i++) {
   sum += +inputArray[i];
 }
-alert('Сумма введеных чисел: ' + sum)
+alert('Сумма введеных чисел: ' + sum);
