@@ -59,25 +59,24 @@ describe('Arithmetic operations', () => {
     let somethingUnknown = 10;
     expect(++somethingUnknown).toBe('Some words');
   });
-
   it('Minus one Positive', () => {
     let somethingUnknown = 10;
-    expect(somethingUnknown--).toBe(9);
+    somethingUnknown--;
+    expect(somethingUnknown).toBe(9);
   });
   it('Minus one Negative', () => {
     let somethingUnknown = 10;
-    expect(somethingUnknown--).toBe(10);
+    expect(somethingUnknown--).toBe(9);
   });
-
   it('Plus one Positive', () => {
     let somethingUnknown = 10;
-    expect(somethingUnknown++).toBe(11);
+    somethingUnknown++;
+    expect(somethingUnknown).toBe(11);
   });
   it('Plus one Negative', () => {
     let somethingUnknown = 10;
-    expect(somethingUnknown++).toBe(10);
+    expect(somethingUnknown++).toBe(11);
   });
-
   it('Minus Positive', () => {
     let somethingUnknown = 20;
     somethingUnknown -= 10;
@@ -88,7 +87,6 @@ describe('Arithmetic operations', () => {
     somethingUnknown -= 10;
     expect(somethingUnknown).toBe(100);
   });
-
   it('Plus Positive', () => {
     let somethingUnknown = 10;
     somethingUnknown += 10;
@@ -99,7 +97,6 @@ describe('Arithmetic operations', () => {
     somethingUnknown += 10;
     expect(somethingUnknown).toBe(100);
   });
-
   it('Multiplication Positive', () => {
     let somethingUnknown = 10;
     somethingUnknown *= 10;
@@ -110,7 +107,6 @@ describe('Arithmetic operations', () => {
     somethingUnknown *= 500;
     expect(somethingUnknown).toBe(100);
   });
-
   it('Division Positive', () => {
     let somethingUnknown = 10;
     somethingUnknown /= 10;
@@ -121,7 +117,7 @@ describe('Arithmetic operations', () => {
     somethingUnknown /= 10;
     expect(somethingUnknown).toBe(100);
   });
-})
+});
 
 describe('Bonding operations', () => {
   it('Plus2 Positive', () => {
@@ -555,14 +551,6 @@ describe('Array methods', () => {
     const countArray = ['first', 'second', 'third'];
     expect(countArray.pop()).toBe(['first', 'second', 'third', 'fourth']);
   })
-  it('Pop array Positive', () => {
-    const countArray = ['first', 'second', 'third'];
-    expect(countArray.pop()).toBe('third');
-  });
-  it('Pop array Negative', () => {
-    const countArray = ['first', 'second', 'third'];
-    expect(countArray.pop()).toBe(['first', 'second', 'third', 'fourth']);
-  })
   it('Unshift array Positive', () => {
     const countArray = ['first', 'second', 'third'];
     expect(countArray.unshift('zero')).toBe(4);
@@ -594,14 +582,6 @@ describe('Array methods', () => {
   it('Splice array Negative', () => {
     const countArray = ['first', 'second', 'third'];
     expect(countArray.splice(2, 2)).toBe(['first','second','third']);
-  });
-  it('Reverse array Positive', () => {
-    const countArray = ['first', 'second', 'third'];
-    expect(countArray.reverse()).toEqual(['third','second','first']);
-  });
-  it('Reverse array Negative', () => {
-    const countArray = ['first', 'second', 'third'];
-    expect(countArray.reverse()).toBe(['third','second','first']);
   });
   it('Reverse array Positive', () => {
     const countArray = ['first', 'second', 'third'];
