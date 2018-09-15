@@ -6,28 +6,25 @@
   </head>
   <body>
     <script>
-      var firstName = prompt('Введите вашe имя:', '');
-      firstName.trim();
-      while (firstName === '') {
-        firstName = prompt('Вы не ввели имя. Введите вашe имя:', '');
+      do {
+        var firstName = prompt('Введите вашe имя:', '');
         firstName.trim();
       }
-      var secondName = prompt('Введите ваше отчество:', '');
-      secondName.trim();
-      while (secondName === '') {
-        secondName = prompt('Вы не ввели отчество. Введите вашe отчество:', '');
+      while (firstName === '');
+      do {
+        var secondName = prompt('Введите ваше отчество:', '');
         secondName.trim();
       }
-      var lastName = prompt('Введите вашу фамилию:', '');
-      lastName.trim();
-      while (lastName === '') {
-        lastName = prompt('Вы не ввели фамилию. Введите вашу фамилию:', '');
+      while (secondName === '');
+      do {
+        var lastName = prompt('Введите вашу фамилию:', '');
         lastName.trim();
       }
-      var fullYears = parseInt(prompt('Сколько вам лет:', ''));
-      while (isNaN(fullYears)) {
-        fullYears = parseInt(prompt('Вы не ввели возраст. Введите ваш возраст'), '');
-      }
+      while (lastName === '');
+      do {
+        var fullYears = parseInt(prompt('Сколько вам лет:', ''));
+        }
+      while (isNaN(fullYears));
       var gender = confirm('Ваш пол - мужской?');
       var pension = false;
       if (gender && (fullYears >= 63)) {
