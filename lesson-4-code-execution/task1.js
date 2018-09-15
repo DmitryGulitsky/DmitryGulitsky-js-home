@@ -5,8 +5,8 @@ function findMaxTasksCompletedName(tasksCompleted) {
   var nameCounter = 0;
   for (var key in tasksCompleted) {
     if (tasksCompleted[key] === null) {
-      maxTasksCompletedName = 'Никто';
-    }
+      maxTasksCompletedName = 'Никто'
+    };
     else if (tasksCompleted[key] > maxTasksCompleted) {
       maxTasksCompleted = tasksCompleted[key];
       maxTasksCompletedName = key;
