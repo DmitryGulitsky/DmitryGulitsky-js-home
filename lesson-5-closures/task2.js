@@ -1,6 +1,5 @@
 function removeClass(obj, cls) {
   var newClassName = '';
-  var i;
   var classes = obj.className.split(' ');
   for (i = 0; i < classes.length; i++) {
     if (classes[i] !== cls) {
@@ -15,7 +14,7 @@ function removeDublicateClass(obj) {
   var newObj = [];
   var objHash = [];
   var classesArray = obj.className.split(' ');
-  for ( var i = classesArray.length - 1; i >= 0; i--) {
+  for (i = classesArray.length - 1; i >= 0; i--) {
     if (classesArray[i] in objHash) continue;
     newObj.push(classesArray[i]);
     objHash[classesArray[i]] = 1;
@@ -24,5 +23,6 @@ function removeDublicateClass(obj) {
 var obj = {
   className: 'open menu menu'
 };
+var i;
 console.log(removeClass(obj, 'open'));
 console.log(removeDublicateClass(obj));

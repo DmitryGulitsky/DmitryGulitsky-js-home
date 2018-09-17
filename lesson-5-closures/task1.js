@@ -1,18 +1,29 @@
 function octothorpeSquare(widthOctothorpeSquare) {
-  var oneLineSquare = '';
-  var j = 0;
-  for (var i = 0; i < widthOctothorpeSquare; i++) {
-    oneLineSquare += ' #';
+  console.log(inputWidthOctothorpeSquare);
+  var cycleCondition = 0;
+  var finalOctothorpeSquare = '';
+  if (widthOctothorpeSquare % 2 !== 0) {
+    cycleCondition = widthOctothorpeSquare / 2 - 1;
+  } else {
+    cycleCondition = widthOctothorpeSquare / 2;
   }
-  for (i = 0; i < (widthOctothorpeSquare / 2); (i + 2)) {
-    console.log(oneLineSquare);
-    j = i++;
-    if (j < widthOctothorpeSquare) {
-      console.log(' ' + oneLineSquare);
-    } else break;
+  for (var i = 0; i < cycleCondition; i++) {
+    finalOctothorpeSquare += '\n';
+    for (var j = 0; j < widthOctothorpeSquare; j++) {
+      finalOctothorpeSquare += '# ';
+    }
+    finalOctothorpeSquare += '\n';
+    for (j = 0; j < widthOctothorpeSquare; j++) {
+      finalOctothorpeSquare += ' #';
+    }
   }
+  if (widthOctothorpeSquare % 2 !== 0) {
+    finalOctothorpeSquare += '\n';
+    for (j = 0; j < (widthOctothorpeSquare); j++) {
+      finalOctothorpeSquare += '# ';
+    }
+  } return finalOctothorpeSquare;
 }
-var inputWidthOctothorpeSquare;
-do inputWidthOctothorpeSquare = +prompt('Введите количество символов # на одной стороне:');
-while ((typeof inputWidthOctothorpeSquare) !== 'number');
-octothorpeSquare(inputWidthOctothorpeSquare);
+do var inputWidthOctothorpeSquare = prompt('Введите количество символов # на одной стороне:');
+while (isNaN(parseInt(inputWidthOctothorpeSquare)) || inputWidthOctothorpeSquare === 0);
+console.log(octothorpeSquare(inputWidthOctothorpeSquare));
