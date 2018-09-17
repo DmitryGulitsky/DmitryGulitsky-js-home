@@ -24,6 +24,8 @@ function octothorpeSquare(widthOctothorpeSquare) {
     }
   } return finalOctothorpeSquare;
 }
-do var inputWidthOctothorpeSquare = prompt('Введите количество символов # на одной стороне:');
+do {
+  var inputWidthOctothorpeSquare = prompt('Введите количество символов # на одной стороне:');
+}
 while (isNaN(parseInt(inputWidthOctothorpeSquare)) || inputWidthOctothorpeSquare === 0);
 console.log(octothorpeSquare(inputWidthOctothorpeSquare));
