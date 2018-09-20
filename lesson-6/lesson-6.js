@@ -21,31 +21,35 @@ function markTipCalculator(bill) {
   }
   return percentage * bill;
 }
+
+function averageBillCalculator(billsArray, finalValuesArray) {
+  for (i = 0; i < finalValuesArray.length; i++) {
+    billsArray += finalValuesArray[i];
+  }
+  billsArray /= finalValuesArray.length;
+}
+
 var bills = {
   johnBills: [124, 48, 268, 180, 42],
   markBills: [77, 375, 110, 45]
 };
-var johnTips = [johnTipCalculator(bills.johnBills[0]),
-  johnTipCalculator(bills.johnBills[1]),
-  johnTipCalculator(bills.johnBills[2]),
-  johnTipCalculator(bills.johnBills[3]),
-  johnTipCalculator(bills.johnBills[4])];
-
-var johnFinalValues = [bills.johnBills[0] + johnTips[0],
-  bills.johnBills[1] + johnTips[1],
-  bills.johnBills[2] + johnTips[2],
-  bills.johnBills[2] + johnTips[3],
-  bills.johnBills[2] + johnTips[4]];
-
-var markTips = [markTipCalculator(bills.markBills[0]),
-  johnTipCalculator(bills.markBills[1]),
-  johnTipCalculator(bills.markBills[2]),
-  johnTipCalculator(bills.markBills[3])];
-
-var markFinalValues = [bills.markBills[0] + markTips[0],
-  bills.markBills[1] + markTips[1],
-  bills.markBills[2] + markTips[2],
-  bills.markBills[2] + markTips[3],];
+var johnTips = [];
+var johnFinalValues = [];
+for (var i = 0; i < bills.johnBills.length; i++) {
+  johnTips[i] = [johnTipCalculator(bills.johnBills[i])];
+  johnFinalValues[i] = [bills.johnBills[i] + johnTips[i]];
+}
+var markTips = [];
+var markFinalValues = [];
+for (i = 0; i < bills.markBills.length; i++) {
+  markTips[i] = [markTipCalculator(bills.markBills[i])];
+  markFinalValues[i] = [bills.markBills[i] + markTips[i]];
+}
+var johnAverageBill = 0;
+var markAverageBill = 0;
 
 console.log(johnTips, johnFinalValues);
 console.log(markTips, markFinalValues);
+
+console.log(averageBillCalculator(johnAverageBill, johnFinalValues));
+console.log(averageBillCalculator(markAverageBill, markFinalValues));
