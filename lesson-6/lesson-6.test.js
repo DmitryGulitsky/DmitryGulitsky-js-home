@@ -1,6 +1,6 @@
-johnTipCalculator = require('./lesson-6');
-markTipCalculator = require('./lesson-6');
-averageBillCalculator = require('./lesson-6');
+function johnTipCalculator(bill) = require('./lesson-6');
+function markTipCalculator(bill) = require('./lesson-6');
+function averageBillCalculator(billsArray, finalValuesArray) = require('./lesson-6');
 var bills = require('./lesson-6');
 var johnTips = require('./lesson-6');
 var johnFinalValues = require('./lesson-6');

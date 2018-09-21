@@ -63,8 +63,9 @@ if (averageBillCalculator(johnAverageBill, johnFinalValues) > averageBillCalcula
   console.log('Draw');
 }
 
-module.exports = johnTipCalculator();
-module.exports = markTipCalculator();
+module.exports = function johnTipCalculator(bill);
+module.exports = function markTipCalculator(bill);
+module.exports = averageBillCalculator;
 module.exports = bills;
 module.exports = johnTips;
 module.exports = johnFinalValues;
