@@ -26,7 +26,7 @@ function averageBillCalculator(billsArray, finalValuesArray) {
   for (i = 0; i < finalValuesArray.length; i++) {
     billsArray += finalValuesArray[i];
   }
-  billsArray /= finalValuesArray.length;
+  return billsArray /= finalValuesArray.length;
 }
 
 var bills = {
@@ -53,3 +53,11 @@ console.log(markTips, markFinalValues);
 
 console.log(averageBillCalculator(johnAverageBill, johnFinalValues));
 console.log(averageBillCalculator(markAverageBill, markFinalValues));
+
+if (averageBillCalculator(johnAverageBill, johnFinalValues) > averageBillCalculator(markAverageBill, markFinalValues)) {
+  console.log('John family paid the highest tips on average');
+} else if (averageBillCalculator(johnAverageBill, johnFinalValues) < averageBillCalculator(markAverageBill, markFinalValues)) {
+  console.log('Mark family paid the highest tips on average');
+} else {
+  console.log('Draw');
+}
