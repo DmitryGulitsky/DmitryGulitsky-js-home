@@ -1,6 +1,6 @@
-function johnTipCalculator(bill) = require('./lesson-6');
-function markTipCalculator(bill) = require('./lesson-6');
-function averageBillCalculator(billsArray, finalValuesArray) = require('./lesson-6');
+var functionJohnTipCalculator = require('./lesson-6');
+var functionMarkTipCalculator = require('./lesson-6');
+var functionAverageBillCalculator = require('./lesson-6');
 var bills = require('./lesson-6');
 var johnTips = require('./lesson-6');
 var johnFinalValues = require('./lesson-6');
@@ -26,12 +26,12 @@ describe('Calculate John and Mark money for the restaurant', ()=> {
     expect(markFinalValues).toBe([92.4, 468.75, 121, 54]);
   })
   it('Calculate John average bill', ()=> {
-    expect(averageBillCalculator(johnAverageBill, johnFinalValues)).toBe(150.48);
+    expect(functionAverageBillCalculator(johnAverageBill, johnFinalValues)).toBe(150.48);
   })
   it('Calculate Mark average bill', ()=> {
-    expect(averageBillCalculator(markAverageBill, markFinalValues)).toBe(184.0375);
+    expect(functionAverageBillCalculator(markAverageBill, markFinalValues)).toBe(184.0375);
   })
   it('Find the most average bill', ()=> {
-    expect(averageBillCalculator(johnAverageBill, johnFinalValues) > averageBillCalculator(markAverageBill, markFinalValues)).toBe(false);
+    expect(functionAverageBillCalculator(johnAverageBill, johnFinalValues) > functionAverageBillCalculator(markAverageBill, markFinalValues)).toBe(false);
   });
 })
