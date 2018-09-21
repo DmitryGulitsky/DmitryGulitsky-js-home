@@ -60,3 +60,7 @@ if (averageBillCalculator(john.averageBill, john.finalValues) > averageBillCalcu
 } else {
   console.log('Draw');
 }
+
+module.exports.exportJohn = john;
+module.exports.exportMark = mark;
+module.exports.exportAverageBillCalculator = averageBillCalculator;
