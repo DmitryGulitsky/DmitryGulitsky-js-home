@@ -1,29 +1,26 @@
-var exportJohn = require('./lesson-6');
-var exportJohnBillFunction = exportJohn.tipCalculator();
-var exportMark = require('./lesson-6');
-var exportMarkBillFunction = exportMark.tipCalculator();
-var exportAverageBillCalculator = require('./lesson-6');
-
+var importVar = require('./lesson-6');
 describe('Calculate John and Mark money for the restaurant', ()=> {
-  it('Calculate John tips', ()=> {
-    expect(exportJohn.tips).toBe([18.599999999999998, 9.600000000000001, 26.8, 27, 8.4]);
-  })
-  it('Calculate John final values', ()=> {
-    expect(exportJohn.finalValues).toBe([142.6, 57.6, 294.8, 207, 50.4]);
-  })
-  it('Calculate Mark tips', ()=> {
-    expect(exportMark.tips).toBe([15.4, 93.75, 11, 9]);
-  })
-  it('Calculate Mark final values', ()=> {
-    expect(exportMark.finalValues).toBe([92.4, 468.75, 121, 54]);
-  })
-  it('Calculate John average bill', ()=> {
-    expect(AverageBillCalculator(john.averageBill, john.finalValues)).toBe(150.48);
-  })
-  it('Calculate Mark average bill', ()=> {
-    expect(AverageBillCalculator(mark.averageBill, mark.finalValues)).toBe(184.0375);
-  })
-  it('Find the most average bill', ()=> {
-    expect(AverageBillCalculator(john.averageBill, john.finalValues) > AverageBillCalculator(mark.averageBill, mark.finalValues)).toBe(false);
+  it('John tips', ()=> {
+    expect(importVar.exportJohn.tips).toEqual([18.599999999999998, 9.600000000000001, 26.8, 27, 8.4]);
   });
-})
+  it('John final values', ()=> {
+    expect(importVar.exportJohn.finalValues).toEqual([142.6, 57.6, 294.8, 207, 50.4]);
+  });
+  it('John average bill', ()=> {
+    expect(importVar.exportAverageBillCalculator(importVar.exportJohn.averageBill, importVar.exportJohn.finalValues)).toEqual(150.48);
+  });
+  it('Mark tips', ()=> {
+    expect(importVar.exportMark.tips).toEqual([15.4, 93.75, 11, 9]);
+  });
+  it('Mark final values', ()=> {
+    expect(importVar.exportMark.finalValues).toEqual([92.4, 468.75, 121, 54]);
+  });
+  it('Mark average bill', ()=> {
+    expect(importVar.exportAverageBillCalculator(importVar.exportMark.averageBill, importVar.exportMark.finalValues)).toEqual(184.0375);
+  });
+  it('Expect Mark average bill is more', ()=> {
+    expect(importVar.exportAverageBillCalculator(importVar.exportJohn.averageBill, importVar.exportJohn.finalValues) <
+      importVar.exportAverageBillCalculator(importVar.exportMark.averageBill, importVar.exportMark.finalValues))
+      .toBe(true);
+  });
+});
