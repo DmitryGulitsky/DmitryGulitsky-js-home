@@ -1,3 +1,4 @@
+'use strict';
 function interviewQuestion(profession) {
   function interviewQuestionWithProfession(name) {
     if (profession === 'designer') {
@@ -15,3 +16,4 @@ console.log(interviewQuestion('teacher')('John'));
 console.log(interviewQuestion('designer')('John'));
 console.log(interviewQuestion('other')('John'));
 
+module.exports = interviewQuestion;
