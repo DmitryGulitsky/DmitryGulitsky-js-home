@@ -11,4 +11,3 @@ describe('Test interview question function', ()=> {
     expect(exportInterviewQuestion('other')('John')).toBe('Hello John, what do you do?');
   });
 });
-
