@@ -1,10 +1,22 @@
 'use strict';
 function Question(HQuestion, _text, _answerVariants, _answerTrueVariant) {
   HQuestion.text = _text;
+  HQuestion.textArray = [];
+  HQuestion.textArray = HQuestion.textArray.push(_text);
   HQuestion.answerVariants = _answerVariants;
   HQuestion.answerTrueVariant = _answerTrueVariant;
   HQuestion.show = function () {
     var userAnswer = +prompt(this.text + this.answerVariants + '?');
+    if (userAnswer === _answerTrueVariant) {
+      console.log('You are absolutely right!');
+    } else {
+      console.log('You are not right! Go to school to find the answer!');
+    }
+  };
+  HQuestion.randomQuestion = function () {
+    var rand = Math.floor(Math.random() * this.textArray.length);
+    console.log(rand);
+    var userAnswer = +prompt(this.textArray[rand] + this.answerVariants + '?');
     if (userAnswer === _answerTrueVariant) {
       console.log('You are absolutely right!');
     } else {
@@ -20,7 +32,7 @@ var Question2 = {};
 Question(Question2, 'How many angles does a triangle have? ', [0, 3, 4, 5], 3);
 
 var Question3 = {};
-Question(Question3, 'How many angles does a pentagon have?? ', [0, 3, 4, 5], 5);
+Question(Question3, 'How many angles does a pentagon have? ', [0, 3, 4, 5], 5);
 
 Question1.show();
 Question2.show();
