@@ -3,12 +3,14 @@ function Question(_text, _answerVariants, _answerTrueVariant) {
   this.text = _text;
   this.answerVariants = _answerVariants;
   this.answerTrueVariant = _answerTrueVariant;
+  questionArray.push(questionArrayH);
 }
 
 var questionArray = [];
-questionArray[0] = new Question('How many corners at the square? ', [0, 3, 4, 5], 4);
-questionArray[1] = new Question('How many angles does a triangle have? ', [0, 3, 4, 5], 3);
-questionArray[2] = new Question('How many angles does a pentagon have? ', [0, 3, 4, 5], 5);
+var questionArrayH = [];
+questionArrayH = new Question('How many corners at the square? ', [0, 3, 4, 5], 4);
+questionArrayH = new Question('How many angles does a triangle have? ', [0, 3, 4, 5], 3);
+questionArrayH = new Question('How many angles does a pentagon have? ', [0, 3, 4, 5], 5);
 
 function randomQuestion() {
   var insideRandomQuestion = questionArray[Math.floor(Math.random() * questionArray.length)];
