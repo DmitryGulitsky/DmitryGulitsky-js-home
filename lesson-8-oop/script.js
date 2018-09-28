@@ -5,16 +5,16 @@ function Question(text, answerVariants, answerTrueVariant) {
   this.answerTrueVariant = answerTrueVariant;
 }
 
-var questionArraySumm = [];
+var questionArray = [];
 var question1 = new Question('How many corners at the square? ', [0, 3, 4, 5], 4);
-questionArraySumm.push(question1);
+questionArray.push(question1);
 var question2 = new Question('How many angles does a triangle have? ', [0, 3, 4, 5], 3);
-questionArraySumm.push(question2);
+questionArray.push(question2);
 var question3 = new Question('How many angles does a pentagon have? ', [0, 3, 4, 5], 5);
-questionArraySumm.push(question3);
+questionArray.push(question3);
 
 function randomQuestion() {
-  var insideRandomQuestion = questionArraySumm[Math.floor(Math.random() * questionArraySumm.length)];
+  var insideRandomQuestion = questionArray[Math.floor(Math.random() * questionArray.length)];
   var userAnswer = +prompt(insideRandomQuestion.text + insideRandomQuestion.answerVariants + '?');
   if (userAnswer === insideRandomQuestion.answerTrueVariant) {
     return ('You are absolutely right!');
