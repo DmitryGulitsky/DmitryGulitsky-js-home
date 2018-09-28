@@ -3,17 +3,18 @@ function Question(text, answerVariants, answerTrueVariant) {
   this.text = text;
   this.answerVariants = answerVariants;
   this.answerTrueVariant = answerTrueVariant;
-  questionArray.push(questionArrayH);
 }
 
-var questionArray = [];
-var questionArrayH = [];
-questionArrayH = new Question('How many corners at the square? ', [0, 3, 4, 5], 4);
-questionArrayH = new Question('How many angles does a triangle have? ', [0, 3, 4, 5], 3);
-questionArrayH = new Question('How many angles does a pentagon have? ', [0, 3, 4, 5], 5);
+var questionArraySumm = [];
+var question1 = new Question('How many corners at the square? ', [0, 3, 4, 5], 4);
+questionArraySumm.push(question1);
+var question2 = new Question('How many angles does a triangle have? ', [0, 3, 4, 5], 3);
+questionArraySumm.push(question2);
+var question3 = new Question('How many angles does a pentagon have? ', [0, 3, 4, 5], 5);
+questionArraySumm.push(question3);
 
 function randomQuestion() {
-  var insideRandomQuestion = questionArray[Math.floor(Math.random() * questionArray.length)];
+  var insideRandomQuestion = questionArraySumm[Math.floor(Math.random() * questionArraySumm.length)];
   var userAnswer = +prompt(insideRandomQuestion.text + insideRandomQuestion.answerVariants + '?');
   if (userAnswer === insideRandomQuestion.answerTrueVariant) {
     return ('You are absolutely right!');
