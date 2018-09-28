@@ -1,8 +1,8 @@
 'use strict';
-function Question(_text, _answerVariants, _answerTrueVariant) {
-  this.text = _text;
-  this.answerVariants = _answerVariants;
-  this.answerTrueVariant = _answerTrueVariant;
+function Question(text, answerVariants, answerTrueVariant) {
+  this.text = text;
+  this.answerVariants = answerVariants;
+  this.answerTrueVariant = answerTrueVariant;
   questionArray.push(questionArrayH);
 }
 
