@@ -17,4 +17,4 @@ function isPal(string){
   }
 }
 
-module.exports = isPal();
+module.exports = isPal;
