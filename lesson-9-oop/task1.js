@@ -5,7 +5,7 @@
     this.correct = correct;
   }
 
-  Question.prototype.displayQuestion = function() {
+  Question.prototype.displayQuestion = function () {
     console.log(this.question);
 
     for (var i = 0; i < this.answers.length; i++) {
@@ -13,12 +13,15 @@
     }
   }
 
-  Question.prototype.checkAnswer = function(ans) {
+  Question.prototype.checkAnswer = function (ans) {
+    var pointsCounter = 0;
     if (ans === this.correct) {
       console.log('Correct answer!');
+      pointsCounter++;
+      console.log('Your score: ' + pointsCounter + ' points!');
 
     } else {
-      console.log('Wrong answer. Try again :)')
+      console.log('Wrong answer. Try again :)');
     }
   }
 
