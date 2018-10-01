@@ -21,5 +21,4 @@ function anClean(arr) {
   return arr;
 }
 
-var arr = ['воз', 'киборг', 'корсет', 'ЗОВ', 'гробик', 'костер', 'сектор'];
-console.log( anClean(arr) ); // 'воз,киборг,корсет' или 'ЗОВ,гробик,сектор'
+module.exports = anClean;
