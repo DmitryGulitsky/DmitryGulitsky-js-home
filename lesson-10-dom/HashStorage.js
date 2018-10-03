@@ -1,30 +1,18 @@
-var THashStorage = function () {
-  var drinkStorage = {name: '', alcohol: '', recipe: ''};
-};
-
-THashStorage.prototype.addValue = function(key, value) {
+var THashStorage = function (key, value) {
   this.key = key;
   this.value = value;
-  this.drinkStorage.name = prompt('Input name of the drink, please');
-  this.drinkStorage.alcohol = prompt('Is it alcohol drink?');
-  this.drinkStorage.recipe = prompt('Input recipe of the drink, please');
+  var drinkStorage = {};
 };
 
-THashStorage.prototype.getValue = function(key) {
-  Object.keys(drinkStorage);
-  }
+THashStorage.prototype.addValue = function (key, value) {
+  THashStorage.drinkStorage.key = value;
 };
 
-THashStorage.prototype.deleteValue = function(key) {
+function clickAddValue() {
+  var key = prompt('Input name of the drink, please');
+  var value = prompt('Input recipe of the drink, please');
+  var addNewDrink = new THashStorage(key, value);
+}
 
-};
-
-THashStorage.prototype.getKeys = function(key, value) {
-
-  }
-};
-
-THashStorage.addValue('Salt water', [false, '100g water + 3g salt']);
-THashStorage.getValue();
-THashStorage.deleteValue();
-THashStorage.getKeys();
+clickAddValue();
+console.log(THashStorage);
