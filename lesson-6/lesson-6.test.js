@@ -7,7 +7,7 @@ describe('Calculate John and Mark money for the restaurant', ()=> {
     expect(importVar.exportJohn.finalValues).toEqual([142.6, 57.6, 294.8, 207, 50.4]);
   });
   it('John average bill', ()=> {
-    expect(importVar.exportAverageBillCalculator(importVar.exportJohn.averageBill, importVar.exportJohn.finalValues)).toEqual(150.48);
+    expect(importVar.exportJohn.averageBill).toEqual(150.48);
   });
   it('Mark tips', ()=> {
     expect(importVar.exportMark.tips).toEqual([15.4, 93.75, 11, 9]);
@@ -16,11 +16,10 @@ describe('Calculate John and Mark money for the restaurant', ()=> {
     expect(importVar.exportMark.finalValues).toEqual([92.4, 468.75, 121, 54]);
   });
   it('Mark average bill', ()=> {
-    expect(importVar.exportAverageBillCalculator(importVar.exportMark.averageBill, importVar.exportMark.finalValues)).toEqual(184.0375);
+    expect(importVar.exportMark.averageBill).toEqual(184.0375);
   });
   it('Expect Mark average bill is more', ()=> {
-    expect(importVar.exportAverageBillCalculator(importVar.exportJohn.averageBill, importVar.exportJohn.finalValues) <
-      importVar.exportAverageBillCalculator(importVar.exportMark.averageBill, importVar.exportMark.finalValues))
-      .toBe(true);
+    expect(importVar.exportJohn.averageBill > importVar.exportMark.averageBill)
+      .toBe(false);
   });
 });

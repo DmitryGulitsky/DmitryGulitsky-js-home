@@ -1,61 +1,59 @@
-function averageBillCalculator(billsArray, finalValuesArray) {
-  for (i = 0; i < finalValuesArray.length; i++) {
-    billsArray += finalValuesArray[i];
+function calcAverage(tips) {
+  var sum = 0;
+  for (var i = 0; i < tips.length; i++) {
+    sum = sum + tips[i];
   }
-  return billsArray /= finalValuesArray.length;
+  return sum / tips.length;
 }
 var john = {
   bills: [124, 48, 268, 180, 42],
-  tips: [],
-  tipCalculator: function (bill) {
-    var percentage;
-    if (bill < 50) {
-      percentage = 0.2;
-    } else if (bill >= 50 && bill < 200) {
-      percentage = 0.15;
-    } else {
-      percentage = 0.1;
+  tipCalculator: function () {
+    this.tips = [];
+    this.finalValues = [];
+    for (var i = 0; i < this.bills.length; i++) {
+      var percentage;
+      var bill = this.bills[i];
+      if (bill < 50) {
+        percentage = 0.2;
+      } else if (bill >= 50 && bill < 200) {
+        percentage = 0.15;
+      } else {
+        percentage = 0.1;
+      }
+      this.tips[i] = bill * percentage;
+      this.finalValues[i] = bill + bill * percentage;
     }
-    return percentage * bill;
-  },
-  finalValues: [],
-  averageBill: 0
-}
+  }
+};
 var mark = {
   bills: [77, 375, 110, 45],
-  tips: [],
-  tipCalculator: function (bill) {
-    var percentage;
-    if (bill < 100) {
-      percentage = 0.2;
-    } else if (bill >= 100 && bill < 300) {
-      percentage = 0.1;
-    } else {
-      percentage = 0.25;
+  tipCalculator: function () {
+    this.tips = [];
+    this.finalValues = [];
+    for (var i = 0; i < this.bills.length; i++) {
+      var percentage;
+      var bill = this.bills[i];
+      if (bill < 100) {
+        percentage = 0.2;
+      } else if (bill >= 100 && bill < 300) {
+        percentage = 0.1;
+      } else {
+        percentage = 0.25;
+      }
+      this.tips[i] = bill * percentage;
+      this.finalValues[i] = bill + bill * percentage;
     }
-    return percentage * bill;
-  },
-  finalValues: [],
-  averageBill: 0
-}
+  }
+};
 
-for (var i = 0; i < john.bills.length; i++) {
-  john.tips[i] = john.tipCalculator(john.bills[i]);
-  john.finalValues[i] = john.bills[i] + john.tips[i];
-}
-for (i = 0; i < mark.bills.length; i++) {
-  mark.tips[i] = mark.tipCalculator(mark.bills[i]);
-  mark.finalValues[i] = mark.bills[i] + mark.tips[i];
-}
+john.tipCalculator();
+mark.tipCalculator();
+john.averageBill = calcAverage(john.finalValues);
+mark.averageBill = calcAverage(mark.finalValues);
 
-console.log(john.tips, john.finalValues);
-console.log(mark.tips, mark.finalValues);
-console.log(averageBillCalculator(john.averageBill, john.finalValues));
-console.log(averageBillCalculator(mark.averageBill, mark.finalValues));
-
-if (averageBillCalculator(john.averageBill, john.finalValues) > averageBillCalculator(mark.averageBill, mark.finalValues)) {
+if (john.averageBill > mark.averageBill) {
   console.log('John family paid the highest tips on average');
-} else if (averageBillCalculator(john.averageBill, john.finalValues) < averageBillCalculator(mark.averageBill, mark.finalValues)) {
+} else if (john.averageBill < mark.averageBill) {
   console.log('Mark family paid the highest tips on average');
 } else {
   console.log('Draw');
@@ -63,4 +61,3 @@ if (averageBillCalculator(john.averageBill, john.finalValues) > averageBillCalcu
 
 module.exports.exportJohn = john;
 module.exports.exportMark = mark;
-module.exports.exportAverageBillCalculator = averageBillCalculator;
