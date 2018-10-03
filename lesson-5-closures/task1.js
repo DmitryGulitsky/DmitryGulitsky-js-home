@@ -1,31 +1,43 @@
-function octothorpeSquare(widthOctothorpeSquare) {
-  console.log(inputWidthOctothorpeSquare);
-  var cycleCondition = 0;
-  var finalOctothorpeSquare = '';
-  if (widthOctothorpeSquare % 2 !== 0) {
-    cycleCondition = widthOctothorpeSquare / 2 - 1;
-  } else {
-    cycleCondition = widthOctothorpeSquare / 2;
+'use strict';
+function drawConsole(row, col) {
+  var tempRow;
+  var symbOne = '#';
+  var symbTwo = ' ';
+
+  for (var i = 0; i < row; i++) {
+    tempRow = '';
+    for (var j = 0; j < col; j++) {
+      if (i % 2) {
+        (j % 2) ? tempRow += symbOne : tempRow += symbTwo;
+      } else {
+        (j % 2) ? tempRow += symbTwo : tempRow += symbOne;
+      }
+    }
+    tempRow += '\n';
+    console.log(tempRow);
   }
-  for (var i = 0; i < cycleCondition; i++) {
-    finalOctothorpeSquare += '\n';
-    for (var j = 0; j < widthOctothorpeSquare; j++) {
-      finalOctothorpeSquare += '# ';
-    }
-    finalOctothorpeSquare += '\n';
-    for (j = 0; j < widthOctothorpeSquare; j++) {
-      finalOctothorpeSquare += ' #';
-    }
-  }
-  if (widthOctothorpeSquare % 2 !== 0) {
-    finalOctothorpeSquare += '\n';
-    for (j = 0; j < (widthOctothorpeSquare); j++) {
-      finalOctothorpeSquare += '# ';
-    }
-  } return finalOctothorpeSquare;
 }
+
+function isNumeric(n) {
+  return (!isNaN(parseFloat(n)) && isFinite(n));
+}
+
+function makeNatural(n) {
+  return Math.abs(n) ^ 0;
+}
+
+var a;
+var b;
+
 do {
-  var inputWidthOctothorpeSquare = prompt('Введите количество символов # на одной стороне:');
-}
-while (isNaN(parseInt(inputWidthOctothorpeSquare)) || inputWidthOctothorpeSquare === 0);
-console.log(octothorpeSquare(inputWidthOctothorpeSquare));
+  a = prompt('Введите число строк: ', '');
+} while (!isNumeric(a));
+
+do {
+  b = prompt('Введите число столбцов: ', '');
+} while (!isNumeric(b));
+
+a = makeNatural(a);
+b = makeNatural(b);
+
+drawConsole(a, b);
