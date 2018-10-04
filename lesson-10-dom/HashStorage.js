@@ -22,4 +22,4 @@ var THashStorage = function () {
   this.getKeys = function () {
     console.log(Object.keys(storage));
   };
-}
+};

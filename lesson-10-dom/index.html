@@ -6,10 +6,10 @@
   </head>
   <body>
     <h3>Drinks</h3>
-    <input type="button" value="ввод информации о напитке" class="addValueBtn" onclick="btnClick()">
-    <input type="button" value="получение информации о напитке" class="getValueBtn">
-    <input type="button" value="удаление информации о напитке" class="deleteValueBtn">
-    <input type="button" value="перечень всех напитков" class="getKeysBtn">
+    <input type="button" value="ввод информации о напитке" class="addValueBtn" onclick="clickAddValue()">
+    <input type="button" value="получение информации о напитке" class="getValueBtn" onclick="clickGetValue()">
+    <input type="button" value="удаление информации о напитке" class="deleteValueBtn" onclick="clickDeleteValue()">
+    <input type="button" value="перечень всех напитков" class="getKeysBtn" onclick="clickGetKeys()">
     <script src="HashStorage.js"></script>
     <script>
       var storage = new THashStorage();
@@ -29,12 +29,6 @@
       function clickGetKeys() {
         storage.getKeys();
       }
-      clickAddValue();
-      clickAddValue();
-      clickAddValue();
-      clickGetValue();
-      clickDeleteValue();
-      clickGetKeys();
     </script>
   </body>
 </html>
