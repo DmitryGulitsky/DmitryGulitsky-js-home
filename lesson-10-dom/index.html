@@ -11,5 +11,27 @@
     <input type="button" value="получение информации о напитке" class="getValueBtn">
     <input type="button" value="удаление информации о напитке" class="deleteValueBtn">
     <input type="button" value="перечень всех напитков" class="getKeysBtn">
+    <script src="HashStorage.js"></script>
+    <script>
+      var storage = new THashStorage();
+      function clickAddValue() {
+        var key = prompt('Input name of the drink, please');
+        var value = prompt('Input recipe of the drink, please');
+        storage.addValue(key, value);
+      }
+      function clickGetValue() {
+        var key = prompt('Input name of the drink you want to get, please');
+        storage.getValue(key);
+      }
+      function clickDeleteValue() {
+        var key = prompt('Input name of the drink you want delete, please');
+        storage.getValue(key);
+      }
+      function clickGetKeys() {
+        Object.keys(storage);
+      }
+
+
+    </script>
   </body>
 </html>
