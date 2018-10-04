@@ -14,9 +14,19 @@
     <script>
       var storage = new THashStorage();
       function clickAddValue() {
+        var value = {};
         var key = prompt('Input name of the drink, please');
-        var value = prompt('Input recipe of the drink, please');
+        value.alcohol = prompt('Does it alcohol drink? Click OK or Cancel');
+        if (value.alcohol === ''){
+          value.alcohol = true;
+        } else if (value.alcohol === null){
+          value.alcohol = false;
+        } else {
+          value.alcohol = 'Wrong input value';
+        }
+        value.recipe = prompt('Input recipe of the drink, please');
         storage.addValue(key, value);
+        console.log(storage);
       }
       function clickGetValue() {
         var key = prompt('Input name of the drink you want to get, please');
