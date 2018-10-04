@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link type="text/css" rel="stylesheet" href="styles.css">
   </head>
   <body>
     <h3>Drinks</h3>
@@ -25,13 +24,17 @@
       }
       function clickDeleteValue() {
         var key = prompt('Input name of the drink you want delete, please');
-        storage.getValue(key);
+        storage.deleteValue(key);
       }
       function clickGetKeys() {
-        Object.keys(storage);
+        storage.getKeys();
       }
-
-
+      clickAddValue();
+      clickAddValue();
+      clickAddValue();
+      clickGetValue();
+      clickDeleteValue();
+      clickGetKeys();
     </script>
   </body>
 </html>
