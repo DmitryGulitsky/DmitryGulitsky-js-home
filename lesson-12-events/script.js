@@ -38,6 +38,10 @@
   function dragEnd(EO) {
     EO = EO || window.event;
     console.log('drag finished');
+    var x = event.pageX;
+    var y = event.pageY;
+    EO.style.left = x + 'px';
+    EO.style.top = y + 'px';
     DragImage = null;
   }
 
