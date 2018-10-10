@@ -1,23 +1,50 @@
 'use strict';
 
 (function () {
-  function imgToPositionAbsolute() {
-    var imageElems = document.getElementsByTagName('img');
-    var positionArray = [];
+  function getImgPosition() {
     for (var i = 0; i < imageElems.length; i++) {
-      positionArray.push(imageElems[i].getBoundingClientRect());
-      var imageElem = imageElems[i];
-      var xPosition = positionArray[i].x;
-      var yPosition = positionArray[i].y;
-      imageElem.style.position = 'absolute';
-      imageElem.style.left = xPosition.toString();
-      imageElem.style.top = yPosition.toString();
-      console.log(positionArray[i]);
-      console.log(positionArray[i].x);
-      console.log(positionArray[i].y);
-      console.log(positionArray);
+      imageElems[i].style.left = imageElems[i].offsetLeft + 'px';
+      imageElems[i].style.top = imageElems[i].offsetTop + 'px';
+    }
+  }
+
+  function imgToPositionAbsolute() {
+    for (var i = 0; i < imageElems.length; i++) {
+      imageElems[i].style.position = 'absolute';
     }
     console.log(imageElems);
   }
+
+  function setDragAttributes() {
+    for (var i = 0; i < imageElems.length; i++) {
+      imageElems[i].addEventListener('dragstart' ,dragStart, true);
+      imageElems[i].addEventListener('dragend', dragEnd, true);
+      // imageElems[i].ondragstart = dragStart(event);
+      // imageElems[i].ondragend = dragEnd(event);
+    }
+  }
+
+  var imageElems = document.getElementsByTagName('img');
+  var DragImage = null; // какая картинка сейчас перетаскивается
+  var DragShiftX;
+  var DragShiftY;
+
+  function dragStart(EO) {
+    EO = EO || window.event;
+    console.log('DragImage = ' + EO);
+    DragImage = EO.target;
+  }
+
+  function dragEnd(EO) {
+    EO = EO || window.event;
+    console.log('drag finished');
+    DragImage = null;
+  }
+
+
+
+  getImgPosition();
   imgToPositionAbsolute();
+  setDragAttributes();
+
 })();
