@@ -16,8 +16,8 @@
 
   function setDragAttributes() {
     for (var i = 0; i < imageElems.length; i++) {
-      imageElems[i].addEventListener('dragstart', dragStart, true);
-      imageElems[i].addEventListener('dragend', dragEnd, true);
+      imageElems[i].addEventListener('mousedown', dragStart, false);
+      imageElems[i].addEventListener('mouseon', dragEnd, false);
     }
     console.log(imageElems);
   }
@@ -43,6 +43,7 @@
     DragClickY = EO.pageY;
     DragShiftX = DragClickX - DragImgX;
     DragShiftY = DragClickY - DragImgY;
+    DragImage.addEventListener('mousemove', dragMove, true);
     console.log('DragImgX = ' + DragImgX);
     console.log('DragImgY = ' + DragImgY);
     console.log('DragClickX = ' + DragClickX);
@@ -52,13 +53,18 @@
     console.log('----------------------------');
   }
 
-  function dragEnd(EO) {
+  function dragMove(EO) {
     EO = EO || window.event;
     DragImage = EO.target;
     DropClickX = EO.pageX;
     DropClickY = EO.pageY;
     DragImage.style.left = DropClickX - DragShiftX + 'px';
     DragImage.style.top = DropClickY - DragShiftY + 'px';
+  }
+
+  function dragEnd(EO) {
+    EO = EO || window.event;
+    DragImage = EO.target;
     imgZindex++;
     DragImage.style.zIndex = imgZindex.toString();
     console.log('DropClickX = ' + DropClickX);
