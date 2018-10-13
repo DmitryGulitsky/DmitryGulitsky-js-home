@@ -33,38 +33,33 @@
   secondArrow.style.width = 4 + 'px';
   secondArrow.style.backgroundColor = 'black';
   secondArrow.style.position = 'absolute';
-  secondArrow.style.left = (clockContainer.offsetWidth / 2 + secondArrow.offsetWidth / 2) + 'px';
+  secondArrow.style.left = (clockContainer.offsetWidth / 2) + 'px';
   secondArrow.style.top = 35 + 'px';
   secondArrow.style.transformOrigin = 50 + '% ' + 100 + '%';
   secondArrow.style.borderRadius = 20 + '%';
 
   setInterval(rotateSecondArrow, 1000);
-  var sec = 0;
   function rotateSecondArrow() {
-    secondArrow.style.transform = 'rotate(' + sec + 'deg)';
-    sec += 6;
+    secondArrow.style.transform = 'rotate(' + 6 * CurrTime.getSeconds() + 'deg)';
+    CurrTime = new Date();
   }
-
+  
   var minuteArrow = document.createElement('div');
   clockContainer.appendChild(minuteArrow);
   minuteArrow.style.height = 120 + 'px';
   minuteArrow.style.width = 10 + 'px';
   minuteArrow.style.backgroundColor = 'black';
   minuteArrow.style.position = 'absolute';
-  minuteArrow.style.left = (clockContainer.offsetWidth / 2 + minuteArrow.offsetWidth / 2) + 'px';
+  minuteArrow.style.left = (clockContainer.offsetWidth / 2) + 'px';
   minuteArrow.style.top = 36 + 'px';
   minuteArrow.style.transformOrigin = 50 + '% ' + 100 + '%';
   minuteArrow.style.borderRadius = 20 + '%';
 
 
-  var min = 0;
   setInterval(rotateMinuteArrow, 300000);
   function rotateMinuteArrow() {
-    minuteArrow.style.transform = 'rotate(' + sec + 'deg)';
-    if (min === 360) {
-      min = 0;
-    }
-    min += 6;
+    minuteArrow.style.transform = 'rotate(' + 6 * CurrTime.getMinutes() + 'deg)';
+    CurrTime = new Date();
   }
 
   var hourArrow = document.createElement('div');
@@ -73,19 +68,15 @@
   hourArrow.style.width = 14 + 'px';
   hourArrow.style.backgroundColor = 'black';
   hourArrow.style.position = 'absolute';
-  hourArrow.style.left = (clockContainer.offsetWidth / 2 + hourArrow.offsetWidth / 2) + 'px';
+  hourArrow.style.left = (clockContainer.offsetWidth / 2) + 'px';
   hourArrow.style.top = 35 + 'px';
   hourArrow.style.transformOrigin = 50 + '% ' + 100 + '%';
   hourArrow.style.borderRadius = 20 + '%';
 
-  var hour = 0;
   setInterval(rotateHourArrow, 3600000);
   function rotateHourArrow() {
-    hourArrow.style.transform = 'rotate(' + sec + 'deg)';
-    if (hour === 360) {
-      hour = 0;
-    }
-    hour += 6;
+    hourArrow.style.transform = 'rotate(' + 6 * CurrTime.getHours() + 'deg)';
+    CurrTime = new Date();
   }
 
 
@@ -107,9 +98,8 @@
 
 
 
-
+  var CurrTime = new Date();
   function UpdateTime() {
-    var CurrTime = new Date();
     var CurrTimeStr = FormatDateTime(CurrTime);
     numericClock.innerHTML = CurrTimeStr.toString();
   }
