@@ -24,7 +24,52 @@
     var hourCenterX = containerCenterX + 120 * Math.sin(angle);
     var hourCenterY = containerCenterY - 120 * Math.cos(angle);
     hourContainer.style.left = Math.round(hourCenterX - hourContainer.offsetWidth / 2) + 'px';
-    hourContainer.style.top = Math.round(hourCenterY - hourContainer.offsetHeight / 2) + 'px';}
+    hourContainer.style.top = Math.round(hourCenterY - hourContainer.offsetHeight / 2) + 'px';
+  }
+
+  var secondArrow = document.createElement('div');
+  clockContainer.appendChild(secondArrow);
+  secondArrow.style.height = 120 + 'px';
+  secondArrow.style.width = 5 + 'px';
+  secondArrow.style.backgroundColor = 'black';
+  secondArrow.style.position = 'absolute';
+  setInterval(rotateSecondArrow, 1000);
+  function rotateSecondArrow() {
+    secondArrow.style.cssText = 'transform-origin: 0px 0px;' +
+      '-o-transform: rotate(30deg);' +
+      '-ms-transform: rotate(30deg);' +
+      '-moz-transform: rotate(30deg);' +
+      '-webkit-transform: rotate(30deg);' +
+      'transform: rotate(30deg);' +
+      'transition: transform 1s;';
+  }
+
+  var minuteArrow = document.createElement('div');
+  clockContainer.appendChild(minuteArrow);
+  minuteArrow.style.height = 120 + 'px';
+  minuteArrow.style.width = 10 + 'px';
+  minuteArrow.style.backgroundColor = 'black';
+  minuteArrow.style.position = 'absolute';
+  setInterval(rotateMinuteArrow, 1000);
+  function rotateMinuteArrow() {
+
+  }
+
+  var hourArrow = document.createElement('div');
+  clockContainer.appendChild(hourArrow);
+  hourArrow.style.height = 120 + 'px';
+  hourArrow.style.width = 15 + 'px';
+  hourArrow.style.backgroundColor = 'black';
+  hourArrow.style.position = 'absolute';
+  setInterval(rotateHourArrow, 1000);
+  function rotateHourArrow() {
+
+  }
+
+
+
+
+
 
   var numericClock = document.createElement('span');
   clockContainer.appendChild(numericClock);
@@ -36,6 +81,10 @@
     'left: 36%;' +
     'font-size: 25px;' +
     'text-align: center';
+
+
+
+
 
   function UpdateTime() {
     var CurrTime = new Date();
