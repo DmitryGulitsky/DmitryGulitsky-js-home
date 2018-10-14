@@ -3,7 +3,7 @@
 (function () {
   var clockContainer = document.createElement('div'); // создаем каркас часов
   document.body.appendChild(clockContainer);
-  clockContainer.style.backgroundColor = 'grey';
+  clockContainer.style.backgroundColor = '#FCCA66';
   clockContainer.style.height = 300 + 'px';
   clockContainer.style.width = 300 + 'px';
   clockContainer.style.borderRadius = 50 + '%';
@@ -11,7 +11,7 @@
     var hourContainer = document.createElement('div');
     clockContainer.appendChild(hourContainer);
     hourContainer.style.cssText = 'position: absolute; ' +
-      'background-color: white; ' +
+      'background-color: #48B382; ' +
       'height: 40px; ' +
       'width: 40px; ' +
       'border-radius: 50%;' +
