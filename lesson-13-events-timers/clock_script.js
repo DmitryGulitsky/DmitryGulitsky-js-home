@@ -48,17 +48,7 @@
     arrows[i].style.borderRadius = 20 + '%';
   }
 
-  setInterval(rotateArrows, 1000); // задаем интервал для обновления положения секундной стрелки
-  function rotateArrows() {
-    CurrTime = new Date();
-    arrows[0].style.transform = 'rotate(' + (6 * CurrTime.getSeconds()) + 'deg)'; // 360 градусов окружности / 60 сек в минуте = 6 градусов одно движение стрелки
-    arrows[1].style.transform = 'rotate(' + (6 * CurrTime.getMinutes()) + 'deg)';
-    if (CurrTime.getHours() < 12) { // при 24-часовом формате после 12 часов чтобы не добегали лишние градусы
-      arrows[2].style.transform = 'rotate(' + (0.5 * CurrTime.getMinutes() + (CurrTime.getHours() * 30)) + 'deg)';
-    } else {
-      arrows[2].style.transform = 'rotate(' + (0.5 * CurrTime.getMinutes() + ((CurrTime.getHours() - 12) * 30)) + 'deg)';
-    }
-  }
+
 
   var numericClock = document.createElement('span');
   clockContainer.appendChild(numericClock);
@@ -68,10 +58,17 @@
     'left: 36%;' +
     'font-size: 25px;';
 
-  var CurrTime = new Date();
   function UpdateTime() {
+    var CurrTime = new Date();
     var CurrTimeStr = FormatDateTime(CurrTime);
     numericClock.innerHTML = CurrTimeStr.toString();
+    arrows[0].style.transform = 'rotate(' + (6 * CurrTime.getSeconds()) + 'deg)'; // 360 градусов окружности / 60 сек в минуте = 6 градусов одно движение стрелки
+    arrows[1].style.transform = 'rotate(' + (6 * CurrTime.getMinutes()) + 'deg)';
+    if (CurrTime.getHours() < 12) { // при 24-часовом формате после 12 часов чтобы не добегали лишние градусы
+      arrows[2].style.transform = 'rotate(' + (0.5 * CurrTime.getMinutes() + (CurrTime.getHours() * 30)) + 'deg)';
+    } else {
+      arrows[2].style.transform = 'rotate(' + (0.5 * CurrTime.getMinutes() + ((CurrTime.getHours() - 12) * 30)) + 'deg)';
+    }
   }
   function FormatDateTime(DT) {
     var Hours = DT.getHours();
@@ -86,5 +83,5 @@
     }
     return StrVal;
   }
-  setInterval(UpdateTime, 1000);
+  setInterval(UpdateTime, 1000); // задаем интервал для обновления положения стрелок и времени на числовых часах
 })();
