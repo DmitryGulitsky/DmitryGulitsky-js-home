@@ -1,20 +1,9 @@
 'use strict';
 
-function isPal(string){
-  var stringArray = string.split('');
-  var reverseString = '';
-  for (var i = 0; i < stringArray.length; i++) {
-    if (stringArray[i] === ' ') {
-      stringArray.splice(i, 1);
-    }
-  }
-  var modifiedString = stringArray.join('').toLowerCase();
-  reverseString = stringArray.reverse().join('').toLowerCase();
-  if (modifiedString.indexOf(reverseString) !== -1) {
-    return true;
-  } else {
-    return false;
-  }
+function isPal(string) {
+  var arr = string ? string.split(' ').join('').toLowerCase().split('') : [];
+  var arrReversed = arr.slice().reverse();
+  return arr.join('') === arrReversed.join('');
 }
 
 module.exports = isPal;
