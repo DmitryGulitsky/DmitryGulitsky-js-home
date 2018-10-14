@@ -63,13 +63,10 @@
   var numericClock = document.createElement('span');
   clockContainer.appendChild(numericClock);
   numericClock.style.cssText = 'position: relative; ' +
-    'height: 30px; ' +
-    'width: 100%; ' +
     'font-size: 35px;' +
     'top: 25%;' +
     'left: 36%;' +
-    'font-size: 25px;' +
-    'text-align: center';
+    'font-size: 25px;';
 
   var CurrTime = new Date();
   function UpdateTime() {
