@@ -1,13 +1,13 @@
 'use strict';
 
 (function () {
-  var clockContainer = document.createElement('div');
+  var clockContainer = document.createElement('div'); // создаем каркас часов
   document.body.appendChild(clockContainer);
   clockContainer.style.backgroundColor = 'grey';
   clockContainer.style.height = 300 + 'px';
   clockContainer.style.width = 300 + 'px';
   clockContainer.style.borderRadius = 50 + '%';
-  for (var i = 1; i < 13; i++) {
+  for (var i = 1; i < 13; i++) { // создаем цифры в мал. контейнерах по всей окружности. i - количество часов
     var hourContainer = document.createElement('div');
     clockContainer.appendChild(hourContainer);
     hourContainer.style.cssText = 'position: absolute; ' +
@@ -17,72 +17,48 @@
       'border-radius: 50%;' +
       'font-size: 35px;' +
       'text-align: center';
-    hourContainer.textContent = i.toString();
-    var containerCenterX = clockContainer.offsetLeft + clockContainer.offsetWidth / 2;
+    hourContainer.textContent = i.toString();// вносим значение цифр в мал.конейнеры
+    var containerCenterX = clockContainer.offsetLeft + clockContainer.offsetWidth / 2; // рассчитываем центр окружности
     var containerCenterY = clockContainer.offsetTop + clockContainer.offsetHeight / 2;
-    var angle = (30 * i) / 180 * Math.PI;
+    var angle = (30 * i) / 180 * Math.PI; // 360 градусов / 12 часов = 30
     var hourCenterX = containerCenterX + 120 * Math.sin(angle);
     var hourCenterY = containerCenterY - 120 * Math.cos(angle);
     hourContainer.style.left = Math.round(hourCenterX - hourContainer.offsetWidth / 2) + 'px';
     hourContainer.style.top = Math.round(hourCenterY - hourContainer.offsetHeight / 2) + 'px';
   }
 
-  var secondArrow = document.createElement('div');
-  clockContainer.appendChild(secondArrow);
-  secondArrow.style.height = 120 + 'px';
-  secondArrow.style.width = 4 + 'px';
-  secondArrow.style.backgroundColor = 'black';
-  secondArrow.style.position = 'absolute';
-  secondArrow.style.left = (clockContainer.offsetWidth / 2) + 'px';
-  secondArrow.style.top = 35 + 'px';
-  secondArrow.style.transformOrigin = 50 + '% ' + 100 + '%';
-  secondArrow.style.borderRadius = 20 + '%';
+  var arrows = []; // создаем массив для стрелок
+  arrows[0] = document.createElement('div'); // создаем секундную стрелку
+  clockContainer.appendChild(arrows[0]);
 
-  setInterval(rotateSecondArrow, 1000);
-  function rotateSecondArrow() {
-    secondArrow.style.transform = 'rotate(' + 6 * CurrTime.getSeconds() + 'deg)';
-    CurrTime = new Date();
-  }
-  
-  var minuteArrow = document.createElement('div');
-  clockContainer.appendChild(minuteArrow);
-  minuteArrow.style.height = 120 + 'px';
-  minuteArrow.style.width = 10 + 'px';
-  minuteArrow.style.backgroundColor = 'black';
-  minuteArrow.style.position = 'absolute';
-  minuteArrow.style.left = (clockContainer.offsetWidth / 2) + 'px';
-  minuteArrow.style.top = 36 + 'px';
-  minuteArrow.style.transformOrigin = 50 + '% ' + 100 + '%';
-  minuteArrow.style.borderRadius = 20 + '%';
+  arrows[1] = document.createElement('div'); // создаем минутную стрелку
+  clockContainer.appendChild(arrows[1]);
 
-
-  setInterval(rotateMinuteArrow, 300000);
-  function rotateMinuteArrow() {
-    minuteArrow.style.transform = 'rotate(' + 6 * CurrTime.getMinutes() + 'deg)';
-    CurrTime = new Date();
+  arrows[2] = document.createElement('div'); // создаем часовую стрелку
+  clockContainer.appendChild(arrows[2]);
+  for ( i = 0; i < arrows.length; i++) {  // задаем css свойства стрелкам
+    arrows[i].style.height = 120 + 'px';
+    arrows[i].style.width = 4 * (i + 1) + 'px'; // задаем разную ширину стрелок
+    arrows[i].style.backgroundColor = 'black';
+    arrows[i].style.opacity = 0.6;
+    arrows[i].style.position = 'absolute';
+    arrows[i].style.left = (clockContainer.offsetWidth / 2 + 4) + 'px'; // задаем расстояние от левого края с поправкой на ширину стрелки
+    arrows[i].style.top = 45 + 'px';
+    arrows[i].style.transformOrigin = 50 + '% ' + 100 + '%';
+    arrows[i].style.borderRadius = 20 + '%';
   }
 
-  var hourArrow = document.createElement('div');
-  clockContainer.appendChild(hourArrow);
-  hourArrow.style.height = 120 + 'px';
-  hourArrow.style.width = 14 + 'px';
-  hourArrow.style.backgroundColor = 'black';
-  hourArrow.style.position = 'absolute';
-  hourArrow.style.left = (clockContainer.offsetWidth / 2) + 'px';
-  hourArrow.style.top = 35 + 'px';
-  hourArrow.style.transformOrigin = 50 + '% ' + 100 + '%';
-  hourArrow.style.borderRadius = 20 + '%';
-
-  setInterval(rotateHourArrow, 3600000);
-  function rotateHourArrow() {
-    hourArrow.style.transform = 'rotate(' + 6 * CurrTime.getHours() + 'deg)';
+  setInterval(rotateArrows, 1000); // задаем интервал для обновления положения секундной стрелки
+  function rotateArrows() {
     CurrTime = new Date();
+    arrows[0].style.transform = 'rotate(' + (6 * CurrTime.getSeconds()) + 'deg)'; // 360 градусов окружности / 60 сек в минуте = 6 градусов одно движение стрелки
+    arrows[1].style.transform = 'rotate(' + (6 * CurrTime.getMinutes()) + 'deg)';
+    if (CurrTime.getHours() < 12) { // при 24-часовом формате после 12 часов чтобы не добегали лишние градусы
+      arrows[2].style.transform = 'rotate(' + (6 + 6 * CurrTime.getHours()) + 'deg)';
+    } else {
+      arrows[2].style.transform = 'rotate(' + (6 * (CurrTime.getHours() - 6)) + 'deg)';
+    }
   }
-
-
-
-
-
 
   var numericClock = document.createElement('span');
   clockContainer.appendChild(numericClock);
@@ -95,15 +71,11 @@
     'font-size: 25px;' +
     'text-align: center';
 
-
-
-
   var CurrTime = new Date();
   function UpdateTime() {
     var CurrTimeStr = FormatDateTime(CurrTime);
     numericClock.innerHTML = CurrTimeStr.toString();
   }
-
   function FormatDateTime(DT) {
     var Hours = DT.getHours();
     var Minutes = DT.getMinutes();
@@ -117,9 +89,5 @@
     }
     return StrVal;
   }
-
   setInterval(UpdateTime, 1000);
-
-
-
 })();
