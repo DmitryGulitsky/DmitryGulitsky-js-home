@@ -1,26 +1,38 @@
 'use strict';
-function Question(text, answerVariants, answerTrueVariant) {
-  this.text = text;
-  this.answerVariants = answerVariants;
-  this.answerTrueVariant = answerTrueVariant;
-}
-
-var questionArray = [];
-var question1 = new Question('How many corners at the square? ', [0, 3, 4, 5], 4);
-questionArray.push(question1);
-var question2 = new Question('How many angles does a triangle have? ', [0, 3, 4, 5], 3);
-questionArray.push(question2);
-var question3 = new Question('How many angles does a pentagon have? ', [0, 3, 4, 5], 5);
-questionArray.push(question3);
-
-function randomQuestion() {
-  var insideRandomQuestion = questionArray[Math.floor(Math.random() * questionArray.length)];
-  var userAnswer = +prompt(insideRandomQuestion.text + insideRandomQuestion.answerVariants + '?');
-  if (userAnswer === insideRandomQuestion.answerTrueVariant) {
-    return ('You are absolutely right!');
-  } else {
-    return ('You are not right! Go to school to find the answer!');
+(function () {
+  function Question(text, answerVariants, answerTrueVariant) {
+    this.text = text;
+    this.answerVariants = answerVariants;
+    this.answerTrueVariant = answerTrueVariant;
   }
-}
 
-console.log(randomQuestion());
+  Question.prototype.displayQuestion = function () {
+    console.log(this.text);
+
+    for (var i = 0; i < this.answerVariants.length; i++) {
+      console.log(i + ': ' + this.answerVariants[i]);
+    }
+  };
+
+  Question.prototype.checkAnswer = function (ans) {
+    if (ans === this.correct) {
+      console.log('Correct answer!');
+
+    } else {
+      console.log('Wrong answer. Try again :)');
+    }
+  };
+
+  var question1 = new Question('How many corners at the square? ', [0, 3, 4, 5], 3);
+  var question2 = new Question('How many angles does a triangle have? ', [0, 3, 4, 5], 2);
+  var question3 = new Question('How many angles does a pentagon have? ', [0, 3, 4, 5], 4);
+  var questionArray = [question1, question2, question3];
+
+  var n = Math.floor(Math.random() * questionArray.length);
+
+  questionArray[n].displayQuestion();
+
+  var answer = parseInt(prompt('Please select the correct answer.'));
+
+  questionArray[n].checkAnswer(answer);
+})();
