@@ -5,38 +5,75 @@
     <title>Title</title>
   </head>
   <body>
-    <h3>Drinks</h3>
-    <input type="button" value="ввод информации о напитке" class="addValueBtn" onclick="clickAddValue()">
-    <input type="button" value="получение информации о напитке" class="getValueBtn" onclick="clickGetValue()">
-    <input type="button" value="удаление информации о напитке" class="deleteValueBtn" onclick="clickDeleteValue()">
-    <input type="button" value="перечень всех напитков" class="getKeysBtn" onclick="clickGetKeys()">
+    <div class="manage-drinks">
+      <h3>Drinks</h3>
+      <input type="button" value="ввод информации о напитке" onclick="addDrink()">
+      <input type="button" value="получение информации о напитке" onclick="showDrinkInfo()">
+      <input type="button" value="удаление информации о напитке" onclick="removeDrink()">
+      <input type="button" value="перечень всех напитков" onclick="showDrinksMenu()">
+      <div id="message" class="drink-info"></div>
+    </div>
     <script src="HashStorage.js"></script>
     <script>
-      var storage = new THashStorage();
-      function clickAddValue() {
-        var value = {};
-        var key = prompt('Input name of the drink, please');
-        value.alcohol = prompt('Does it alcohol drink? Click OK or Cancel');
-        if (value.alcohol === ''){
-          value.alcohol = true;
-        } else if (value.alcohol === null){
-          value.alcohol = false;
+      'use strict';
+
+      var drinkStorage = new THashStorage();
+
+      function addDrink() {
+        var drinkName = prompt('Введите название напитка', 'Test Drink').toLowerCase().trim();
+        var fHash = {};
+
+        if (drinkName) {
+          fHash.recipe = prompt('Введите рецепт приготовления напитка', 'Test Recipe');
+          fHash.alcohol = confirm('Ваш напиток алкогольный?') ? 'да' : 'нет';
+          return drinkStorage.addValue(drinkName, fHash);
         } else {
-          value.alcohol = 'Wrong input value';
+          alert('Ввод отменен!')
         }
-        value.recipe = prompt('Input recipe of the drink, please');
-        storage.addValue(key, value);
       }
-      function clickGetValue() {
-        var key = prompt('Input name of the drink you want to get, please');
-        storage.getValue(key);
+
+      function showDrinkInfo() {
+        var drinkName = prompt('Введите название напитка: ','').toLowerCase().trim();
+        var getDrinkInfo = (drinkName) ? drinkStorage.getValue(drinkName) : 0;
+        var resultHTML = '';
+
+        if (getDrinkInfo) {
+          var print1 = 'Напиток: ' + drinkName + '<br>';
+          var print2 = 'Алкогольный: ' + getDrinkInfo.alcohol + '<br>';
+          var print3 = 'Рецепт приготовления: ' + getDrinkInfo.recipe + '<br>';
+
+          resultHTML = print1 + print2 + print3;
+        } else {
+          resultHTML = 'Ошибка! Нет такого напитка';
+        }
+        document.getElementById('message').innerHTML = resultHTML;
       }
-      function clickDeleteValue() {
-        var key = prompt('Input name of the drink you want delete, please');
-        storage.deleteValue(key);
+
+      function removeDrink() {
+        var drinkName = prompt('Какой напиток удалить?').toLowerCase().trim();
+        var delDrinkInfo = drinkStorage.deleteValue(drinkName);
+        var resultHTML = '';
+
+        if (delDrinkInfo) {
+          resultHTML = 'Информация о напитке ' + drinkName + ' удалена';
+        } else {
+          resultHTML = 'Ошибка! Нет такого напитка';
+        }
+        document.getElementById('message').innerHTML = resultHTML;
       }
-      function clickGetKeys() {
-        storage.getKeys();
+
+      function showDrinksMenu() {
+        var showMenuInfo = drinkStorage.getKeys();
+        var resultHTML = '';
+
+        if (showMenuInfo.length) {
+          for (var i = 0; i < showMenuInfo.length; i++) {
+            resultHTML += (i + 1) + '. ' + showMenuInfo[i] + '<br>';
+          }
+        } else {
+          resultHTML = 'Меню пустое, добавьте напитки.';
+        }
+        document.getElementById('message').innerHTML = resultHTML;
       }
     </script>
   </body>

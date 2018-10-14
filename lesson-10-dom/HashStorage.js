@@ -1,22 +1,17 @@
-var THashStorage = function () {
-  this.addValue = function (key, value) {
-    storage[key] = value;
+'use strict';
+function THashStorage() {
+  var self = this,
+    pHash = {};
+  self.addValue = function (key, value) {
+    pHash[key] = value;
   };
-  this.getValue = function (key) {
-    if (storage[key]) {
-      console.log(storage[key]);
-    } else {
-      console.log('There is no such drink in the storage');
-    }
+  self.getValue = function (key) {
+    return pHash[key];
   };
-  this.deleteValue = function (key) {
-    if (storage[key]) {
-      delete storage[key];
-    } else {
-      console.log('There is no such drink in the storage');
-    }
+  self.deleteValue = function (key) {
+    return delete pHash[key];
   };
-  this.getKeys = function () {
-    console.log(Object.keys(storage));
+  self.getKeys = function () {
+    return (Object.keys(pHash));
   };
 };
