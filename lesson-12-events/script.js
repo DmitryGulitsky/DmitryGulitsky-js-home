@@ -2,83 +2,64 @@
 
 (function () {
   function getImgPosition() {
-    for (var i = 0; i < imageElems.length; i++) {
+    for (var i = imageElems.length - 1; i >= 0; i--) {
       imageElems[i].style.left = imageElems[i].offsetLeft + 'px';
       imageElems[i].style.top = imageElems[i].offsetTop + 'px';
       imageElems[i].style.zIndex = '0';
-    }
-  }
-
-  function imgToPositionAbsolute() {
-    for (var i = 0; i < imageElems.length; i++) {
       imageElems[i].style.position = 'absolute';
-    }
-  }
-
-  function setDragAttributes() {
-    for (var i = 0; i < imageElems.length; i++) {
-      imageElems[i].addEventListener('mousedown', dragStart, true);
-      imageElems[i].addEventListener('mouseup', dragEnd, true);
+      imageElems[i].addEventListener('mousedown', dragStart, false);
     }
   }
 
   var imageElems = document.getElementsByTagName('img');
   var DragImage = null; // какая картинка сейчас перетаскивается
-  var DragImgX = null; // координата левого верхнего угла картинки по Х
-  var DragImgY = null; // координата левого верхнего угла картинки по Y
   var DragClickX = null; // координата нажатия на кнопку мышки по Х
   var DragClickY = null; // координата нажатия на кнопку мышки по Y
-  var DropClickX = null; // координата отпускания кнопки мышки по Х
-  var DropClickY = null; // координата отпускания кнопки мышки по Y
   var DragShiftX = null; // расстояние от места клика на картинке до верхнего левого угла по Х
   var DragShiftY = null; // расстояние от места клика на картинке до верхнего левого угла по Y
   var imgZindex = 0; // переменная для свойства z-index
 
   function dragStart(EO) {
     EO = EO || window.event;
+    EO.preventDefault();
     DragImage = EO.target;
     imgZindex++;
     DragImage.style.zIndex = imgZindex.toString();
     DragImage.style.cursor = 'move';
-    DragImgX = DragImage.offsetLeft;
-    DragImgY = DragImage.offsetTop;
     DragClickX = EO.pageX;
     DragClickY = EO.pageY;
-    DragShiftX = DragClickX - DragImgX;
-    DragShiftY = DragClickY - DragImgY;
-    DragImage.addEventListener('mousemove', dragMove, true);
+    DragShiftX = DragClickX - DragImage.offsetLeft;
+    DragShiftY = DragClickY - DragImage.offsetTop;
+    window.addEventListener('mousemove', dragMove, false);
+    window.addEventListener('mouseup', dragEnd, false);
+    window.addEventListener('mouseout', dragEnd, false);
     console.log('drag start');
     console.log('----------------------------');
   }
 
   function dragMove(EO) {
     EO = EO || window.event;
+    EO.preventDefault();
     DragImage = EO.target;
-    DropClickX = EO.pageX;
-    DropClickY = EO.pageY;
-    DragImage.style.left = DropClickX - DragShiftX + 'px';
-    DragImage.style.top = DropClickY - DragShiftY + 'px';
+    DragImage.style.left = EO.pageX - DragShiftX + 'px';
+    DragImage.style.top = EO.pageY - DragShiftY + 'px';
   }
 
   function dragEnd(EO) {
     EO = EO || window.event;
-    DragImage = EO.target;
+    EO.preventDefault();
     DragImage.style.cursor = 'default';
-    DragImage.removeEventListener('mousemove', dragMove, true);
+    window.removeEventListener('mousemove', dragMove, false);
+    window.removeEventListener('mouseup', dragEnd, false);
+    window.removeEventListener('mouseout', dragEnd, false);
     console.log('drag finished');
     console.log('----------------------------');
     DragImage = null;
-    DragImgX = null;
-    DragImgY = null;
     DragClickX = null;
     DragClickY = null;
-    DropClickX = null;
-    DropClickY = null;
     DragShiftX = null;
     DragShiftY = null;
   }
 
   getImgPosition();
-  imgToPositionAbsolute();
-  setDragAttributes();
 })();
