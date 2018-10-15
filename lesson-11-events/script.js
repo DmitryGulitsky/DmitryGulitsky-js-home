@@ -1,84 +1,138 @@
 'use strict';
 (function () {
-  var formFields = [
-    {'type': 'text', 'label': 'Разработчики:', 'width': 500},
-    {'type': 'text', 'label': 'Название сайта:', 'width': 500},
-    {'type': 'url', 'label': 'URL сайта:', 'width': 500},
-    {'type': 'date', 'label': 'Дата запуска сайта:', 'width': 200},
-    {'type': 'number', 'label': 'Посетителей в сутки:', 'width': 200},
-    {'type': 'email', 'label': 'E-mail для связи:', 'width': 300},
-    {'type': 'select', 'label': 'Рубрика каталога:', 'option': ['бытовая техника', 'разное'], 'width': 300},
-    {'type': 'radio', 'label': 'Размещение:', 'radioLabel': ['бесплатное', 'платное', 'VIP']},
-    {'type': 'checkbox', 'label': 'Разрешить отзывы:'},
-    {'type': 'textarea', 'label': 'Описание сайта:', 'width': 500, 'height': 200},
-    {'type': 'submit', 'label': 'Опубликовать'}];
+  function generateForm(parent, origForm, formFields) {
 
-  function formDynamic() {
-    document.write('<form action="http://fe.it-academy.by/TestForm.php">');
-    function addText() {
-      document.write('<p>' + formFields[i].label + '<input type=' + formFields[i].type + ' width=' + formFields[i].width + '></p>');
+    var cloneForm = origForm.cloneNode(true);
+
+    formFields.forEach(addFormElement);
+    parent.replaceChild(cloneForm, origForm);
+
+    function inputCreate(type, name) {
+      var input = doc.createElement('input');
+      input.name = name;
+      input.type = type;
+      return input;
     }
-    function addUrl() {
-      document.write('<p>' + formFields[i].label + '<input type=' + formFields[i].type + ' width=' + formFields[i].width + '></p>');
+    function labelCreate(name, inner) {
+      var label = doc.createElement('label');
+      label.for = name;
+      label.innerHTML = inner;
+      return label;
     }
-    function addDate() {
-      document.write('<p>' + formFields[i].label + '<input type=' + formFields[i].type + ' width=' + formFields[i].width + '></p>');
+    function addText(obj) {
+      var inner = obj.label;
+      var type = obj.type;
+      var name = obj.name;
+      var div = doc.createElement('div');
+      div.appendChild(labelCreate(name, inner));
+      div.appendChild(inputCreate(type, name));
+      return div;
     }
-    function addNumber() {
-      document.write('<p>' + formFields[i].label + '<input type=' + formFields[i].type + ' width=' + formFields[i].width + '></p>');
-    }
-    function addEmail() {
-      document.write('<p>' + formFields[i].label + '<input type=' + formFields[i].type + ' width=' + formFields[i].width + '></p>');
-    }
-    function addSelect() {
-      document.write('<p>' + formFields[i].label + '<select width=' + formFields[i].width + '>');
-      for (var j = 0; j < formFields[i].option.length; j++) {
-        document.write('<option value=' + formFields[i].option[j] + '>' + formFields[i].option[j] + '</option>)');
+    function addSelect(obj) {
+      var inner = obj.label;
+      var name = obj.name;
+      var options = obj.options;
+      var div = doc.createElement('div');
+      var label = labelCreate(name, inner);
+      var select = doc.createElement('select');
+      select.name = name;
+      function option(optIn) {
+        var option = doc.createElement('option');
+        option.innerHTML = optIn;
+        return option;
       }
-      document.write('</p>');
-    }
-    function addRadio() {
-      document.write('<p>' + formFields[i].label);
-      for (var j = 0; j < formFields[i].radioLabel.length; j++) {
-        document.write('<input type=' + formFields[i].type + '>' + formFields[i].radioLabel[j]);
+      div.appendChild(label);
+      div.appendChild(select);
+      for (var i = 0; i < options.length; i++) {
+        select.appendChild(option(options[i]));
       }
-      document.write('</p>');
+      return div;
     }
-    function addCheckbox() {
-      document.write('<p>' + formFields[i].label + '<input type=' + formFields[i].type + '></p>');
+    function addRadio(obj) {
+      var inner = obj.label;
+      var type = obj.type;
+      var name = obj.name;
+      var options = obj.options;
+      var div = doc.createElement('div');
+      div.appendChild(labelCreate(name, inner));
+      for (var i = 0; i < options.length; i++) {
+        div.appendChild(inputCreate(type, name));
+        div.appendChild(doc.createTextNode(options[i]));
+      }
+      return div;
     }
-    function addTextarea() {
-      document.write('<p>' + formFields[i].label + '<br><input type=' + formFields[i].type + ' width=' + formFields[i].width + '></p>');
+    function addCheckbox(obj) {
+      var inner = obj.label;
+      var type = obj.type;
+      var name = obj.name;
+      var div = doc.createElement('div');
+      var label = labelCreate(name, inner);
+      div.appendChild(label);
+      div.appendChild(inputCreate(type, name));
+      return div;
     }
-    function addSubmit() {
-      document.write('<p><input type=' + formFields[i].type + ' value=' + formFields[i].label + ' ></p>');
+    function addTextarea(obj) {
+      var inner = obj.label;
+      var cols = obj.cols;
+      var rows = obj.rows;
+      var name = obj.name;
+      var div = doc.createElement('div');
+      var label = labelCreate(name, inner);
+      var websiteDescription = doc.createElement('textarea');
+      websiteDescription.cols = cols;
+      websiteDescription.rows = rows;
+      div.appendChild(label);
+      div.appendChild(websiteDescription);
+      return div;
     }
-    for (var i = 0; i < formFields.length; i++) {
-      if ((formFields[i].type === 'text')) {
-        addText();
-      } else if (formFields[i].type === 'url') {
-        addUrl();
-      } else if (formFields[i].type === 'date') {
-        addDate();
-      } else if (formFields[i].type === 'number') {
-        addNumber();
-      } else if (formFields[i].type === 'email') {
-        addEmail();
-      } else if (formFields[i].type === 'select') {
-        addSelect();
-      } else if (formFields[i].type === 'radio') {
-        addRadio();
-      } else if (formFields[i].type === 'checkbox') {
-        addCheckbox();
-      } else if (formFields[i].type === 'textarea') {
-        addTextarea();
-      } else if (formFields[i].type === 'submit') {
-        addSubmit();
+    function addSubmit(obj) {
+      var inner = obj.label;
+      var type = obj.type;
+      var name = obj.name;
+      var sbmt = inputCreate(type, name);
+      sbmt.value = inner;
+      return sbmt;
+    }
+    function addFormElement(obj) {
+      switch (obj.type) {
+      case 'text':
+        cloneForm.appendChild(addText(obj));
+        break;
+      case 'select':
+        cloneForm.appendChild(addSelect(obj));
+        break;
+      case 'radio':
+        cloneForm.appendChild(addRadio(obj));
+        break;
+      case 'checkbox':
+        cloneForm.appendChild(addCheckbox(obj));
+        break;
+      case 'textarea':
+        cloneForm.appendChild(addTextarea(obj));
+        break;
+      case 'submit':
+        cloneForm.appendChild(addSubmit(obj));
+      default:
+        console.error('Invalid form element. Break form creation');
+        break;
       }
     }
   }
-  document.write('<form>');
-  formDynamic();
-  document.write('</form>');
-  console.log(formFields);
+  var doc = document;
+  var container = doc.body;
+  var origForm = doc.forms.addSiteForm;
+  var formFields = [
+    {label: 'Название сайта *: ', type: 'text', name: 'websiteName'},
+    {label: 'Разработчики: ', type: 'text', name: 'devName'},
+    {label: 'URL сайта *: ', type: 'text', name: 'URL'},
+    {label: 'Дата запуска сайта: ', type: 'text', name: 'publishDate'},
+    {label: 'Посетителей в сутки: ', type: 'text', name: 'visitorsPerDay'},
+    {label: 'E-mail для связи *: ', type: 'text', name: 'email'},
+    {label: 'Рубрика: ', type: 'select', name: 'catSection', options: ['бытовая техника', 'здоровье', 'домашний уют']},
+    {label: 'Размещение: ', type: 'radio', name: 'tariff', options: [' бесплатное ', ' платное ', ' VIP ']},
+    {label: 'Разрешить отзывы: ', type: 'checkbox', name: 'allowComments'},
+    {label: 'Описание сайта: ', type: 'textarea', name: 'description', rows: 6, cols: 25},
+    {label: 'Опубликовать', type: 'submit', name: 'publishBtn'}
+  ];
+  generateForm(container, origForm, formFields);
 })();
