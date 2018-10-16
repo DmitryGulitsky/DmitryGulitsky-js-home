@@ -6,19 +6,24 @@
 </head>
 <body>
   <div  id="wrapper" style="background: linear-gradient(to bottom, #182848, #4b6cb7)">
-    <svg viewbox="0 0 1200 500">
-      <circle r="150" cx="50%" cy="50%" fill="white" stroke="#F1F1F1" stroke-width="10" />
-      <circle r="15" cx="50%" cy="50%" fill="#F1F1F1" />
+    <svg id="clock" viewbox="0 0 1200 500">
+      <circle r="150" cx="50%" cy="50%" fill="white" stroke="#F1F1F1" stroke-width="10"></circle>
+      <circle r="15" cx="50%" cy="50%" fill="#F1F1F1"></circle>
       <text x="50%" y="50%">1</text>
-      <line x1="50%" y1="50%" x2="59%" y2="50%" stroke="red" stroke-width="2" stroke-linecap="round"/>
-      <line x1="50%" y1="50%" x2="57%" y2="50%" stroke="black" stroke-width="4" stroke-linecap="round"/>
-      <line x1="50%" y1="50%" x2="55%" y2="50%" stroke="black" stroke-width="6" stroke-linecap="round"/>
+      <line x1="50%" y1="50%" x2="59%" y2="50%" stroke="red" stroke-width="2" stroke-linecap="round"></line>
+      <line x1="50%" y1="50%" x2="57%" y2="50%" stroke="black" stroke-width="4" stroke-linecap="round"></line>
+      <line x1="50%" y1="50%" x2="55%" y2="50%" stroke="black" stroke-width="6" stroke-linecap="round"></line>
     </svg>
   </div>
   <script>
-    let base = document.createElement('svg');
-    base.id = 'base';
-    base.setAttribute(viewbox, '0 0 1200 500');
+    var svgContainer = document.getElementById('clock');
+    var example = document.createElement('circle');
+    example.id = 'circleExample';
+    example.setAttribute('r' , '40');
+    example.setAttribute('cx' , '10%');
+    example.setAttribute('cy' , '10%');
+    example.setAttribute('fill' , '#F1F1F1');
+    svgContainer.appendChild(example);
   </script>
 </body>
 </html>
