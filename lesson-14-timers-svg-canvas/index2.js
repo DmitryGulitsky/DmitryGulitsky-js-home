@@ -1,102 +1,91 @@
 'use strict';
-const baseRadius = 300; //радиус циферблата
-const numbersBaseRadius = baseRadius / 2.5; //радиус оси цифр циферблата
-const circleRadius = 30; // радиус кружков с цифрами
-const dotSize = 14; //размер точки в центре часов
+let svgContainer = document.getElementById('clock');
+const baseRadius = 150; // радиус циферблата
+const numbersBaseRadius = baseRadius / 1.25; // радиус оси цифр циферблата
+const circleRadius = 15; // радиус кружков с цифрами
 const wrapper = document.getElementById('wrapper');
 
 wrapper.appendChild(createWatch());
 setInterval(tickTimer, 1000);
 
-// UI
-
 function createWatch() {
-  let base = document.createElement('div');
-  base.id = 'base';
-  base.style.width = baseRadius + 'px';
-  base.style.height = baseRadius + 'px';
+  let base = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  base.setAttribute('r', baseRadius.toString());
+  base.setAttribute('cx', (wrapper.offsetWidth / 2).toString());
+  base.setAttribute('cy', (wrapper.offsetHeight / 2).toString());
+  base.setAttribute('fill', 'white');
+  base.setAttribute('stroke', '#F1F1F1');
+  base.setAttribute('stroke-width', '10');
+  svgContainer.appendChild(base);
   base.appendChild(createClockFace());
-  base.appendChild(createDigitalWatch());
-  base.appendChild(createArrow('hours', 6));
-  base.appendChild(createArrow('minutes', 4));
-  base.appendChild(createArrow('seconds', 2));
-  base.appendChild(createDecorativeDot(dotSize));
-  return base;
+  svgContainer.appendChild(createDigitalWatch());
+  svgContainer.appendChild(createArrow('hours', 6, 'black'));
+  svgContainer.appendChild(createArrow('minutes', 4, 'black'));
+  svgContainer.appendChild(createArrow('seconds', 2, 'red'));
+  return svgContainer;
 }
 
-function createClockFace(){
-  var svgContainer = document.getElementById('clock');
-  for (let number = 1; number <= 12; number++){
+function createClockFace() {
+  let clockFace = document.createDocumentFragment();
+  for (let number = 1; number <= 12; number++) {
     let angle = number * 30 / 180 * Math.PI;
-    let x = ((baseRadius - circleRadius) / 2) + Math.round(Math.sin(angle) * numbersBaseRadius);
-    let y = ((baseRadius - circleRadius) / 2) - Math.round(Math.cos(angle) * numbersBaseRadius);
-    svgContainer.appendChild(createHourCircle(x, y, number));
+    let x = ((wrapper.offsetWidth - circleRadius) / 2) + 10 + Math.round(Math.sin(angle) * numbersBaseRadius);
+    let y = ((wrapper.offsetHeight - circleRadius) / 2) + 10 - Math.round(Math.cos(angle) * numbersBaseRadius);
+    svgContainer.appendChild(createHourCircle(x, y));
+    svgContainer.appendChild(createHourNumber(x, y, number));
   }
   return clockFace;
 }
 
-function createHourCircle(circleX, circleY, number){
-  let circle = document.createElement('div');
-  circle.className = "number";
-  circle.style.top = circleY  + 'px';
-  circle.style.left = circleX + 'px';
-  circle.appendChild(document.createTextNode(number));
-
+function createHourCircle(circleX, circleY) {
   let circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-  circle.setAttribute('r' , '15');
-  circle.setAttribute('cx' , circleX);
-  circle.setAttribute('cy' , circleY);
-  circle.setAttribute('fill' , '#F1F1F1');
-  svgContainer.appendChild(hourCircle);
-    
+  circle.setAttribute('r', circleRadius.toString());
+  circle.setAttribute('cx', circleX.toString());
+  circle.setAttribute('cy', circleY.toString());
+  circle.setAttribute('fill', '#F1F1F1');
   return circle;
 }
 
-function createHourCircle(circleX, circleY, number){
-
-  var hourNumber = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  hourNumber.setAttribute('x' , circleX);
-  hourNumber.setAttribute('y' , circleY);
-  hourNumber.textContent = number;
-
-  return hourNumber;
-}
-
 function createDigitalWatch() {
-  let textClock = document.createElement('div');
-  textClock.className = 'textclock';
-  textClock.style.top = baseRadius / 2 + baseRadius / 10 + 'px';
-  textClock.style.left = baseRadius / 2 - 50 + 'px';
-  ['hourstext', 'minutestext', 'secondstext'].map(watchDigits => {
-    let digits = document.createElement('span');
-    digits.className = watchDigits;
-    textClock.appendChild(digits);
-  });
+  let textClock = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  textClock.setAttribute('x', (wrapper.offsetWidth / 2 - 30).toString());
+  textClock.setAttribute('y', (wrapper.offsetHeight / 2 - 50).toString());
+  let now = new Date();
+  textClock.textContent = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
   return textClock;
 }
 
-function createArrow(arrowType, arrowWidth){
-  let arrow = document.createElement('div');
-  arrow.className = arrowType + ' arrow';
-  arrow.style.top = baseRadius / 2 - (arrowWidth / 2)+ 'px';
-  arrow.style.left = baseRadius / 2  + 'px';
-  arrow.style.transformOrigin = `0% ${arrowWidth/2}px`;
-  return arrow;
+function createHourNumber(circleX, circleY, number) {
+  var hourNumber = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  if (number < 10) {
+    hourNumber.setAttribute('x', (circleX - 5).toString());
+  } else {
+    hourNumber.setAttribute('x', (circleX - 10).toString());
+  }
+  hourNumber.setAttribute('y', (circleY + 5).toString());
+  hourNumber.style.fontSize = 20 + 'px';
+  hourNumber.textContent = number;
+  return hourNumber;
 }
 
-function createDecorativeDot(size){
-  let dot = document.createElement('div');
-  dot.className = 'dot';
-  dot.style.width = size + 'px';
-  dot.style.height = size + 'px';
-  dot.style.top = baseRadius / 2 - size / 2 + 'px';
-  dot.style.left = baseRadius / 2 - size / 2 + 'px';
-  return dot;
+function createArrow(arrowType, arrowWidth, arrowColor) {
+  let arrow = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+  arrow.id = arrowType + 'Arrow';
+  arrow.setAttribute('x1', (wrapper.offsetWidth / 2).toString());
+  arrow.setAttribute('y1', (wrapper.offsetHeight / 2).toString());
+  arrow.setAttribute('x2', (wrapper.offsetWidth / 2 + baseRadius * 0.8).toString());
+  arrow.setAttribute('y2', (wrapper.offsetHeight / 2).toString());
+  arrow.setAttribute('stroke', arrowColor.toString());
+  arrow.setAttribute('stroke-width', arrowWidth.toString());
+  arrow.setAttribute('stroke-linecap', 'round');
+  arrow.setAttribute('transform', 'translate(18, 18) rotate(180, 0, 0)');
+  arrow.style.transformOrigin = (wrapper.offsetWidth / 2) + 'px' + (wrapper.offsetHeight / 2) + 'px';
+  return arrow;
 }
 
 // Logic
 
-function tickTimer(){
+function tickTimer() {
   let now = new Date();
   let thisSecond = now.getSeconds();
   let thisMinute = now.getMinutes();
@@ -105,7 +94,7 @@ function tickTimer(){
   updateDigitalWatch(thisHour, thisMinute, thisSecond);
 }
 
-function updateWatch(hour, minute, second){
+function updateWatch(hour, minute, second) {
   let thisSecondRotate = (second / 60) * 360 - 90;
   let thisMinuteRotate = (minute) / 60 * 360 - 90;
   let thisHourRotate   = (hour + minute / 60) / 12 * 360 - 90;
@@ -114,15 +103,15 @@ function updateWatch(hour, minute, second){
   rotateHandle('hours', thisHourRotate);
 }
 
-function rotateHandle(handle, degree){
-  let arrow = document.querySelector(`.${handle}`);
+function rotateHandle(handle, degree) {
+  let arrow = document.getElementById(handle + 'Arrow');
   arrow.style.transform = `rotate(${degree}deg)`;
 }
 
-function updateDigitalWatch(hour, minute, second){
-  let digitalWatchSeconds = document.querySelector('.secondstext');
-  let digitalWatchMinutes = document.querySelector('.minutestext');
-  let digitalWatchHours = document.querySelector('.hourstext');
+function updateDigitalWatch(hour, minute, second) {
+  let digitalWatchSeconds = document.getElementById('secondsArrow');
+  let digitalWatchMinutes = document.getElementById('minutesArrow');
+  let digitalWatchHours = document.getElementById('hoursArrow');
   digitalWatchSeconds.textContent = addZeroToNumber(second);
   digitalWatchMinutes.textContent = addZeroToNumber(minute);
   digitalWatchHours.textContent = addZeroToNumber(hour);

@@ -8,60 +8,8 @@
   <div  id="wrapper" style="background: linear-gradient(to bottom, #182848, #4b6cb7)">
     <svg id="clock" viewbox="0 0 1200 500"></svg>
   </div>
-  <script>
-    var svgContainer = document.getElementById('clock');
-    var clockFace = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    clockFace.setAttribute('r' , '150');
-    clockFace.setAttribute('cx' , '50%');
-    clockFace.setAttribute('cy' , '50%');
-    clockFace.setAttribute('fill' , 'white');
-    clockFace.setAttribute('stroke' , '#F1F1F1');
-    clockFace.setAttribute('stroke-width' , '10');
-    svgContainer.appendChild(clockFace);
+  <script src="index2.js">
 
-    var hourCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    hourCircle.setAttribute('r' , '15');
-    hourCircle.setAttribute('cx' , '50%');
-    hourCircle.setAttribute('cy' , '50%');
-    hourCircle.setAttribute('fill' , '#F1F1F1');
-    svgContainer.appendChild(hourCircle);
-
-    var hourNumber = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    hourNumber.setAttribute('x' , '50%');
-    hourNumber.setAttribute('y' , '50%');
-    hourNumber.textContent = 1;
-    svgContainer.appendChild(hourNumber);
-
-    var secondArrow = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    secondArrow.setAttribute('x1' , '50%');
-    secondArrow.setAttribute('y1' , '50%');
-    secondArrow.setAttribute('x2' , '59%');
-    secondArrow.setAttribute('y2' , '50%');
-    secondArrow.setAttribute('stroke' , 'red');
-    secondArrow.setAttribute('stroke-width' , '2');
-    secondArrow.setAttribute('stroke-linecap' , 'round');
-    svgContainer.appendChild(secondArrow);
-
-    var secondArrow = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    secondArrow.setAttribute('x1' , '50%');
-    secondArrow.setAttribute('y1' , '50%');
-    secondArrow.setAttribute('x2' , '57%');
-    secondArrow.setAttribute('y2' , '50%');
-    secondArrow.setAttribute('stroke' , 'black');
-    secondArrow.setAttribute('stroke-width' , '4');
-    secondArrow.setAttribute('stroke-linecap' , 'round');
-    svgContainer.appendChild(secondArrow);
-
-    var secondArrow = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    secondArrow.setAttribute('x1' , '50%');
-    secondArrow.setAttribute('y1' , '50%');
-    secondArrow.setAttribute('x2' , '55%');
-    secondArrow.setAttribute('y2' , '50%');
-    secondArrow.setAttribute('stroke' , 'black');
-    secondArrow.setAttribute('stroke-width' , '6');
-    secondArrow.setAttribute('stroke-linecap' , 'round');
-    svgContainer.appendChild(secondArrow);
   </script>
-  <script src="index2.js"></script>
 </body>
 </html>
