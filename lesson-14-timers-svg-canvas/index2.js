@@ -18,7 +18,7 @@ function createWatch() {
   base.setAttribute('stroke-width', '10');
   svgContainer.appendChild(base);
   base.appendChild(createClockFace());
-  svgContainer.appendChild(createDigitalWatch());
+  createDigitalWatch();
   svgContainer.appendChild(createArrow('hours', 6, 'black'));
   svgContainer.appendChild(createArrow('minutes', 4, 'black'));
   svgContainer.appendChild(createArrow('seconds', 2, 'red'));
@@ -47,12 +47,21 @@ function createHourCircle(circleX, circleY) {
 }
 
 function createDigitalWatch() {
-  let textClock = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-  textClock.setAttribute('x', (wrapper.offsetWidth / 2 - 30).toString());
-  textClock.setAttribute('y', (wrapper.offsetHeight / 2 - 50).toString());
-  let now = new Date();
-  textClock.textContent = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
-  return textClock;
+  let hoursNumberDigital = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  hoursNumberDigital.id = 'hoursNumberDigital';
+  hoursNumberDigital.setAttribute('x', (wrapper.offsetWidth / 2 - 25).toString());
+  hoursNumberDigital.setAttribute('y', (wrapper.offsetHeight / 2 - 50).toString());
+  svgContainer.appendChild(hoursNumberDigital);
+  let minutesNumberDigital = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  minutesNumberDigital.id = 'minutesNumberDigital';
+  minutesNumberDigital.setAttribute('x', (wrapper.offsetWidth / 2 - 5).toString());
+  minutesNumberDigital.setAttribute('y', (wrapper.offsetHeight / 2 - 50).toString());
+  svgContainer.appendChild(minutesNumberDigital);
+  let secondsNumberDigital = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+  secondsNumberDigital.id = 'secondsNumberDigital';
+  secondsNumberDigital.setAttribute('x', (wrapper.offsetWidth / 2 + 15).toString());
+  secondsNumberDigital.setAttribute('y', (wrapper.offsetHeight / 2 - 50).toString());
+  svgContainer.appendChild(secondsNumberDigital);
 }
 
 function createHourNumber(circleX, circleY, number) {
@@ -109,12 +118,12 @@ function rotateHandle(handle, degree) {
 }
 
 function updateDigitalWatch(hour, minute, second) {
-  let digitalWatchSeconds = document.getElementById('secondsArrow');
-  let digitalWatchMinutes = document.getElementById('minutesArrow');
-  let digitalWatchHours = document.getElementById('hoursArrow');
+  let digitalWatchSeconds = document.getElementById('secondsNumberDigital');
+  let digitalWatchMinutes = document.getElementById('minutesNumberDigital');
+  let digitalWatchHours = document.getElementById('hoursNumberDigital');
   digitalWatchSeconds.textContent = addZeroToNumber(second);
-  digitalWatchMinutes.textContent = addZeroToNumber(minute);
-  digitalWatchHours.textContent = addZeroToNumber(hour);
+  digitalWatchMinutes.textContent = addZeroToNumber(minute) + ':';
+  digitalWatchHours.textContent = addZeroToNumber(hour) + ':';
 }
 
 function addZeroToNumber(currentTime){
