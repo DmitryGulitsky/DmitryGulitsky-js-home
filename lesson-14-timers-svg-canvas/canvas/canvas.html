@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div  id="wrapper" style="background: linear-gradient(to bottom, #182848, #4b6cb7)">
+  <canvas id='CVE' width='230' height='400'>
+    Обновите браузер</canvas>
+</div>
+
+<script>
+  var Canvas=document.getElementById('CVE');
+  var Context=Canvas.getContext('2d');
+
+  Context.strokeStyle='red';
+  Context.beginPath();
+  Context.arc(100,180, 50, 0,Math.PI*2, false);
+  Context.fill = 'white';
+  Context.stroke();
+
+</script>
+
+
+</body>
+</html>
