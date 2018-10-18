@@ -66,8 +66,8 @@
       let textClock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');;
       textClock.setAttribute("width", '105');
       textClock.setAttribute("height", '35');
-      textClock.setAttribute("x", baseRadius  + baseRadius / 15 - baseRadius / 3);
-      textClock.setAttribute("y", baseRadius  + baseRadius / 15 + baseRadius / 5 );
+      textClock.setAttribute("x", baseRadius  - 60);
+      textClock.setAttribute("y", baseRadius  + 40 );
       textClock.setAttribute("fill", "#f1f1f1");
       svgContainer.appendChild(textClock);
       createDigitalText('hourstext', -15);
@@ -75,8 +75,8 @@
       createDigitalText('secondstext', 40);
       function createDigitalText(id, cx){
         let digitsH = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-        digitsH.setAttribute("x", (baseRadius  + 10 - baseRadius / 6 + cx).toString());
-        digitsH.setAttribute("y", (baseRadius  + 10 + baseRadius / 2.7).toString());
+        digitsH.setAttribute("x", (135 + cx).toString());
+        digitsH.setAttribute("y", '210');
         digitsH.setAttribute("fill", "#B0C4DE");
         digitsH.setAttribute("id", id);
         digitsH.setAttribute("font-size", '25');
@@ -103,7 +103,8 @@
       arrow.id = arrowType;
       arrow.setAttribute('x1', (baseRadius + 10).toString());
       arrow.setAttribute('y1', (baseRadius + 10).toString());
-      arrow.setAttribute('x2', (baseRadius + numbersBaseRadius - 10).toString());
+      arrow.setAttribute('x2', '260');
+      console.log((baseRadius + numbersBaseRadius - 10));
       arrow.setAttribute('y2', (baseRadius + 10).toString());
       arrow.setAttribute('stroke', arrowColor.toString());
       arrow.setAttribute('stroke-width', arrowWidth.toString());

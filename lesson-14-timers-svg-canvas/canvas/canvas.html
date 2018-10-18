@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>example</title>
+</head>
+<body style="background: linear-gradient(to bottom, #182848, #4b6cb7);  margin: 0; padding: 0;">
+<div id=wrapper style="display: flex; justify-content: center; align-items: center;">
+  <canvas id="canvas" width="320" height="320"></canvas>
+</div>
+<script type="text/javascript">
+  'use strict';
+
+  const baseRadius = 150; //радиус циферблата
+  const numbersBaseRadius = baseRadius / 1.25; //радиус оси цифр циферблата
+  const circleRadius = 20; // радиус кружков с цифрами
+  const dotSize = 10; //размер точки в центре часов
+  const canvasClock = document.getElementById('canvas');
+  const wrapper = document.getElementById('wrapper');
+
+  createWatch();
+  function createWatch() {
+
+    let base=canvasClock.getContext('2d');
+    base.fillStyle='#f1f1f1';
+    base.beginPath();
+    base.arc(baseRadius, baseRadius, baseRadius, 0, Math.PI * 2, false);
+    base.fill();
+    base.closePath();
+
+    base.fillStyle='#fff';
+    base.beginPath();
+    base.arc(baseRadius, baseRadius, baseRadius - 10, 0, Math.PI * 2, false);
+    base.fill();
+    base.closePath();
+
+    createClockFace();
+    createDigitalWatch();
+    createArrow('hours', 6, 'black');
+    createArrow('minutes', 4, 'black');
+    createArrow('seconds', 2, 'red');
+    createDecorativeDot(dotSize);
+    return base;
+  }
+
+  function createClockFace(){
+    let clockFace = document.createDocumentFragment();
+    for (let number = 1; number <= 12; number++){
+      let angle = number * 30 / 180 * Math.PI;
+      let x = baseRadius + Math.round(Math.sin(angle) * numbersBaseRadius) - 3;
+      let y = baseRadius - Math.round(Math.cos(angle) * numbersBaseRadius) - 3;
+      createHourCircle(x, y);
+      createNumberCircle(x, y, number);
+    }
+    return clockFace;
+  }
+
+  function createHourCircle(circleX, circleY){
+    let circle=canvasClock.getContext('2d');
+    circle.fillStyle='#f1f1f1';
+    circle.beginPath();
+    circle.arc(circleX + 3, circleY + 3, circleRadius, 0, Math.PI*2, false);
+    circle.fill();
+    circle.closePath();
+    return circle;
+  }
+
+  function createNumberCircle(circleX, circleY, number) {
+    let text=canvasClock.getContext('2d');
+    text.fillStyle='black';
+    text.font='bold '+ 25 + 'px sans-serif';
+    if (number < 10) {
+      text.fillText(number,circleX -5, circleY + 10);
+    } else {
+      text.fillText(number,circleX -12, circleY + 10);
+    }
+    return text;
+  }
+
+  setInterval(createDigitalWatch, 1000);
+
+  function createDigitalWatch() {
+    let textClock=canvasClock.getContext('2d');
+    textClock.fillStyle='#f1f1f1';
+    textClock.fillRect(90, 180, 120,50);
+    createDigitalText(tickTimer().toString(), -25);
+
+    function createDigitalText(id, coord){
+
+      let digits = canvasClock.getContext('2d');
+      digits.fillStyle='black';
+      digits.font='italic bold '+ circleRadius*1.5 + 'px Arial';
+      digits.fillText(id,baseRadius  + baseRadius / 15 - baseRadius / 6 + coord,
+        baseRadius  + baseRadius / 15 + baseRadius / 3);
+    }
+    return textClock;
+  }
+
+  function createArrow(arrowType, arrowWidth, arrowColor){
+    let arrow = canvasClock.getContext('2d');
+    arrow.save();
+    arrow.strokeStyle=arrowColor;
+    arrow.lineCap='round';
+    arrow.beginPath();
+    arrow.moveTo(153, 153);
+    arrow.lineTo(200 + arrowWidth*10, 152);
+    arrow.lineWidth = arrowWidth;
+    arrow.stroke();
+    return arrow;
+  }
+
+  function createDecorativeDot(size){
+    let dot = canvasClock.getContext('2d');
+    dot.fillStyle = 'black';
+    dot.beginPath();
+    dot.arc(153, 153, size, 0, Math.PI*2, false);
+    dot.fill();
+    dot.closePath();
+    return dot;
+  }
+
+  // Logic
+  function tickTimer(){
+    let now = new Date();
+    let thisSecond = now.getSeconds();
+    let thisMinute = now.getMinutes();
+    let thisHour   = now.getHours();
+
+    return (thisHour + ':' + thisMinute + ':' + thisSecond);
+  }
+
+</script>
+</body>
+</html>
