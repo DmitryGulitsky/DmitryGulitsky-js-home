@@ -77,11 +77,11 @@
     textClock.fillRect(100, 180, 135, 50);
     createDigitalText(tickTimer());
 
-    function createDigitalText(id){
+    function createDigitalText(hourMinuteSecond){
       let digits = canvasClock.getContext('2d');
       digits.fillStyle='black';
       digits.font='italic bold '+ circleRadius*1.5 + 'px Arial';
-      digits.fillText(id, 110, 210);
+      digits.fillText(hourMinuteSecond, 110, 210);
     }
   }
 
@@ -142,20 +142,15 @@
     let thisSecond = now.getSeconds();
     let thisMinute = now.getMinutes();
     let thisHour   = now.getHours();
-    console.log(thisSecond);
-    console.log('-------------------');
-    updateDigitalWatch(thisHour, thisMinute, thisSecond);
-    console.log(thisSecond);
-    console.log('-------------------');
-
+    let timeString = updateDigitalWatch(thisHour, thisMinute, thisSecond);
+    return timeString;
   }
   function updateDigitalWatch(hour, minute, second) {
     let secondZero = addZeroToNumber(second);
     let minuteZero = addZeroToNumber(minute);
     let hourZero = addZeroToNumber(hour);
     let currentTime = hourZero + ':' + minuteZero + ':' + secondZero;
-    console.log(currentTime);
-    console.log('-------------------');
+
     return currentTime;
   }
 
