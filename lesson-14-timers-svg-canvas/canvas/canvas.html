@@ -35,9 +35,8 @@
 
     createClockFace();
     createDigitalWatch();
-    createArrow('hours', 6, 'black');   // часовая
-    createArrow('minutes', 4, 'black'); // минутная
-    createArrow('seconds', 2, 'red');   // секундная
+    createArrow();
+    createArrow();   // часовая
     createDecorativeDot(dotSize);
     return base;
   }
@@ -72,14 +71,11 @@
     }
   }
 
-  setInterval(createDigitalWatch, 1000);
-  setInterval(createArrow, 1000);
-
   function createDigitalWatch() {
     let textClock=canvasClock.getContext('2d');
     textClock.fillStyle='#f1f1f1';
     textClock.fillRect(100, 180, 135, 50);
-    createDigitalText(tickTimer().toString(), -25);
+    createDigitalText(tickTimer());
 
     function createDigitalText(id){
       let digits = canvasClock.getContext('2d');
@@ -89,23 +85,22 @@
     }
   }
 
-  function createArrow(arrowWidth, arrowColor){
-
+  function createArrow(){
 
     let contextHTML = canvasClock.getContext('2d');
     let d = new Date();
     let t_sec = 6 * d.getSeconds();                             //Определяем угол для секунд
     let t_min = 6 * (d.getMinutes() + (1/60) * d.getSeconds()); //Определяем угол для минут
     let t_hour = 30 * (d.getHours() + (1/60) * d.getMinutes()); //Определяем угол для часов
-
-    let xCenterClock = 153;
-    let yCenterClock = 153;
-    let lengthMinutes = arrowWidth * 20;
-    let lengthSeconds = arrowWidth * 10;
-    let lengthHour = arrowWidth * 5;
+    let xCenterClock = baseRadius + 3;
+    let yCenterClock = baseRadius + 3;
+    let lengthSeconds = 100;
+    let lengthMinutes = 80;
+    let lengthHour = 60;
     //Рисуем секунды
     contextHTML.beginPath();
-    contextHTML.strokeStyle =  arrowColor;
+    contextHTML.strokeStyle =  'red';
+    contextHTML.lineWidth = 1;
     contextHTML.moveTo(xCenterClock, yCenterClock);
     contextHTML.lineTo(xCenterClock + lengthSeconds*Math.cos(Math.PI/2 - t_sec*(Math.PI/180)),
       yCenterClock - lengthSeconds*Math.sin(Math.PI/2 - t_sec*(Math.PI/180)));
@@ -114,7 +109,7 @@
 
     //Рисуем минуты
     contextHTML.beginPath();
-    contextHTML.strokeStyle =  arrowColor;
+    contextHTML.strokeStyle =  'black';
     contextHTML.lineWidth = 3;
     contextHTML.moveTo(xCenterClock, yCenterClock);
     contextHTML.lineTo(xCenterClock + lengthMinutes*Math.cos(Math.PI/2 - t_min*(Math.PI/180)),
@@ -136,7 +131,7 @@
     let dot = canvasClock.getContext('2d');
     dot.fillStyle = 'black';
     dot.beginPath();
-    dot.arc(153, 153, size, 0, Math.PI*2, false);
+    dot.arc(baseRadius + 3, baseRadius + 3, size, 0, Math.PI*2, false);
     dot.fill();
     dot.closePath();
   }
@@ -147,16 +142,28 @@
     let thisSecond = now.getSeconds();
     let thisMinute = now.getMinutes();
     let thisHour   = now.getHours();
-    return (thisHour + ':' + thisMinute + ':' + thisSecond);
+    console.log(thisSecond);
+    console.log('-------------------');
+    updateDigitalWatch(thisHour, thisMinute, thisSecond);
+    console.log(thisSecond);
+    console.log('-------------------');
+
+  }
+  function updateDigitalWatch(hour, minute, second) {
+    let secondZero = addZeroToNumber(second);
+    let minuteZero = addZeroToNumber(minute);
+    let hourZero = addZeroToNumber(hour);
+    let currentTime = hourZero + ':' + minuteZero + ':' + secondZero;
+    console.log(currentTime);
+    console.log('-------------------');
+    return currentTime;
   }
 
-  function updateArrowsPosition() {
-
-
-    return;
+  function addZeroToNumber(currentTime){
+    return (`${currentTime}`.length < 2) ? (`0${currentTime}`) : currentTime;
   }
 
-
+  setInterval(createWatch, 1000);
 </script>
 </body>
 </html>

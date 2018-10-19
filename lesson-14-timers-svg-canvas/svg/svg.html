@@ -152,7 +152,8 @@
       let digitalWatchHours = document.getElementById('hourstext');
       digitalWatchSeconds.textContent = ':' + addZeroToNumber(second);
       digitalWatchMinutes.textContent = ':' + addZeroToNumber(minute);
-      digitalWatchHours.textContent = addZeroToNumber(hour);}
+      digitalWatchHours.textContent = addZeroToNumber(hour);
+    }
 
     function addZeroToNumber(currentTime){
       return (`${currentTime}`.length < 2) ? (`0${currentTime}`) : currentTime;
