@@ -6,18 +6,31 @@
 </head>
 <body>
 <input type='button' value='старт!' onclick='Start()'>
+<div id="score"></div>
 <br/><br/>
-<div style='width: 400px; height: 300px;
-      border: solid blue 1px; position: relative'>
-  <div id="firstPlayer"
-       style="position: absolute;width: 10px; height: 70px; background-color: green"
-  ></div>
-  <img src='img/ball.png' id='IBall'
-       style='position: absolute; width: 50px'>
+<div id='container' style='border: solid blue 1px; position: relative'>
+  <div id="firstPlayer"></div>
+  <img src='img/ball.png' id='IBall'>
   <div id="secondPlayer" style="position: absolute; left: 390px; width: 10px; height: 70px; background-color: red"></div>
 </div>
 
 <script>
+
+  var AreaH =
+    {
+      Width: 400,
+      Height: 300,
+      Color: 'grey'
+    };
+
+  var Score =
+    {
+      firstPlayer: 0,
+      secondPlayer: 0,
+      Update: function () {
+        ScoreObj.textContent = this.firstPlayer + ' : ' + this.secondPlayer;
+      }
+    };
 
   var firstPlayerH =
     {
@@ -26,47 +39,57 @@
       Speed: 0,
       Width: 10,
       Height: 70,
+      Color: 'green',
       Update: function () {
-        var FirstObj = document.getElementById('firstPlayer');
         FirstObj.style.top = this.PosY + "px";
       }
     };
 
   var secondPlayerH =
     {
-      PosX: 0,
+      PosX: 390,
       PosY: 100,
       Speed: 0,
       Width: 10,
       Height: 70,
+      Color: 'red',
       Update: function () {
-        var SecondObj = document.getElementById('secondPlayer');
         SecondObj.style.top = this.PosY + "px";
       }
     };
 
   var BallH =
     {
-      PosX: 100,
-      PosY: 100,
-      SpeedX: 50,
-      /*Теперь у мяча есть и вертикальная составляющая скорости — SpeedY*/
+      Width: 16,
+      Height: 16,
+      PosX: AreaH.Width / 2,
+      PosY: AreaH.Height / 2,
+      SpeedX: 10,
       SpeedY: 10,
-      Width: 50,
-      Height: 50,
-
       Update: function () {
-        var BallObj = document.getElementById('IBall');
         BallObj.style.left = this.PosX + "px";
         BallObj.style.top = this.PosY + "px";
-      }
-    };
+      },
+      RandomStartMove: function () { // задаем случайную скорость в интервале от 5 до 15
 
-  var AreaH =
-    {
-      Width: 400,
-      Height: 300
-    }
+        var randXSpeed = 4.5 + Math.random() * 11;
+        randXSpeed = Math.round(randXSpeed);
+        this.SpeedX = randXSpeed;
+
+        var randYSpeed = 4.5 + Math.random() * 11;
+        randYSpeed = Math.round(randYSpeed);
+        this.SpeedY = randYSpeed;
+        },
+      StartPosition: function () {
+        this.PosX = AreaH.Width / 2;
+        this.PosY = AreaH.Height / 2;
+        this.SpeedX = 0;
+        this.SpeedY = 0;
+      }
+      }
+
+
+
 
   function Start() {
     // плавное движение - от 25 кадр/сек
@@ -76,14 +99,14 @@
   function Tick() {
     BallH.PosX += BallH.SpeedX;
     // вылетел ли мяч правее стены?
-    if (BallH.PosX + BallH.Width > AreaH.Width) {
+    if (BallH.PosX + BallH.Width + secondPlayerH.Width > AreaH.Width) {
       BallH.SpeedX = -BallH.SpeedX;
-      BallH.PosX = AreaH.Width - BallH.Width;
+      BallH.PosX = AreaH.Width - BallH.Width - secondPlayerH.Width;
     }
-    if (BallH.PosX < 0) // вылетел ли мяч левее стены
+    if (BallH.PosX - firstPlayerH.Width < 0) // вылетел ли мяч левее стены
     {
       BallH.SpeedX = -BallH.SpeedX;
-      BallH.PosX = 0;
+      BallH.PosX = firstPlayerH.Width;
     }
     /*В каждом кадре мы теперь также увеличиваем координату Y мяча на вертикальную
     составляющую скорости, и выполняем те же проверки — не столкнулся ли мяч с нижней
@@ -102,11 +125,41 @@
     }
 
     firstPlayerH.PosY += firstPlayerH.Speed; // задаем движение для левой ракетки
+
+    if (firstPlayerH.PosY + firstPlayerH.Height > AreaH.Height) { // задаем границы движения для левой ракетки
+      firstPlayerH.Speed = 0;
+      firstPlayerH.PosY = AreaH.Height - firstPlayerH.Height;
+    }
+    if (firstPlayerH.PosY < 0) {
+      firstPlayerH.Speed = 0;
+      firstPlayerH.PosY = 0;
+    }
+
     secondPlayerH.PosY += secondPlayerH.Speed; // задаем движение для правой ракетки
+
+    if (secondPlayerH.PosY + secondPlayerH.Height > AreaH.Height) { // задаем границы движения для правой ракетки
+      secondPlayerH.Speed = 0;
+      secondPlayerH.PosY = AreaH.Height - secondPlayerH.Height;
+    }
+    if (secondPlayerH.PosY < 0) {
+      secondPlayerH.Speed = 0;
+      secondPlayerH.PosY = 0;
+    }
+
+    if ((BallH.PosX === (AreaH.Width - secondPlayerH.Width - BallH.Width)) && // задаем границы отбивания мяча
+      (((BallH.PosY + BallH.Height / 2) < secondPlayerH.PosY) || (BallH.PosY > secondPlayerH.PosY + secondPlayerH.Height))) {
+      Score.firstPlayer++;
+    }
+
+    if ((BallH.PosX === firstPlayerH.Width) && // задаем границы отбивания мяча
+      (((BallH.PosY + BallH.Height / 2) < firstPlayerH.PosY) || (BallH.PosY > firstPlayerH.PosY + firstPlayerH.Height))) {
+      Score.secondPlayer++;
+    }
 
     firstPlayerH.Update();
     secondPlayerH.Update();
     BallH.Update();
+    Score.Update();
 
   }
 
@@ -142,11 +195,43 @@ function playersMove (KeyboardEvent) {
 
   }
 
+  var Container = document.getElementById('container');
+  Container.style.position = 'relative';
+  Container.style.width = AreaH.Width + 'px';
+  Container.style.height = AreaH.Height + 'px';
+  Container.style.backgroundColor = AreaH.Color;
+
+  var FirstObj = document.getElementById('firstPlayer');
+  FirstObj.style.position = 'absolute';
+  FirstObj.style.width = firstPlayerH.Width + 'px';
+  FirstObj.style.height = firstPlayerH.Height + 'px';
+  FirstObj.style.backgroundColor = firstPlayerH.Color;
+
+  var SecondObj = document.getElementById('secondPlayer');
+  SecondObj.style.position = 'absolute';
+  SecondObj.style.width = secondPlayerH.Width + 'px';
+  SecondObj.style.left = secondPlayerH.PosX + 'px';
+  SecondObj.style.height = secondPlayerH.Height + 'px';
+  SecondObj.style.backgroundColor = secondPlayerH.Color;
+
+  var BallObj = document.getElementById('IBall');
+  BallObj.style.position = 'absolute';
+  BallObj.style.width = BallH.Width + 'px';
+
+  var ScoreObj = document.getElementById('score');
+  ScoreObj.style.position = 'relative';
+  ScoreObj.style.textAlign = 'center';
+  ScoreObj.style.fontSize = '40px';
+  ScoreObj.style.height = '10px';
+  ScoreObj.style.width = AreaH.Width + 'px';
+  ScoreObj.textContent = Score.firstPlayer + ' : ' + Score.secondPlayer;
+
   firstPlayerH.Update();
   secondPlayerH.Update();
   BallH.Update();
   addEventListener('keydown', playersMove);
   addEventListener('keyup', playersStop);
+  console.log(BallH);
 </script>
 </body>
 </html>
