@@ -5,37 +5,50 @@
   <title>game</title>
 </head>
 <body>
-<input type='button' value='старт!' onclick='Start()'>
+<input type='button' value='старт!' onclick='BallH.RandomStartMove()'>
 <div id="score"></div>
 <br/><br/>
-<div id='container' style='border: solid blue 1px; position: relative'>
+<div id='container' style='border: solid blue 1px; background-image: url(img/background.jpg); background-size: cover'>
   <div id="firstPlayer"></div>
-  <img src='img/ball.png' id='IBall'>
-  <div id="secondPlayer" style="position: absolute; left: 390px; width: 10px; height: 70px; background-color: red"></div>
+  <img src='img/plate.png' id='IBall'>
+  <div id="secondPlayer"></div>
 </div>
 
 <script>
 
-  var AreaH =
+  let AreaH =
     {
-      Width: 400,
+      Width: 800,
       Height: 300,
       Color: 'grey'
     };
 
-  var Score =
+  let Score =
     {
-      firstPlayer: 0,
-      secondPlayer: 0,
+      FirstPlayer: 0,
+      FirstPlayerName: '',
+      SecondPlayer: 0,
+      SecondPlayerName: '',
+      MaxScore: 0,
       Update: function () {
-        ScoreObj.textContent = this.firstPlayer + ' : ' + this.secondPlayer;
+        if (this.FirstPlayer === this.MaxScore) {
+          ScoreObj.textContent = this.SecondPlayerName + ' моет посуду!';
+          Score.FirstPlayer = 0;
+          Score.SecondPlayer = 0;
+        } else if (this.SecondPlayer === this.MaxScore) {
+          ScoreObj.textContent = this.FirstPlayerName +  ' моет посуду!';
+          Score.FirstPlayer = 0;
+          Score.SecondPlayer = 0;
+        } else {
+          ScoreObj.textContent = this.FirstPlayerName + ' - ' + this.FirstPlayer + ' : ' + this.SecondPlayer + ' - ' + this.SecondPlayerName;
+        }
       }
     };
 
-  var firstPlayerH =
+  let firstPlayerH =
     {
       PosX: 0,
-      PosY: 100,
+      PosY: (AreaH.Height - 70) / 2,
       Speed: 0,
       Width: 10,
       Height: 70,
@@ -45,56 +58,51 @@
       }
     };
 
-  var secondPlayerH =
+  let secondPlayerH =
     {
-      PosX: 390,
-      PosY: 100,
       Speed: 0,
       Width: 10,
       Height: 70,
+      PosX: AreaH.Width - 10,
+      PosY: (AreaH.Height - 70) / 2,
       Color: 'red',
       Update: function () {
         SecondObj.style.top = this.PosY + "px";
       }
     };
 
-  var BallH =
+  let BallH =
     {
-      Width: 16,
-      Height: 16,
-      PosX: AreaH.Width / 2,
-      PosY: AreaH.Height / 2,
-      SpeedX: 10,
-      SpeedY: 10,
+      Width: 100,
+      Height: 56,
+      PosX: AreaH.Width / 2 - 50,
+      PosY: AreaH.Height / 2 - 50,
+      SpeedX: 0,
+      SpeedY: 0,
       Update: function () {
         BallObj.style.left = this.PosX + "px";
         BallObj.style.top = this.PosY + "px";
       },
       RandomStartMove: function () { // задаем случайную скорость в интервале от 5 до 15
-
-        var randXSpeed = 4.5 + Math.random() * 11;
+        this.StartPosition();
+        let randXSpeed = 4.5 + Math.random() * 11;
         randXSpeed = Math.round(randXSpeed);
+        randXSpeed *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
         this.SpeedX = randXSpeed;
 
-        var randYSpeed = 4.5 + Math.random() * 11;
+        let randYSpeed = 4.5 + Math.random() * 11;
         randYSpeed = Math.round(randYSpeed);
+        randYSpeed *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
         this.SpeedY = randYSpeed;
-        },
+
+      },
       StartPosition: function () {
         this.PosX = AreaH.Width / 2;
         this.PosY = AreaH.Height / 2;
         this.SpeedX = 0;
         this.SpeedY = 0;
       }
-      }
-
-
-
-
-  function Start() {
-    // плавное движение - от 25 кадр/сек
-    setInterval(Tick, 40);
-  }
+    };
 
   function Tick() {
     BallH.PosX += BallH.SpeedX;
@@ -146,45 +154,58 @@
       secondPlayerH.PosY = 0;
     }
 
-    if ((BallH.PosX === (AreaH.Width - secondPlayerH.Width - BallH.Width)) && // задаем границы отбивания мяча
+    if ((BallH.PosX === (AreaH.Width - secondPlayerH.Width - BallH.Width)) && // задаем границы отбивания мяча левым игроком
       (((BallH.PosY + BallH.Height / 2) < secondPlayerH.PosY) || (BallH.PosY > secondPlayerH.PosY + secondPlayerH.Height))) {
-      Score.firstPlayer++;
+      if (BallH.SpeedX !== 0) {
+        Score.FirstPlayer++;
+        Score.Update();
+      }
+      BallH.SpeedX = 0;
+      BallH.SpeedY = 0;
+      BallH.PosX = AreaH.Width - BallH.Width;
+
     }
 
-    if ((BallH.PosX === firstPlayerH.Width) && // задаем границы отбивания мяча
+    if ((BallH.PosX === firstPlayerH.Width) && // задаем границы отбивания мяча правым игроком
       (((BallH.PosY + BallH.Height / 2) < firstPlayerH.PosY) || (BallH.PosY > firstPlayerH.PosY + firstPlayerH.Height))) {
-      Score.secondPlayer++;
+      if (BallH.SpeedX !== 0) {
+        Score.SecondPlayer++;
+        Score.Update();
+      }
+      BallH.SpeedX = 0;
+      BallH.SpeedY = 0;
+      BallH.PosX = 0;
+
     }
 
     firstPlayerH.Update();
     secondPlayerH.Update();
     BallH.Update();
-    Score.Update();
 
   }
 
-function playersMove (KeyboardEvent) {
+  function playersMove(KeyboardEvent) {
     console.log('нажал');
-  var e = KeyboardEvent;
-  console.log('e.event = ' + e.keyCode);
+    let e = KeyboardEvent;
+    console.log('e.event = ' + e.keyCode);
     console.log(e.keyCode === 16);
 
-   if (e.keyCode === 16) { // если нажата клавиша shift
-     firstPlayerH.Speed = -10;
-   }
-   if (e.keyCode === 17) { // если нажата клавиша ctrl
-     firstPlayerH.Speed = 10;
-   }
-   if (e.keyCode === 38) { // если нажата клавиша вверх
-     secondPlayerH.Speed = -10;
-   }
-   if (e.keyCode === 40) { // если нажата клавиша вниз
-     secondPlayerH.Speed = 10;
-   }
-}
+    if (e.keyCode === 16) { // если нажата клавиша shift
+      firstPlayerH.Speed = -10;
+    }
+    if (e.keyCode === 17) { // если нажата клавиша ctrl
+      firstPlayerH.Speed = 10;
+    }
+    if (e.keyCode === 38) { // если нажата клавиша вверх
+      secondPlayerH.Speed = -10;
+    }
+    if (e.keyCode === 40) { // если нажата клавиша вниз
+      secondPlayerH.Speed = 10;
+    }
+  }
 
-  function playersStop () {
-    var e = KeyboardEvent;
+  function playersStop() {
+    let e = KeyboardEvent;
     console.log('отжал');
     if (e.keyCode === 16 || 17) {
       firstPlayerH.Speed = 0;
@@ -192,46 +213,49 @@ function playersMove (KeyboardEvent) {
     if (e.keyCode === 38 || 40) {
       secondPlayerH.Speed = 0;
     }
-
   }
 
-  var Container = document.getElementById('container');
+  let Container = document.getElementById('container');
   Container.style.position = 'relative';
   Container.style.width = AreaH.Width + 'px';
   Container.style.height = AreaH.Height + 'px';
-  Container.style.backgroundColor = AreaH.Color;
 
-  var FirstObj = document.getElementById('firstPlayer');
+  let FirstObj = document.getElementById('firstPlayer');
   FirstObj.style.position = 'absolute';
+  FirstObj.style.top = (AreaH.Height + firstPlayerH.height) / 2 + 'px';
   FirstObj.style.width = firstPlayerH.Width + 'px';
   FirstObj.style.height = firstPlayerH.Height + 'px';
   FirstObj.style.backgroundColor = firstPlayerH.Color;
 
-  var SecondObj = document.getElementById('secondPlayer');
+  let SecondObj = document.getElementById('secondPlayer');
   SecondObj.style.position = 'absolute';
   SecondObj.style.width = secondPlayerH.Width + 'px';
+  SecondObj.style.top = (AreaH.Height + secondPlayerH.height) / 2 + 'px';
   SecondObj.style.left = secondPlayerH.PosX + 'px';
   SecondObj.style.height = secondPlayerH.Height + 'px';
   SecondObj.style.backgroundColor = secondPlayerH.Color;
 
-  var BallObj = document.getElementById('IBall');
+  let BallObj = document.getElementById('IBall');
   BallObj.style.position = 'absolute';
   BallObj.style.width = BallH.Width + 'px';
 
-  var ScoreObj = document.getElementById('score');
+  let ScoreObj = document.getElementById('score');
   ScoreObj.style.position = 'relative';
   ScoreObj.style.textAlign = 'center';
   ScoreObj.style.fontSize = '40px';
   ScoreObj.style.height = '10px';
   ScoreObj.style.width = AreaH.Width + 'px';
-  ScoreObj.textContent = Score.firstPlayer + ' : ' + Score.secondPlayer;
 
   firstPlayerH.Update();
   secondPlayerH.Update();
   BallH.Update();
   addEventListener('keydown', playersMove);
   addEventListener('keyup', playersStop);
-  console.log(BallH);
+  Score.FirstPlayerName = prompt('Кто играет слева?', 'Жена');
+  Score.SecondPlayerName = prompt('Кто играет справа?', 'Муж');
+  Score.MaxScore = parseInt(prompt('До скольки побед матч?', 3));
+  setInterval(Tick, 40);
+  Score.Update();
 </script>
 </body>
 </html>
