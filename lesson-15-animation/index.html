@@ -5,17 +5,7 @@
   <title>game</title>
 </head>
 <body>
-<input type='button' value='старт!' onclick='BallH.RandomStartMove()'>
-<div id="score"></div>
-<br/><br/>
-<div id='container' style='border: solid blue 1px; background-image: url(img/background.jpg); background-size: cover'>
-  <div id="firstPlayer"></div>
-  <img src='img/plate.png' id='IBall'>
-  <div id="secondPlayer"></div>
-</div>
-
 <script>
-
   let AreaH =
     {
       Width: 800,
@@ -215,36 +205,58 @@
     }
   }
 
-  let Container = document.getElementById('container');
-  Container.style.position = 'relative';
-  Container.style.width = AreaH.Width + 'px';
-  Container.style.height = AreaH.Height + 'px';
+  let BodyObj = document.body;
 
-  let FirstObj = document.getElementById('firstPlayer');
+  let ButtonObj = document.createElement('input'); // создаем кнопку старт
+  BodyObj.appendChild(ButtonObj);
+  ButtonObj.type = 'button';
+  ButtonObj.value = 'старт!';
+  ButtonObj.setAttribute('onclick', 'BallH.RandomStartMove()');
+
+  let ScoreObj = document.createElement('div'); // создаем строку со счетом
+  ScoreObj.id = 'score';
+  BodyObj.appendChild(ScoreObj);
+  ScoreObj.style.position = 'relative';
+  ScoreObj.style.textAlign = 'center';
+  ScoreObj.style.fontSize = '40px';
+  ScoreObj.style.height = '50px';
+  ScoreObj.style.width = AreaH.Width + 'px';
+
+  let ContainerObj = document.createElement('div'); // создаем игровое поле
+  ContainerObj.id = 'container';
+  BodyObj.appendChild(ContainerObj);
+  ContainerObj.style.position = 'relative';
+  ContainerObj.style.width = AreaH.Width + 'px';
+  ContainerObj.style.height = AreaH.Height + 'px';
+  ContainerObj.style.border = 'solid blue 1px';
+  ContainerObj.style.backgroundImage = 'url(img/background.jpg)';
+  ContainerObj.style.backgroundSize = 'cover';
+
+  let FirstObj = document.createElement('div'); // создаем левую ракетку
+  FirstObj.id = 'firstPlayer';
+  ContainerObj.appendChild(FirstObj);
   FirstObj.style.position = 'absolute';
   FirstObj.style.top = (AreaH.Height + firstPlayerH.height) / 2 + 'px';
   FirstObj.style.width = firstPlayerH.Width + 'px';
   FirstObj.style.height = firstPlayerH.Height + 'px';
   FirstObj.style.backgroundColor = firstPlayerH.Color;
 
-  let SecondObj = document.getElementById('secondPlayer');
+  let BallObj = document.createElement('img');  // создаем мячик
+  BallObj.id = 'IBall';
+  BallObj.src = 'img/plate.png';
+  ContainerObj.appendChild(BallObj);
+  BallObj.style.position = 'absolute';
+  BallObj.style.width = BallH.Width + 'px';
+
+  let SecondObj = document.createElement('div');  // создаем правую ракетку
+  SecondObj.id = 'secondPlayer';
+  ContainerObj.appendChild(SecondObj);
   SecondObj.style.position = 'absolute';
   SecondObj.style.width = secondPlayerH.Width + 'px';
   SecondObj.style.top = (AreaH.Height + secondPlayerH.height) / 2 + 'px';
   SecondObj.style.left = secondPlayerH.PosX + 'px';
   SecondObj.style.height = secondPlayerH.Height + 'px';
   SecondObj.style.backgroundColor = secondPlayerH.Color;
-
-  let BallObj = document.getElementById('IBall');
-  BallObj.style.position = 'absolute';
-  BallObj.style.width = BallH.Width + 'px';
-
-  let ScoreObj = document.getElementById('score');
-  ScoreObj.style.position = 'relative';
-  ScoreObj.style.textAlign = 'center';
-  ScoreObj.style.fontSize = '40px';
-  ScoreObj.style.height = '10px';
-  ScoreObj.style.width = AreaH.Width + 'px';
 
   firstPlayerH.Update();
   secondPlayerH.Update();
