@@ -16,14 +16,22 @@
     const circleRadius = 15; // радиус кружков с цифрами
     const dotSize = 10;
     const wrapper = document.getElementById('wrapper');
-    wrapper.setAttribute('width', '320');
-    wrapper.setAttribute('height', '320');
+    setWrapperStylesAndAttributes();
+
+    function setWrapperStylesAndAttributes() {
+      wrapper.setAttribute('width', '320');
+      wrapper.setAttribute('height', '320');
+      wrapper.style.display = 'flex';
+      wrapper.style.justifyContent = 'center';
+      wrapper.style.alignItems = 'center';
+      wrapper.style.height = '800px';
+    }
+
 
     wrapper.appendChild(createWatch());
     setInterval(tickTimer, 1000);
 
     function createWatch() {
-      wrapper.style.cssText = 'display: flex; justify-content: center; align-items: center; height: 800px;';
       let base = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       base.setAttribute('r', baseRadius.toString());
       base.setAttribute('cx', '160');
@@ -32,7 +40,7 @@
       base.setAttribute('stroke', '#F1F1F1');
       base.setAttribute('stroke-width', '10');
       svgContainer.appendChild(base);
-      base.appendChild(createClockFace());
+      svgContainer.appendChild(createClockFace());
       createDigitalWatch();
       svgContainer.appendChild(createArrow('hours', 6, 'black'));
       svgContainer.appendChild(createArrow('minutes', 4, 'black'));
