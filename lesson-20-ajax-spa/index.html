@@ -5,7 +5,6 @@
   <title>Алкогольные напитки</title>
   <link rel="stylesheet" href="style.css">
   <script src="js/library/jquery-3.2.1.min.js"></script>
-  <script src="js/TLocalStorage.js"></script>
   <script src="js/AJAXStorage.js"></script>
 </head>
 <body>
@@ -35,7 +34,7 @@
   </form>
 </section>
 <script>
-  var drinkStorage = new TLocalStorage('drinks');
+  var drinkStorage = new AJAXStorage('lsDrink');
 
   function createRecipe() {
     var name = prompt('Введите название напитка', '');
@@ -44,7 +43,7 @@
     }
     if (name === null) return;
 
-    if (drinkStorage.storage[name]) {
+    if (drinkStorage.hashStorage[name]) {
       alert('Такой напиток уже есть!');
       return;
     }
@@ -68,10 +67,11 @@
     var name = prompt('Введите название напитка', '');
     if (name === '' || name === null) return;
 
-    if (drinkStorage.storage[name]) {
-      document.getElementById('info').innerHTML = 'Напиток: ' + name + '<br>' +
-        'алкогольный: ' + (drinkStorage.storage[name].isAlco ? 'да' : 'нет') + '<br>' +
-        'рецепт: ' + drinkStorage.storage[name].recipe;
+    if (drinkStorage.hashStorage[name]) {
+
+      document.getElementById('info').innerHTML = 'Напиток: ' + EscapeHTML(name) + '<br>' +
+        'алкогольный: ' + (drinkStorage.hashStorage[name].isAlco ? 'да' : 'нет') + '<br>' +
+        'рецепт: ' + EscapeHTML(drinkStorage.hashStorage[name].recipe);
     } else {
       document.getElementById('info').innerHTML = 'Такого напитка нет.';
     }
@@ -85,7 +85,7 @@
     }
     if (name === null) return;
 
-    if (drinkStorage.storage[name]) {
+    if (drinkStorage.hashStorage[name]) {
       message = 'Напиток ' + name + ' удален.';
     } else {
       message = 'Информация не была удалена, т.к напиток под названием ' +
@@ -100,6 +100,18 @@
     var allDrinks = drinkStorage.getKeys();
     allDrinks = allDrinks.join(', ');
     document.getElementById('info').innerHTML =  allDrinks;
+  }
+
+  function EscapeHTML(text) {
+    if (!text)
+      return text;
+    text = text.toString()
+      .split("&").join("&amp;")
+      .split("<").join("&lt;")
+      .split(">").join("&gt;")
+      .split('"').join("&quot;")
+      .split("'").join("&#039;");
+    return text;
   }
 </script>
 </body>
