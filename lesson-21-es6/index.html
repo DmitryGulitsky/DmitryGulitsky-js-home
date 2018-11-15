@@ -10,6 +10,8 @@
 <div id="page"></div>
 
 <script>
+  'use strict';
+
   window.onhashchange = renderNewState;
 
   let page = document.getElementById('page');
@@ -58,9 +60,53 @@
         page.appendChild(secondPageLinkContainer);
 
 
+        $.ajax(AjaxHandlerScript, {
+          type: 'GET', dataType: 'json',
+          data: {func: 'COURSES_JSON'},
+          success: CoursesListReady, error: ErrorHandler
+        });
+
+      function CoursesListReady(data) {
+
+        console.log('От сервера получен ответ:');
+        console.log(data);
+
+        var CoursesA = data;
+
+        var byName = CoursesA.slice(0);
+        byName.sort(function(a,b) {
+          var x = a.name.toLowerCase();
+          var y = b.name.toLowerCase();
+          return x < y ? -1 : x > y ? 1 : 0;
+        });
+
+        console.log('by name:');
+        console.log(byName);
+
+        var OptionsStr = '';
+
+        var listLetter = '';
+
+        for (var C = 0; C < byName.length; C++) {
+          var CourseH = byName[C];
+
+          console.log(CourseH.name);
+
+          if (listLetter != CourseH.name.charAt(0).toLocaleUpperCase()) {
+
+            listLetter = CourseH.name.charAt(0).toLocaleUpperCase();
+
+            OptionsStr += '<p><strong>' + listLetter + '</p></strong>';
+          }
 
 
+          console.log(CourseH.name.charAt(0).toLocaleUpperCase());
+          OptionsStr += '<a>' + CourseH.name + '</a><br>';
 
+        }
+
+        secondPageLinkContainer.innerHTML = OptionsStr;
+      }
 
         break;
 
@@ -70,7 +116,6 @@
         page.appendChild(thirdPageHeader);
         thirdPageHeader.className = 'pageHeader';
         thirdPageHeader.textContent = 'Название статьи';
-
 
         break;
     }
