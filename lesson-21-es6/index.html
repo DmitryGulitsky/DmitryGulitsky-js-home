@@ -1,10 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-  </head>
-  <body>
-    <script src="script.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>homework</title>
+  <script src='http://code.jquery.com/jquery-latest.js'></script>
+  <script src="script.js"></script>
+</head>
+<body>
+<div id="page"></div>
+
+<script>
+  window.onhashchange = renderNewState;
+
+  let page = document.getElementById('page');
+
+  function renderNewState() {
+    const hash = window.location.hash;
+    let state = decodeURIComponent(hash.substr(1));
+
+    if (state === '') {
+      state = {page: 'first'};
+    } else {
+      state = JSON.parse(state);
+    }
+
+
+
+    switch(state.page) {
+      case 'first':
+
+        let firstPageHeader = document.createElement('h1');
+        page.appendChild(firstPageHeader);
+        firstPageHeader.className = 'pageHeader';
+        firstPageHeader.textContent = 'Энциклопедия';
+
+
+        let firstPageLink = document.createElement('a');
+        page.appendChild(firstPageLink);
+        firstPageHeader.className = 'pageLink';
+        firstPageLink.textContent = 'список статей здесь';
+
+        firstPageLink.addEventListener('click', function() {
+          switchToSecond();
+
+        });
+
+        break;
+
+      case 'second':
+
+        let secondPageHeader = document.createElement('h1');
+        page.appendChild(secondPageHeader);
+        secondPageHeader.className = 'pageHeader';
+        secondPageHeader.textContent = 'Оглавление';
+
+        let secondPageLinkContainer = document.createElement('div');
+        page.appendChild(secondPageLinkContainer);
+
+
+
+
+
+
+        break;
+
+      case 'third':
+
+        let thirdPageHeader = document.createElement('h1');
+        page.appendChild(thirdPageHeader);
+        thirdPageHeader.className = 'pageHeader';
+        thirdPageHeader.textContent = 'Название статьи';
+
+
+        break;
+    }
+
+  }
+
+  function switchToState(state) {
+    location.hash = encodeURIComponent(JSON.stringify(state));
+  }
+  function switchToFirst() {
+    switchToState({page: 'first'});
+    pageContentRemove();
+  }
+  function switchToSecond() {
+    switchToState({page: 'second'});
+    pageContentRemove();
+  }
+  function switchToThird() {
+    switchToState({page: 'third'});
+    pageContentRemove();
+  }
+
+  function pageContentRemove() {
+    while (page.firstChild) {
+      page.removeChild(page.firstChild);
+    }
+  }
+
+  renderNewState();
+</script>
+
+<input type="button" value="First" onclick="switchToFirst()">
+<input type="button" value="Second" onclick="switchToSecond()">
+<input type="button" value="Third" onclick="switchToThird()">
+</body>
 </html>
