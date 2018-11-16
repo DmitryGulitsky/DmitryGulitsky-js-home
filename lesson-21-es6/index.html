@@ -14,11 +14,13 @@
 
   window.onhashchange = renderNewState;
 
-  let page = document.getElementById('page');
+  var thirdPageID;
+
+  var page = document.getElementById('page');
 
   function renderNewState() {
     const hash = window.location.hash;
-    let state = decodeURIComponent(hash.substr(1));
+    var state = decodeURIComponent(hash.substr(1));
 
     if (state === '') {
       state = {page: 'first'};
@@ -26,50 +28,59 @@
       state = JSON.parse(state);
     }
 
-
-
     switch(state.page) {
       case 'first':
-
-        let firstPageHeader = document.createElement('h1');
+        var firstPageHeader = document.createElement('h1');
         page.appendChild(firstPageHeader);
         firstPageHeader.className = 'pageHeader';
         firstPageHeader.textContent = 'Энциклопедия';
 
-
-        let firstPageLink = document.createElement('a');
+        var firstPageLink = document.createElement('a');
         page.appendChild(firstPageLink);
         firstPageHeader.className = 'pageLink';
         firstPageLink.textContent = 'список статей здесь';
 
         firstPageLink.addEventListener('click', function() {
           switchToSecond();
-
         });
-
         break;
 
       case 'second':
 
-        let secondPageHeader = document.createElement('h1');
+        var secondPageHeader = document.createElement('h1');
         page.appendChild(secondPageHeader);
         secondPageHeader.className = 'pageHeader';
         secondPageHeader.textContent = 'Оглавление';
 
-        let secondPageLinkContainer = document.createElement('div');
-        page.appendChild(secondPageLinkContainer);
+        var linkContainer = document.createElement('div');
+        linkContainer.id = 'linkContainer';
+        page.appendChild(linkContainer);
 
+        getData();
+        break;
+
+      case 'third':
+
+        var thirdPageHeader = document.createElement('h1');
+        page.appendChild(thirdPageHeader);
+        thirdPageHeader.className = 'pageHeader';
+        thirdPageHeader.textContent = 'Название статьи';
+
+        var linkContainer = document.createElement('div');
+        page.appendChild(linkContainer);
+
+        var linkContentContainer = document.createElement('div');
+        page.appendChild(linkContentContainer);
 
         $.ajax(AjaxHandlerScript, {
           type: 'GET', dataType: 'json',
           data: {func: 'COURSES_JSON'},
-          success: CoursesListReady, error: ErrorHandler
+          success: CoursesListReady2, error: ErrorHandler
         });
 
-      function CoursesListReady(data) {
+      function CoursesListReady2(data) {
 
-        console.log('От сервера получен ответ:');
-        console.log(data);
+        var OptionsStr = '';
 
         var CoursesA = data;
 
@@ -80,46 +91,35 @@
           return x < y ? -1 : x > y ? 1 : 0;
         });
 
-        console.log('by name:');
-        console.log(byName);
-
-        var OptionsStr = '';
-
-        var listLetter = '';
-
         for (var C = 0; C < byName.length; C++) {
           var CourseH = byName[C];
 
-          console.log(CourseH.name);
-
-          if (listLetter != CourseH.name.charAt(0).toLocaleUpperCase()) {
-
-            listLetter = CourseH.name.charAt(0).toLocaleUpperCase();
-
-            OptionsStr += '<p><strong>' + listLetter + '</p></strong>';
-          }
-
-
-          console.log(CourseH.name.charAt(0).toLocaleUpperCase());
           OptionsStr += '<a>' + CourseH.name + '</a><br>';
 
+          }
+
+        GetCourseInfo();
+
+        function GetCourseInfo() {
+          var SelectedCourseId = thirdPageID;
+          console.log('выбран курс с id=' + SelectedCourseId);
+          $.ajax(AjaxHandlerScript,
+            {
+              type: 'GET', dataType: 'html', data: {func: 'COURSE_INFO', id: thirdPageID},
+              success: CourseInfoReady, error: ErrorHandler
+            }
+          );
         }
 
-        secondPageLinkContainer.innerHTML = OptionsStr;
-      }
-
-        break;
-
-      case 'third':
-
-        let thirdPageHeader = document.createElement('h1');
-        page.appendChild(thirdPageHeader);
-        thirdPageHeader.className = 'pageHeader';
-        thirdPageHeader.textContent = 'Название статьи';
-
+        function CourseInfoReady(data) {
+          console.log('От сервера получен ответ:');
+          console.log(data);
+          linkContentContainer.innerHTML = data;
+        }
+        linkContainer.innerHTML = OptionsStr;
+     }
         break;
     }
-
   }
 
   function switchToState(state) {
@@ -146,9 +146,5 @@
 
   renderNewState();
 </script>
-
-<input type="button" value="First" onclick="switchToFirst()">
-<input type="button" value="Second" onclick="switchToSecond()">
-<input type="button" value="Third" onclick="switchToThird()">
 </body>
 </html>
