@@ -1,150 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
+<!Doctype html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>homework</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/style.css">
   <script src='http://code.jquery.com/jquery-latest.js'></script>
-  <script src="script.js"></script>
 </head>
 <body>
-<div id="page"></div>
-
+<h1>Энциклопедия</h1>
+<section id='main-information'>
+  <p class="abous-us">
+    В данной энциклопедии вы найдете биографию одних из самых известных и
+    выдающихся ученых мира.
+  </p>
+  <p class="abous-us"><a href="#table-of-contents">Список статей здесь</a></p>
+</section>
+<section id='scientists'></section>
+<section id="scientist"></section>
 <script>
-  'use strict';
+  var AjaxHandlerScript = "http://fe.it-academy.by/TestAjax2.php";
+  $.ajax('articles/aristotle.html',
+    {type: 'GET', dataType: 'html', success: function() {
+        console.log('success');
+      }, error: function() {
+        console.log('error');
+      }}
+  );
 
-  window.onhashchange = renderNewState;
+  var articles = [
+    {title: 'Аристотель', url: 'aristotle'},
+    {title: 'Басов Николай Геннадиевич', url: 'basov'},
+    {title: 'Вернадский Владимир Иванович', url: 'vernadsky'},
+    {title: 'Галилей Галилео', url: 'galilee'},
+    {title: 'Дарвин Чарльз', url: 'darvin'},
+    {title: 'Ковалевская Софья Васильевна', url: 'kovalevskaya'},
+    {title: 'Коперник Николай', url: 'kopernik'},
+    {title: 'Леонардо да Винчи', url: 'leonardo'},
+    {title: 'Ломоносов Михаил Васильевич', url: 'lomonosov'},
+    {title: 'Менделеев Дмитрий Иванович', url: 'mendeleev'},
+    {title: 'Ньютон Иссак', url: 'newton'},
+    {title: 'Павлов Иван Петрович', url: 'pavlov'},
+    {title: 'Планк Макс', url: 'plank'},
+    {title: 'Столетов Александр Григорьевич', url: 'stoletov'},
+    {title: 'Тесла Никола', url: 'tesla'},
+    {title: 'Фарадей Майкл', url: 'faradei'},
+    {title: 'Фрейд Зигмунд', url: 'freud'},
+    {title: 'Циолковский Константин Эдуардович', url: 'tsiolkovsky'},
+    {title: 'Эйлер Леонард', url: 'euler'},
+    {title: 'Эйнштейн Альберт', url: 'einstein'}
+  ];
+  var letters = [];
 
-  var thirdPageID;
 
-  var page = document.getElementById('page');
+  for (var i = 0; i < articles.length; i++) {
+    var content = document.getElementById('scientists');
+    var firstLetter = articles[i].title.substr(0, 1);
+    var link = articles[i].url;
 
-  function renderNewState() {
-    const hash = window.location.hash;
-    var state = decodeURIComponent(hash.substr(1));
+    if (!letters.includes(firstLetter)) {
+      letters.push(firstLetter);
+      var scientist = document.createElement('div');
+      scientist.setAttribute('class', 'scientist');
+      var header = document.createElement('h3');
+      header.innerHTML = firstLetter;
+      scientist.appendChild(header);
+      content.appendChild(scientist);
+    }
+    var paragraph = document.createElement('p');
+    paragraph.setAttribute('class', 'name');
+    var a = document.createElement('a');
+    a.setAttribute('href', '#articles/' + link + '.html');
+    a.innerHTML =  articles[i].title;
+    paragraph.appendChild(a);
+    scientist.appendChild(paragraph);
+  }
 
-    if (state === '') {
-      state = {page: 'first'};
-    } else {
-      state = JSON.parse(state);
+  function createFrameArticles() {
+    var scientist = document.getElementById('scientist');
+    var aside = document.createElement('aside');
+    aside.setAttribute('class', 'articles');
+    var ul = document.createElement('ul');
+
+    for (var i = 0; i < articles.length; i++) {
+      var link = articles[i].url;
+      var title = articles[i].title;
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.setAttribute('href', '#articles/' + link + '.html');
+      a.innerHTML = title;
+      li.appendChild(a);
+      ul.appendChild(li);
+    }
+    aside.appendChild(ul);
+    scientist.appendChild(aside);
+  }
+
+  //SPA
+  window.onhashchange = switchToStateFromUrlHash;
+
+  function switchToStateFromUrlHash() {
+    var article = null;
+    var page = window.location.hash.substr(1);
+    if (page == '') {
+      page = 'main-information';
+    }
+    if (page.includes('articles')) {
+      article = page.split('/')[1];
+      page = 'articles';
     }
 
-    switch(state.page) {
-      case 'first':
-        var firstPageHeader = document.createElement('h1');
-        page.appendChild(firstPageHeader);
-        firstPageHeader.className = 'pageHeader';
-        firstPageHeader.textContent = 'Энциклопедия';
-
-        var firstPageLink = document.createElement('a');
-        page.appendChild(firstPageLink);
-        firstPageHeader.className = 'pageLink';
-        firstPageLink.textContent = 'список статей здесь';
-
-        firstPageLink.addEventListener('click', function() {
-          switchToSecond();
-        });
+    switch (page) {
+      case 'main-information':
+        document.getElementById('main-information').style.display ='block';
+        document.getElementById('scientists').style.display = 'none';
+        document.getElementById('scientist').style.display = 'none';
         break;
-
-      case 'second':
-
-        var secondPageHeader = document.createElement('h1');
-        page.appendChild(secondPageHeader);
-        secondPageHeader.className = 'pageHeader';
-        secondPageHeader.textContent = 'Оглавление';
-
-        var linkContainer = document.createElement('div');
-        linkContainer.id = 'linkContainer';
-        page.appendChild(linkContainer);
-
-        getData();
+      case 'table-of-contents':
+        document.getElementById('main-information').style.display = 'none';
+        document.getElementById('scientists').style.display = 'block';
+        document.getElementById('scientist').style.display = 'none';
         break;
+      case 'articles':
+        document.getElementById('main-information').style.display ='none';
+        document.getElementById('scientists').style.display = 'none';
+        document.getElementById('scientist').style.display = 'block';
 
-      case 'third':
-
-        var thirdPageHeader = document.createElement('h1');
-        page.appendChild(thirdPageHeader);
-        thirdPageHeader.className = 'pageHeader';
-        thirdPageHeader.textContent = 'Название статьи';
-
-        var linkContainer = document.createElement('div');
-        page.appendChild(linkContainer);
-
-        var linkContentContainer = document.createElement('div');
-        page.appendChild(linkContentContainer);
-
-        $.ajax(AjaxHandlerScript, {
-          type: 'GET', dataType: 'json',
-          data: {func: 'COURSES_JSON'},
-          success: CoursesListReady2, error: ErrorHandler
-        });
-
-      function CoursesListReady2(data) {
-
-        var OptionsStr = '';
-
-        var CoursesA = data;
-
-        var byName = CoursesA.slice(0);
-        byName.sort(function(a,b) {
-          var x = a.name.toLowerCase();
-          var y = b.name.toLowerCase();
-          return x < y ? -1 : x > y ? 1 : 0;
-        });
-
-        for (var C = 0; C < byName.length; C++) {
-          var CourseH = byName[C];
-
-          OptionsStr += '<a>' + CourseH.name + '</a><br>';
-
-          }
-
-        GetCourseInfo();
-
-        function GetCourseInfo() {
-          var SelectedCourseId = thirdPageID;
-          console.log('выбран курс с id=' + SelectedCourseId);
-          $.ajax(AjaxHandlerScript,
-            {
-              type: 'GET', dataType: 'html', data: {func: 'COURSE_INFO', id: thirdPageID},
-              success: CourseInfoReady, error: ErrorHandler
-            }
-          );
-        }
-
-        function CourseInfoReady(data) {
-          console.log('От сервера получен ответ:');
-          console.log(data);
-          linkContentContainer.innerHTML = data;
-        }
-        linkContainer.innerHTML = OptionsStr;
-     }
+        var scientist = document.getElementById('scientist');
+        var frame = document.createElement('iframe');
+        frame.setAttribute('class', 'about-scientist');
+        frame.setAttribute('src', './articles/' + article);
+        scientist.innerHTML = '';
+        scientist.appendChild(frame);
+        createFrameArticles();
         break;
-    }
-  }
-
-  function switchToState(state) {
-    location.hash = encodeURIComponent(JSON.stringify(state));
-  }
-  function switchToFirst() {
-    switchToState({page: 'first'});
-    pageContentRemove();
-  }
-  function switchToSecond() {
-    switchToState({page: 'second'});
-    pageContentRemove();
-  }
-  function switchToThird() {
-    switchToState({page: 'third'});
-    pageContentRemove();
-  }
-
-  function pageContentRemove() {
-    while (page.firstChild) {
-      page.removeChild(page.firstChild);
+      default:
+        document.getElementById('main-information').style.display ='block';
+        document.getElementById('scientists').style.display = 'none';
+        document.getElementById('scientist').style.display = 'none';
+        break;
     }
   }
 
-  renderNewState();
+  switchToStateFromUrlHash();
+
+
 </script>
 </body>
 </html>
