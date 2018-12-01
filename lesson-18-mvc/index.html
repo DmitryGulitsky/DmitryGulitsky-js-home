@@ -1,120 +1,104 @@
-<!doctype html>
-<html lang="en">
+<!Doctype html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Homework</title>
-  <style>
-    body {
-      margin: 2em auto;
-      width: 90%;
-      font-family: "Open Sans", serif;
-      font-size: 0.8em;
-    }
-    .manage-drinks > * {
-      display: block;
-    }
-    .manage-drinks .drink-info {
-      margin: 0.5em auto;
-      width: 95%;
-      max-width: 320px;
-      color: black;
-    }
-    input {
-      margin: 0.5em auto;
-      padding: 0.5em 1em;
-      width: 95%;
-      max-width: 320px;
-      border: 1px solid slategrey;
-      color: white;
-      background: darkslategray;
-      cursor: pointer;
-    }
-    input:hover {
-      color: #eee;
-    }
-  </style>
+  <meta charset="utf-8">
+  <title>Алкогольные напитки</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="hashstorage.js"></script>
 </head>
 <body>
-<div class="manage-drinks">
-  <input type='button' value='Добавить напиток' onclick='addDrink()'>
-  <input type='button' value='Показать информацию о напитке' onclick='showDrinkInfo()'>
-  <input type='button' value='Удалить напиток' onclick='removeDrink()'>
-  <input type='button' value='Показать меню напитков' onclick='showDrinksMenu()'>
-  <div id="message" class="drink-info"></div>
-</div>
-
-<script src="hashstorage.js"></script>
+<section class="wrapper">
+  <div id="info"></div>
+  <form>
+    <input
+        class="buttons create"
+        type="submit"
+        value="Создать свой напиток"
+        onclick="createRecipe(); return false;">
+    <input
+        class="buttons get-recipe"
+        type="submit"
+        value="Найти рецепт напитка"
+        onclick="getInformation(); return false;">
+    <input
+        class="buttons delete"
+        type="submit"
+        value="Удалить данные напитка"
+        onclick="deleteDrink(); return false;">
+    <input
+        class="buttons get-drinks"
+        type="submit"
+        value="Перечень всех напитков"
+        onclick="showAllDrinks(); return false;">
+  </form>
+</section>
 <script>
-  'use strict';
+  var drinkStorage = new TLocalStorage('drinks');
 
-  var drinkStorage = new THashStorage();
-  var DrinksStorage = new TLocalStorage("DRINKS");
+  function createRecipe() {
+    var name = prompt('Введите название напитка', '');
+    while (name === '') {
+      name = prompt('Пожалуйста, введите название напитка', '');
+    }
+    if (name === null) return;
 
-  DrinksStorage.reset(drinkStorage);
+    if (drinkStorage.storage[name]) {
+      alert('Такой напиток уже есть!');
+      return;
+    }
 
-  function addDrink() {
-    var drinkName = prompt('Введите название напитка', 'Test Drink').toLowerCase().trim();
-    var fHash = {};
+    var alcoholic = confirm('Напиток алкогольный?');
+    var recipe = prompt('Кратко опишите рецепт напитка', '');
+    var drinkInfo = {
+      isAlco: alcoholic,
+      recipe: recipe
+    }
 
-    if (drinkName) {
-      fHash.recipe = prompt('Введите рецепт приготовления напитка', 'Test Recipe');
-      fHash.alcohol = confirm('Ваш напиток алкогольный?') ? 'да' : 'нет';
-      DrinksStorage.addValue(drinkName, fHash);
-      return drinkStorage.addValue(drinkName, fHash);
+    if (drinkInfo) {
+      document.getElementById('info').innerHTML = 'Напиток ' + name +
+        ' успешно сохранен.';
+    }
+
+    drinkStorage.addValue(name, drinkInfo);
+  }
+
+  function getInformation() {
+    var name = prompt('Введите название напитка', '');
+    if (name === '' || name === null) return;
+
+    if (drinkStorage.storage[name]) {
+      document.getElementById('info').innerHTML = 'Напиток: ' + name + '<br>' +
+        'алкогольный: ' + (drinkStorage.storage[name].isAlco ? 'да' : 'нет') + '<br>' +
+        'рецепт: ' + drinkStorage.storage[name].recipe;
     } else {
-      alert('Ввод отменен!')
+      document.getElementById('info').innerHTML = 'Такого напитка нет.';
     }
   }
 
-  function showDrinkInfo() {
-    var drinkName = prompt('Введите название напитка: ','').toLowerCase().trim();
-    var getDrinkInfo = (drinkName) ? drinkStorage.getValue(drinkName) : 0;
-    var resultHTML = '';
-
-    if (getDrinkInfo) {
-      var print1 = 'Напиток: ' + drinkName + '<br>';
-      var print2 = 'Алкогольный: ' + getDrinkInfo.alcohol + '<br>';
-      var print3 = 'Рецепт приготовления: ' + getDrinkInfo.recipe + '<br>';
-
-      resultHTML = print1 + print2 + print3;
-    } else {
-      resultHTML = 'Ошибка! Нет такого напитка';
+  function deleteDrink() {
+    var name = prompt('Введите название напитка, который хотите удалить', '');
+    var message = '';
+    while (name === '') {
+      name = prompt('Пожалуйста, введите название напитка, который хотите удалить', '');
     }
-    document.getElementById('message').innerHTML = resultHTML;
+    if (name === null) return;
+
+    if (drinkStorage.storage[name]) {
+      message = 'Напиток ' + name + ' удален.';
+    } else {
+      message = 'Информация не была удалена, т.к напиток под названием ' +
+        name + ' не существует';
+    }
+
+    document.getElementById('info').innerHTML = message;
+    drinkStorage.deleteValue(name);
   }
 
-  function removeDrink() {
-    var drinkName = prompt('Какой напиток удалить?').toLowerCase().trim();
-    var delDrinkInfo = drinkStorage.deleteValue(drinkName);
-    var resultHTML = '';
-
-    if (delDrinkInfo) {
-      DrinksStorage.addValue(drinkName);
-      resultHTML = 'Информация о напитке ' + drinkName + ' удалена';
-    } else {
-      resultHTML = 'Ошибка! Нет такого напитка';
-    }
-    document.getElementById('message').innerHTML = resultHTML;
+  function showAllDrinks() {
+    var allDrinks = drinkStorage.getKeys();
+    allDrinks = allDrinks.join(', ');
+    document.getElementById('info').innerHTML =  allDrinks;
   }
-
-  function showDrinksMenu() {
-    var showMenuInfo = drinkStorage.getKeys();
-    var resultHTML = '';
-
-    if (showMenuInfo.length) {
-      for (var i = 0; i < showMenuInfo.length; i++) {
-        resultHTML += (i + 1) + '. ' + showMenuInfo[i] + '<br>';
-      }
-    } else {
-      resultHTML = 'Меню пустое, добавьте напитки.';
-    }
-    document.getElementById('message').innerHTML = resultHTML;
-    console.log(drinkStorage);
-  }
-
 </script>
 </body>
 </html>

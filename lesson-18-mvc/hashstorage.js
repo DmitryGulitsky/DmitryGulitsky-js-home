@@ -1,48 +1,33 @@
-function THashStorage() {
-  var self = this;
-
-  self.addValue = function(key, value) {
-    self.pHash[key] = value;
-  };
-
-  self.getValue = function(key) {
-    return self.pHash[key];
-  };
-
-  self.deleteValue = function(key) {
-    return delete self.pHash[key];
-  };
-
-  self.getKeys = function() {
-    return (Object.keys(self.pHash));
-  };
+function TLocalStorage(name) {
+  this.name = name;
+  this.storage = JSON.parse(localStorage.getItem(this.name)) || {};
 }
 
-function TLocalStorage(localStorageKey) {
-  var self = this,
-    pHash = {};
+TLocalStorage.prototype.addValue = function (key, value) {
+  this.storage[key] = value;
+  localStorage.setItem(this.name, JSON.stringify(this.storage));
+};
 
-  self.reset = function (storageName) {
-    if (window.localStorage.getItem(localStorageKey)) {
-      storageName.pHash = JSON.parse(JSON.stringify(JSON.parse(window.localStorage.getItem(localStorageKey))));
-    }
-  };
+TLocalStorage.prototype.getValue = function (key) {
+  return this.storage[key];
+};
 
-  self.addValue = function (key, value) {
-    if (window.localStorage.getItem(localStorageKey)) {
-      pHash = JSON.parse(window.localStorage.getItem(localStorageKey));
-    }
-    pHash[key] = value;
-    window.localStorage.setItem(localStorageKey, JSON.stringify(pHash));
-  };
+TLocalStorage.prototype.deleteValue = function (key) {
+  if (this.storage[key]) {
+    delete this.storage[key];
+    localStorage.setItem(this.name, JSON.stringify(this.storage));
+    return true;
+  } else {
+    return false;
+  }
+};
 
-  self.deleteValue = function (key) {
-    if (window.localStorage.getItem(localStorageKey)) {
-      pHash = JSON.parse(window.localStorage.getItem(localStorageKey));
-    }
-    if (pHash[key]) {
-      pHash.deleteValue(key);
-    }
-    window.localStorage.setItem(localStorageKey, JSON.stringify(pHash));
-  };
-}
+TLocalStorage.prototype.getKeys = function () {
+  var keys = [];
+
+  for (var i in this.storage) {
+    keys.push(i);
+  }
+
+  return keys;
+};
