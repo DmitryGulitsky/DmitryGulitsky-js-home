@@ -34,16 +34,17 @@
   </form>
 </section>
 <script>
-  var drinkStorage = new AJAXStorage('lsDrink');
+  var drinkStorageURL = 'ST_ALEX_DRINKSTORAGE';
+  var DrinkStorage = new TAjaxStorage(drinkStorageURL);
 
   function createRecipe() {
     var name = prompt('Введите название напитка', '');
     while (name === '') {
       name = prompt('Пожалуйста, введите название напитка', '');
     }
-    if (name === null) return;
+    if (name == null) return;
 
-    if (drinkStorage.hashStorage[name]) {
+    if (DrinkStorage.storage[name]) {
       alert('Такой напиток уже есть!');
       return;
     }
@@ -53,25 +54,24 @@
     var drinkInfo = {
       isAlco: alcoholic,
       recipe: recipe
-    }
+    };
 
     if (drinkInfo) {
       document.getElementById('info').innerHTML = 'Напиток ' + name +
         ' успешно сохранен.';
     }
 
-    drinkStorage.addValue(name, drinkInfo);
+    DrinkStorage.addValue(name, drinkInfo);
   }
 
   function getInformation() {
     var name = prompt('Введите название напитка', '');
     if (name === '' || name === null) return;
 
-    if (drinkStorage.hashStorage[name]) {
-
-      document.getElementById('info').innerHTML = 'Напиток: ' + EscapeHTML(name) + '<br>' +
-        'алкогольный: ' + (drinkStorage.hashStorage[name].isAlco ? 'да' : 'нет') + '<br>' +
-        'рецепт: ' + EscapeHTML(drinkStorage.hashStorage[name].recipe);
+    if (DrinkStorage.storage[name]) {
+      document.getElementById('info').innerHTML = 'Напиток: ' + name + '<br>' +
+        'алкогольный: ' + (DrinkStorage.storage[name].isAlco ? 'да' : 'нет') + '<br>' +
+        'рецепт: ' + DrinkStorage.storage[name].recipe;
     } else {
       document.getElementById('info').innerHTML = 'Такого напитка нет.';
     }
@@ -85,7 +85,7 @@
     }
     if (name === null) return;
 
-    if (drinkStorage.hashStorage[name]) {
+    if (DrinkStorage.storage[name]) {
       message = 'Напиток ' + name + ' удален.';
     } else {
       message = 'Информация не была удалена, т.к напиток под названием ' +
@@ -93,25 +93,13 @@
     }
 
     document.getElementById('info').innerHTML = message;
-    drinkStorage.deleteValue(name);
+    DrinkStorage.deleteValue(name);
   }
 
   function showAllDrinks() {
-    var allDrinks = drinkStorage.getKeys();
+    var allDrinks = DrinkStorage.getKeys();
     allDrinks = allDrinks.join(', ');
     document.getElementById('info').innerHTML =  allDrinks;
-  }
-
-  function EscapeHTML(text) {
-    if (!text)
-      return text;
-    text = text.toString()
-      .split("&").join("&amp;")
-      .split("<").join("&lt;")
-      .split(">").join("&gt;")
-      .split('"').join("&quot;")
-      .split("'").join("&#039;");
-    return text;
   }
 </script>
 </body>

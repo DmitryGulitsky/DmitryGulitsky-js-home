@@ -1,117 +1,98 @@
 'use strict';
 
-var drinkStorage = new AJAXStorage();
+var AjaxHandlerScript = "http://fe.it-academy.by/AjaxStringStorage2.php";
 
-function AJAXStorage() {
-  var self = this;
+function TAjaxStorage(address) {
+  this.storage = {};
+  this.address = address;
+  this.getStorageInfo();
+}
 
-  self.hashStorage = {};
-
-  var AjaxHandlerScript = 'http://fe.it-academy.by/AjaxStringStorage2.php';
-
-  $.ajax(
-    {
-      url: AjaxHandlerScript,
-      type: 'POST',
-      cache: false,
-      dataType: 'json',
-      data: {f: 'READ', n: 'GULITSKY_DRINKS_STORAGE'},
-      success: DataLoadedRead,
-      error: ErrorHandler
-    }
-  );
-
-  function DataLoadedRead(data) {
-    if (data !== ' ') {
-      self.hashStorage = JSON.parse(data.result);
-    } else if (data === undefined) {
-      $.ajax(
-        {
-          url: AjaxHandlerScript,
-          type: 'POST',
-          cache: false,
-          dataType: 'json',
-          data: {f: 'INSERT', n: 'GULITSKY_DRINKS_STORAGE', v: JSON.stringify(self.hashStorage)},
-          success: DataLoadedInsert,
-          error: ErrorHandler
-        }
-      );
-
-      function DataLoadedInsert(data) {
-        console.log('Drink upload complete');
+TAjaxStorage.prototype.getStorageInfo = function () {
+  var that = this;
+  $.ajax({
+    url: AjaxHandlerScript,
+    type: 'POST',
+    data: {
+      f: 'READ',
+      n: this.address
+    },
+    cache: false,
+    success: function (response) {
+      if (response.result) {
+        var result = JSON.parse(response.result);
+        that.storage = result;
+      } else {
+        that.storage = {};
       }
-    }
+    },
+    error: that.errorHandler
+  });
+};
+
+TAjaxStorage.prototype.addValue = function (name, info) {
+  this.storage[name] = info;
+  this.unlockStorageInfo();
+};
+
+TAjaxStorage.prototype.deleteValue = function (name) {
+  if (this.storage[name]) {
+    delete this.storage[name];
   }
+  this.unlockStorageInfo();
+};
 
-  self.addValue = function(key, value) {
-    self.hashStorage[key] = value;
-
-    addValueOnTheServer(self.hashStorage);
-
-  }
-
-  self.getValue = function (key) {
-    if (key in self.hashStorage) {
-      return self.hashStorage[key];
-    } else {
-      return undefined;
-    }
-  }
-
-  self.deleteValue = function (key) {
-    if (key in self.hashStorage) {
-      delete self.hashStorage[key];
-
-      addValueOnTheServer(self.hashStorage);
-
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  self.getKeys = function () {
-    var keys = [];
-    for (var key in self.hashStorage) {
-      keys.push('' + key);
-    }
-    return keys;
-  };
-
-  function addValueOnTheServer(hash) {
-    var password = Math.random();
-
-    $.ajax(
-      {
+TAjaxStorage.prototype.unlockStorageInfo = function () {
+  var password = '123d';
+  var that = this;
+  $.ajax({
+    url: AjaxHandlerScript,
+    type: 'POST',
+    data: {
+      f: 'LOCKGET',
+      n: this.address,
+      p: password
+    },
+    cache: false,
+    success: function () {
+      $.ajax({
         url: AjaxHandlerScript,
         type: 'POST',
+        data: {
+          f: 'UPDATE',
+          n: that.address,
+          p: password,
+          v: JSON.stringify(that.storage)
+        },
         cache: false,
-        dataType: 'json',
-        data: {f: 'LOCKGET', n: 'GULITSKY_DRINKS_STORAGE', p: password},
-        success: DataLoadedLockget,
-        error: ErrorHandler
-      }
-    );
+        error: that.errorHandler
+      })
+    },
+    error: this.errorHandler
+  })
+};
 
-    function DataLoadedLockget(data) {
-      $.ajax(
-        {
-          url: AjaxHandlerScript,
-          type: 'POST',
-          cache: false,
-          dataType: 'json',
-          data: {f: 'UPDATE', n: 'GULITSKY_DRINKS_STORAGE', p: password, v: JSON.stringify(hash)},
-          success: DataLoadedUpdate,
-          error: ErrorHandler
-        }
-      );
-      function DataLoadedUpdate() {
-        console.log('Drink upload complete');
-      }
-    }
-  }
+TAjaxStorage.prototype.getKeys = function () {
+  return Object.keys(this.storage);
+};
 
-  function ErrorHandler(jqXHR, StatusStr, ErrorStr) {
-    alert(StatusStr + '' + ErrorStr);
-  }
-}
+TAjaxStorage.prototype.errorHandler = function () {
+  console.log('Ошибка!');
+};
+
+/*TAjaxStorage.prototype.insertStorageInfo = function () {
+  $.ajax({
+    url: AjaxHandlerScript,
+    type: 'POST',
+    data: {
+      f: 'INSERT',
+      n: this.address,
+      v: JSON.stringify(this.storage)
+    },
+    cache: false,
+    success: function (response) {
+      console.log(response);
+    },
+    error: this.errorHandler
+  });
+};*/
