@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>example</title>
+</head>
+<body style="background: linear-gradient(to bottom, #182848, #4b6cb7);  margin: 0; padding: 0;">
+<div style="display: flex; justify-content: center; align-items: center; height: 800px;">
+  <canvas id="canvas" width="320" height="320"></canvas>
+</div>
+<script type="text/javascript">
+  'use strict';
+
+  const baseRadius = 150; //радиус циферблата
+  const numbersBaseRadius = baseRadius / 1.25; //радиус оси цифр циферблата
+  const circleRadius = 20; // радиус кружков с цифрами
+  const dotSize = 10; //размер точки в центре часов
+  const canvasClock = document.getElementById('canvas');
+  let base = canvasClock.getContext('2d');
+
+  createWatch();
+  function createWatch() {
+    base.fillStyle='#f1f1f1';
+    base.beginPath();
+    base.arc(baseRadius, baseRadius, baseRadius, 0, Math.PI * 2, false);
+    base.fill();
+
+    base.fillStyle='#fff';
+    base.beginPath();
+    base.arc(baseRadius, baseRadius, baseRadius - 10, 0, Math.PI * 2, false);
+    base.fill();
+
+    createClockFace();
+    createDigitalWatch();
+    calculateArrow();
+    createDecorativeDot(dotSize);
+  }
+
+  function createClockFace(){
+        for (let number = 1; number <= 12; number++){
+      let angle = number * 30 / 180 * Math.PI;
+      let x = baseRadius + Math.round(Math.sin(angle) * numbersBaseRadius) - 3;
+      let y = baseRadius - Math.round(Math.cos(angle) * numbersBaseRadius) - 3;
+      createHourCircle(x, y);
+      createNumberCircle(x, y, number);
+    }
+  }
+
+  function createHourCircle(circleX, circleY){
+    base.fillStyle='#f1f1f1';
+    base.beginPath();
+    base.arc(circleX + 3, circleY + 3, circleRadius, 0, Math.PI*2, false);
+    base.fill();
+  }
+
+  function createNumberCircle(circleX, circleY, number) {
+    base.fillStyle='black';
+    base.font='bold '+ 25 + 'px sans-serif';
+    if (number < 10) {
+      base.fillText(number,circleX -5, circleY + 10);
+    } else {
+      base.fillText(number,circleX -12, circleY + 10);
+    }
+  }
+
+  function createDigitalWatch() {
+    base.fillStyle='#f1f1f1';
+    base.fillRect(100, 180, 135, 50);
+    createDigitalText(tickTimer());
+
+    function createDigitalText(hourMinuteSecond){
+      base.fillStyle='black';
+      base.font='italic bold '+ circleRadius*1.5 + 'px Arial';
+      base.fillText(hourMinuteSecond, 110, 210);
+    }
+  }
+
+  function calculateArrow() {
+    let d = new Date();
+    let t_sec = 6 * d.getSeconds();                             //Определяем угол для секунд
+    let t_min = 6 * (d.getMinutes() + (1/60) * d.getSeconds()); //Определяем угол для минут
+    let t_hour = 30 * (d.getHours() + (1/60) * d.getMinutes()); //Определяем угол для часов
+    let xCenterClock = baseRadius + 3;
+    let yCenterClock = baseRadius + 3;
+    let lengthSeconds = 100;
+    let lengthMinutes = 80;
+    let lengthHour = 60;
+    createArrow(t_sec, t_min, t_hour, xCenterClock, yCenterClock, lengthSeconds, lengthMinutes, lengthHour);
+  }
+
+  function createArrow(t_sec, t_min, t_hour, xCenterClock, yCenterClock, lengthSeconds, lengthMinutes, lengthHour) {
+
+    //Рисуем секунды
+    base.beginPath();
+    base.strokeStyle =  'red';
+    base.lineWidth = 1;
+    base.moveTo(xCenterClock, yCenterClock);
+    base.lineTo(xCenterClock + lengthSeconds * Math.cos(Math.PI/2 - t_sec *(Math.PI/180)),
+      yCenterClock - lengthSeconds * Math.sin(Math.PI/2 - t_sec * (Math.PI/180)));
+    base.stroke();
+    base.closePath();
+
+    //Рисуем минуты
+    base.beginPath();
+    base.strokeStyle =  'black';
+    base.lineWidth = 3;
+    base.moveTo(xCenterClock, yCenterClock);
+    base.lineTo(xCenterClock + lengthMinutes*Math.cos(Math.PI/2 - t_min * (Math.PI/180)),
+      yCenterClock - lengthMinutes * Math.sin(Math.PI/2 - t_min * (Math.PI/180)));
+    base.stroke();
+    base.closePath();
+
+    //Рисуем часы
+    base.beginPath();
+    base.lineWidth = 5;
+    base.moveTo(xCenterClock, yCenterClock);
+    base.lineTo(xCenterClock + lengthHour*Math.cos(Math.PI/2 - t_hour*(Math.PI/180)),
+      yCenterClock - lengthHour*Math.sin(Math.PI/2 - t_hour*(Math.PI/180)));
+    base.stroke();
+    base.closePath();
+  }
+
+  function createDecorativeDot(size){
+    base.fillStyle = 'black';
+    base.beginPath();
+    base.arc(baseRadius + 3, baseRadius + 3, size, 0, Math.PI*2, false);
+    base.fill();
+  }
+
+  // Logic
+  function tickTimer(){
+    let now = new Date();
+    let thisSecond = now.getSeconds();
+    let thisMinute = now.getMinutes();
+    let thisHour   = now.getHours();
+    let timeString = updateDigitalWatch(thisHour, thisMinute, thisSecond);
+    return timeString;
+  }
+  function updateDigitalWatch(hour, minute, second) {
+    let secondZero = addZeroToNumber(second);
+    let minuteZero = addZeroToNumber(minute);
+    let hourZero = addZeroToNumber(hour);
+    let currentTime = hourZero + ':' + minuteZero + ':' + secondZero;
+    return currentTime;
+  }
+
+  function addZeroToNumber(currentTime){
+    return (`${currentTime}`.length < 2) ? (`0${currentTime}`) : currentTime;
+  }
+
+  setInterval(createWatch, 1000);
+</script>
+</body>
+</html>
