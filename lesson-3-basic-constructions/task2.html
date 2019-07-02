@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+    <script>
+      function countLetters(countLine){
+        var lowerCaseCountLine = countLine.toLowerCase();
+        var exampleLetters = [ 'а', 'е', 'ё', 'и', 'о', 'у', 'э', 'ю', 'я', 'ы'];
+        lowerCaseCountLine.split('');
+        var count = 0;
+        for (var i = 0; i < countLine.length; i++) {
+          var C = countLine.charAt(i);
+          if (exampleLetters.indexOf(C) !== -1) {
+            count++;
+          }
+        }
+        alert('Ваша строка: ' + countLine + '\n' + 'Количество гласных букв: ' + count);
+        return count;
+      }
+      var countLine = prompt('Введите вашу строку для подсчета гласных букв:', '');
+      while (countLine === '') {
+        countLine = prompt('Вы не ввели строку. Введите вашу строку:', '');
+      }
+      countLetters(countLine);
+    </script>
+  </body>
+</html>
